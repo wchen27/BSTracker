@@ -2,10 +2,13 @@
 
 ## CSC207 Project Group 186 - GriesGaming
 
-Members:
+## Members:
 Wilson Chen - wchen27
+
 Thomas Lascaud - thigamore
+
 Justin Du - dujstn
+
 Harry Peng - harrypenguin
 
 ## Overview
