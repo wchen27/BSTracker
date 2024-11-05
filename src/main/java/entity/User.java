@@ -1,3 +1,5 @@
-public interface User {
+package entity;
+
+public class User {
     
 }
