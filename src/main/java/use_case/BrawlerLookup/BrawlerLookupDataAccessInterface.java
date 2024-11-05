@@ -1,5 +1,5 @@
-package use_case.UserLookup;
+package use_case.BrawlerLookup;
 
-public interface UserLookupDataAccessInterface {
+public interface BrawlerLookupDataAccessInterface {
     
 }

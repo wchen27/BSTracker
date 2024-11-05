@@ -1,5 +1,5 @@
-package interface_adapter.UserLookup;
+package interface_adapter.BrawlerLookup;
 
-public class UserLookupState {
+public class BrawlerLookupState {
     
 }

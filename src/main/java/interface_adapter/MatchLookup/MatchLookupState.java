@@ -1,5 +1,5 @@
-package interface_adapter.UserLookup;
+package interface_adapter.MatchLookup;
 
-public class UserLookupState {
+public class MatchLookupState {
     
 }
