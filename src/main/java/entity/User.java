@@ -1,5 +1,4 @@
-package entity;
+package main.java.entity;
 
-public class User {
-    
+public interface User {
 }

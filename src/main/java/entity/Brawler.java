@@ -1,5 +1,5 @@
-package entity;
+package main.java.entity;
 
-public class Brawler {
+public interface Brawler {
     
 }

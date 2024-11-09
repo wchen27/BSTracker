@@ -1,5 +1,5 @@
-package entity;
+package main.java.entity;
 
-public class Match {
+public interface Match {
     
 }
