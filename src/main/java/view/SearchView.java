@@ -1,12 +1,8 @@
 package view;
 
-import entity.Brawler;
-import interface_adapter.brawler_lookup.BrawlerLookupController;
-import interface_adapter.brawler_lookup.BrawlerLookupState;
-import interface_adapter.brawler_lookup.BrawlerLookupViewModel;
-import interface_adapter.user_lookup.UserLookupController;
-import interface_adapter.user_lookup.UserLookupState;
-import interface_adapter.user_lookup.UserLookupViewModel;
+
+import interface_adapter.search.SearchState;
+import interface_adapter.search.SearchViewModel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,14 +14,10 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class SearchView extends JPanel implements PropertyChangeListener{
+public class SearchView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = "Search";
-    private final BrawlerLookupViewModel brawlerViewModel;
-    private final BrawlerLookupController brawlerController;
-
-    private final UserLookupViewModel userViewModel;
-    private final UserLookupController userController;
+    private final SearchViewModel searchViewModel;
 
     private final JTextField searchField = new JTextField();
     private final JLabel searchErrorField = new JLabel();
@@ -33,11 +25,13 @@ public class SearchView extends JPanel implements PropertyChangeListener{
     private final JButton searchBrawlerButton;
     private final JButton searchPlayerButton;
 
+    private BrawlerLookupController brawlerLookupController;
+    private UserLookupController userLookupController;
 
-    public SearchView(BrawlerLookupViewModel brawlerLookupViewModel, BrawlerLookupController controller) {
-        this.BrawlerController = controller;
-        this.BrawlerViewModel = brawlerLookupViewModel;
-        this.BrawlerViewModel.addPropertyChangeListener(this);
+
+    public SearchView(SearchViewModel viewModel) {
+        this.searchViewModel = viewModel;
+        this.searchViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel("Search");
         title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -54,9 +48,9 @@ public class SearchView extends JPanel implements PropertyChangeListener{
                 new ActionListener(){
                     public void actionPerformed(ActionEvent e){
                         if (e.getSource().equals(searchBrawlerButton)){
-                            final BrawlerLookupState currentBrawlerLookupState = BrawlerLookupViewModel.getState();
+                            final SearchState currentState = searchViewModel.getState();
 
-                            BrawlerLookupController.execute(currentBrawlerLookupState.getSearchQuery());
+                            this.brawlerLookupController.execute(currentState.getSearchQuery());
                         }
                     }
                 }
@@ -66,9 +60,9 @@ public class SearchView extends JPanel implements PropertyChangeListener{
                 new ActionListener(){
                     public void actionPerformed(ActionEvent e){
                         if (e.getSource().equals(searchPlayerButton)){
-                            final UserLookupState currentUserLookupState = UserLookupViewModel.getState();
+                            final SearchState currentUserLookupState = searchViewModel.getState();
 
-                            UserLookupController.execute(currentUserLookupState.getSearchQuery());
+                            this.userLookupController.execute(currentUserLookupState.getSearchQuery());
                         }
                     }
                 }
@@ -77,12 +71,9 @@ public class SearchView extends JPanel implements PropertyChangeListener{
         searchField.getDocument().addDocumentListener(new DocumentListener() {
 
             private void documentListenerHelper() {
-                final BrawlerLookupState currentBrawlerLookupState = BrawlerLookupViewModel.getState();
-                final UserLookupState currentUserLookupState = UserLookupViewModel.getState();
-                currentBrawlerLookupState.setBrawler(searchField.getText());
-                currentUserLookupState.setUser(searchField.getText());
-                brawlerViewModel.setState(currentBrawlerLookupState);
-                userViewModel.setState(currentUserLookupState);
+                final SearchState currentState = searchViewModel.getState();
+                currentState.setQuery(searchField.getText());
+                searchViewModel.setState(currentState);
             }
 
             @Override
@@ -102,7 +93,7 @@ public class SearchView extends JPanel implements PropertyChangeListener{
         });
 
         this.add(title);
-        this.add(searchQuery);
+        this.add(searchField);
         this.add(searchErrorField);
         this.add(buttons);
     }
@@ -113,12 +104,12 @@ public class SearchView extends JPanel implements PropertyChangeListener{
 
     @Override
     public void propertyChange(PropertyChangeEvent e) {
-        final BrawlerLookupState state = (BrawlerLookupState) e.getNewValue();
+        final SearchState state = (SearchState) e.getNewValue();
         setFields(state);
         searchErrorField.setText(state.getSearchError());
     }
 
-    private void setFields(BrawlerLookupState state) {
+    private void setFields(SearchState state) {
         searchField.setText(state.getSearchQuery());
     }
 
