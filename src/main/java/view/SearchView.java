@@ -29,9 +29,12 @@ public class SearchView extends JPanel implements PropertyChangeListener {
     private BrawlerLookupController brawlerLookupController;
     private UserLookupController userLookupController;
 
-    public SearchView(SearchViewModel viewModel) {
+    public SearchView(SearchViewModel viewModel, BrawlerLookupController brawlerLookupController,
+            UserLookupController userLookupController) {
         this.searchViewModel = viewModel;
         this.searchViewModel.addPropertyChangeListener(this);
+        this.brawlerLookupController = brawlerLookupController;
+        this.userLookupController = userLookupController;
 
         final JLabel title = new JLabel("Search");
         title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
