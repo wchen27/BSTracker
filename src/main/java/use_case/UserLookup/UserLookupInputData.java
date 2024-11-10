@@ -11,7 +11,7 @@ public class UserLookupInputData {
 		this.tag = tag;
 	}
 
-	String getTag() {
+	public String getTag() {
 		return tag;
 	}
 }
