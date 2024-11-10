@@ -11,8 +11,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import use_case.user_lookup.UserLookupDataAccessInterface;
+import use_case.brawler_lookup.BrawlerLookupDataAccessInterface;
 
-public class APIDataAccessObject implements UserLookupDataAccessInterface {
+public class APIDataAccessObject implements UserLookupDataAccessInterface, BrawlerLookupDataAccessInterface {
 
 	private UserFactory userFactory;
 
@@ -37,6 +38,7 @@ public class APIDataAccessObject implements UserLookupDataAccessInterface {
 
 		try {
 			final Response response = client.newCall(request).execute();
+			System.out.println(response);
 			final JSONObject responseBody = new JSONObject(response.body().string());
 			System.out.println(responseBody.toString());
 			return userFactory.create(responseBody.getString("name"), responseBody.getInt("trophies"));

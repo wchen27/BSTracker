@@ -22,28 +22,34 @@ public final class SearchUseCaseFactory {
     }
 
     public static SearchView create(
-        SearchViewModel searchViewModel, UserLookupViewModel userViewModel, ViewManagerModel viewManagerModel, BrawlerLookupDataAccessInterface brawlerDataAccessObject, UserLookupDataAccessInterface userLookupDataAcessObject) {
-            final BrawlerLookupController brawlerLookupController = createBrawlerLookupUseCase(searchViewModel, brawlerDataAccessObject);
-            final UserLookupController userLookupController = createUserLookupUseCase(userViewModel, viewManagerModel, userLookupDataAcessObject);
-            return new SearchView(searchViewModel, brawlerLookupController, userLookupController);
+            SearchViewModel searchViewModel, UserLookupViewModel userViewModel, ViewManagerModel viewManagerModel,
+            BrawlerLookupDataAccessInterface brawlerDataAccessObject,
+            UserLookupDataAccessInterface userLookupDataAcessObject) {
+        final BrawlerLookupController brawlerLookupController = createBrawlerLookupUseCase(searchViewModel,
+                brawlerDataAccessObject);
+        final UserLookupController userLookupController = createUserLookupUseCase(userViewModel, viewManagerModel,
+                userLookupDataAcessObject);
+        return new SearchView(searchViewModel, brawlerLookupController, userLookupController);
 
     }
 
-    private static BrawlerLookupController createBrawlerLookupUseCase(SearchViewModel searchViewModel, BrawlerLookupDataAccessInterface brawlerDataAccessObject) {
+    private static BrawlerLookupController createBrawlerLookupUseCase(SearchViewModel searchViewModel,
+            BrawlerLookupDataAccessInterface brawlerDataAccessObject) {
         final BrawlerLookupOutputBoundary brawlerLookupOnputBoundary = new BrawlerLookupPresenter();
-        final BrawlerLookupInputBoundary brawlerLookupInteractor = new BrawlerLookupInteractor(brawlerDataAccessObject, brawlerLookupOnputBoundary);
+        final BrawlerLookupInputBoundary brawlerLookupInteractor = new BrawlerLookupInteractor(brawlerDataAccessObject,
+                brawlerLookupOnputBoundary);
         return new BrawlerLookupController(brawlerLookupInteractor);
     }
 
-    private static UserLookupController createUserLookupUseCase(UserLookupViewModel userLookupViewModel, ViewManagerModel viewManagerModel, UserLookupDataAccessInterface userLookupDataAcessObject) {
+    private static UserLookupController createUserLookupUseCase(UserLookupViewModel userLookupViewModel,
+            ViewManagerModel viewManagerModel, UserLookupDataAccessInterface userLookupDataAcessObject) {
 
-        final UserLookupOutputBoundary userLookupOutputBoundary = new UserLookupPresenter(userLookupViewModel, viewManagerModel);
-        final UserLookupInputBoundary userLookupInteractor = new UserLookupInteractor(userLookupDataAcessObject, userLookupOutputBoundary);
+        final UserLookupOutputBoundary userLookupOutputBoundary = new UserLookupPresenter(userLookupViewModel,
+                viewManagerModel);
+        final UserLookupInputBoundary userLookupInteractor = new UserLookupInteractor(userLookupDataAcessObject,
+                userLookupOutputBoundary);
         return new UserLookupController(userLookupInteractor);
 
-    }   
-
-
-    
+    }
 
 }

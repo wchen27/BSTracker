@@ -37,10 +37,11 @@ public class Main {
 
 		final APIDataAccessObject api = new APIDataAccessObject(new UserFactory());
 
-		final SearchView searchView = new SearchView(searchViewModel);
+		final SearchView searchView = SearchUseCaseFactory.create(searchViewModel, userLookupViewModel,
+				viewManagerModel, api, api);
 		views.add(searchView, searchView.getViewName());
 
-		final UserView userView = new UserView(userLookupViewModel, viewManagerModel);
+		final UserView userView = UserLookupUseCaseFactory.create(viewManagerModel, userLookupViewModel, api);
 		views.add(userView, userView.getViewName());
 
 		viewManagerModel.setState(searchView.getViewName());
