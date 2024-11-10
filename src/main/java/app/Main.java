@@ -7,8 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.APIDataAccessObject;
-import entity.User;
+import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import view.SearchView;
+import view.UserView;
 import view.ViewManager;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.user_lookup.UserLookupViewModel;
@@ -31,6 +33,18 @@ public class Main {
 		final SearchViewModel searchViewModel = new SearchViewModel();
 		final UserLookupViewModel userLookupViewModel = new UserLookupViewModel();
 
-		
+		final APIDataAccessObject api = new APIDataAccessObject(new UserFactory());
+
+		final SearchView searchView = new SearchView(searchViewModel);
+		views.add(searchView, searchView.getViewName());
+
+		final UserView userView = new UserView(userLookupViewModel, viewManagerModel);
+		views.add(userView, userView.getViewName());
+
+		viewManagerModel.setState(searchView.getViewName());
+		viewManagerModel.firePropertyChanged();
+
+		application.pack();
+		application.setVisible(true);
 	}
 }

@@ -17,6 +17,7 @@ import interface_adapter.user_lookup.UserLookupViewModel;
 
 public class UserView extends JPanel implements PropertyChangeListener {
 
+    private final String viewName = "User";
     private final UserLookupViewModel viewModel;
     private final ViewManagerModel viewManagerModel;
 
@@ -47,7 +48,8 @@ public class UserView extends JPanel implements PropertyChangeListener {
             public void actionPerformed(ActionEvent e) {
                 viewManagerModel.setState("search view");
                 viewManagerModel.firePropertyChanged();
-            }});
+            }
+        });
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -65,5 +67,9 @@ public class UserView extends JPanel implements PropertyChangeListener {
 
         trophyCountLabel.setText(String.valueOf(state.getTrophyCount()));
     }
-    
+
+    public String getViewName() {
+        return viewName;
+    }
+
 }
