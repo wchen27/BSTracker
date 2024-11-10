@@ -11,8 +11,6 @@ import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
 import view.SearchView;
 import view.UserView;
-import view.SearchView;
-import view.UserView;
 import view.ViewManager;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.user_lookup.UserLookupViewModel;
@@ -48,7 +46,7 @@ public class Main {
 		viewManagerModel.setState(searchView.getViewName());
 		viewManagerModel.firePropertyChanged();
 
-		application.pack();
+		application.setSize(800, 600);
 		application.setVisible(true);
 	}
 }

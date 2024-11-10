@@ -23,7 +23,6 @@ public class UserLookupPresenter implements UserLookupOutputBoundary {
         userViewModel.firePropertyChanged();
         this.viewManagerModel.setState(userViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
-        System.out.println("Success in Presenter");
     }
 
     @Override

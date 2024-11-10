@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.nio.file.AccessDeniedException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -66,7 +65,6 @@ public class UserView extends JPanel implements PropertyChangeListener {
         userNameLabel.setText(state.getUsername());
 
         trophyCountLabel.setText(String.valueOf(state.getTrophyCount()));
-        System.out.println("Property change in UserView");
     }
 
     public String getViewName() {

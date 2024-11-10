@@ -33,7 +33,6 @@ public class ViewModel<T> {
      */
     public void firePropertyChanged() {
         this.support.firePropertyChange("state", null, this.state);
-        System.out.println(getViewName() + "asdflkajsdflkjs");
     }
 
     /**
