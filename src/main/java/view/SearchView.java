@@ -36,6 +36,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         final JLabel title = new JLabel("Search");
         title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
+        searchField.setPreferredSize(new Dimension(200, searchField.getPreferredSize().height));
         final LabelTextPanel searchQuery = new LabelTextPanel(new JLabel("Search"), searchField);
 
         final JPanel buttons = new JPanel();
