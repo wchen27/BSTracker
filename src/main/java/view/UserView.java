@@ -16,6 +16,7 @@ import interface_adapter.UserLookup.UserLookupViewModel;
 public class UserView extends JPanel implements PropertyChangeListener {
 
     private final UserLookupViewModel viewModel;
+    private final ViewManagerModel viewManagerModel;
 
     public UserView(UserLookupViewModel viewModel) {
         super();
