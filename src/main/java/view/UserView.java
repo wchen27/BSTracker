@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import interface_adapter.ViewManagerModel;
+import interface_adapter.UserLookup.UserLookupState;
 import interface_adapter.UserLookup.UserLookupViewModel;
 
 public class UserView extends JPanel implements PropertyChangeListener {
@@ -18,39 +20,50 @@ public class UserView extends JPanel implements PropertyChangeListener {
     private final UserLookupViewModel viewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public UserView(UserLookupViewModel viewModel) {
+    private final JLabel title;
+    private final JLabel userNameLabel;
+    private final JLabel trophyCountLabel;
+    private final JButton backButton;
+
+    public UserView(UserLookupViewModel viewModel, ViewManagerModel viewManagerModel) {
         super();
         this.viewModel = viewModel;
+        this.viewManagerModel = viewManagerModel;
         viewModel.addPropertyChangeListener(this);
 
-        final JLabel title = new JLabel("User Lookup");
+        title = new JLabel("User Lookup");
         title.setAlignmentX(CENTER_ALIGNMENT);
 
-        final JLabel userName = new JLabel("");
-        userName.setAlignmentX(CENTER_ALIGNMENT);
+        userNameLabel = new JLabel("");
+        userNameLabel.setAlignmentX(CENTER_ALIGNMENT);
 
-        final JLabel trophyCount = new JLabel("");
-        userName.setAlignmentX(CENTER_ALIGNMENT);
+        trophyCountLabel = new JLabel("");
+        userNameLabel.setAlignmentX(CENTER_ALIGNMENT);
 
-        final JButton backButton = new JButton("Back");
+        backButton = new JButton("Back");
 
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                viewManagerModel.setState("search view");
+                viewManagerModel.firePropertyChanged();
             }});
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
-        this.add(userName);
-        this.add(trophyCount);
+        this.add(userNameLabel);
+        this.add(trophyCountLabel);
         this.add(backButton);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        // TODO Auto-generated method stub
+        final UserLookupState state = (UserLookupState) evt.getNewValue();
+
+        userNameLabel.setText(state.getUsername());
+
+        trophyCountLabel.setText(String.valueOf(state.getTrophyCount()));
         
     }
     
