@@ -6,10 +6,8 @@ import org.json.JSONObject;
 
 import entity.User;
 import io.github.cdimascio.dotenv.Dotenv;
-import java.net.URI;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import use_case.UserLookup.UserLookupDataAccessInterface;
 

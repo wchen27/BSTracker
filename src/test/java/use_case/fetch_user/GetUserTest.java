@@ -1,7 +1,5 @@
 package use_case.fetch_user;
 
-import static org.junit.Assert.assertThrows;
-
 import org.junit.Test;
 
 import data_access.APIDataAccessObject;
