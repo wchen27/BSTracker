@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.json.JSONObject;
 
+import entity.UserFactory;
 import entity.User;
 import io.github.cdimascio.dotenv.Dotenv;
 import okhttp3.OkHttpClient;
@@ -12,7 +13,13 @@ import okhttp3.Response;
 import use_case.user_lookup.UserLookupDataAccessInterface;
 
 public class APIDataAccessObject implements UserLookupDataAccessInterface {
-`
+
+	private UserFactory userFactory;
+
+	public APIDataAccessObject(UserFactory userFactory) {
+		this.userFactory = userFactory;
+	}
+
 	@Override
 	public User getUser(String tag) {
 
@@ -32,7 +39,7 @@ public class APIDataAccessObject implements UserLookupDataAccessInterface {
 			final Response response = client.newCall(request).execute();
 			final JSONObject responseBody = new JSONObject(response.body().string());
 			System.out.println(responseBody.toString());
-			return new User(responseBody.getString("name"), responseBody.getInt("trophies"));
+			return userFactory.create(responseBody.getString("name"), responseBody.getInt("trophies"));
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);
