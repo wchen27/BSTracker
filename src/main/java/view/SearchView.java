@@ -50,7 +50,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
                         if (e.getSource().equals(searchBrawlerButton)) {
                             final SearchState currentState = searchViewModel.getState();
 
-                            this.brawlerLookupController.execute(currentState.getSearchQuery());
+                            brawlerLookupController.execute(currentState.getQuery());
                         }
                     }
                 });
@@ -61,7 +61,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
                         if (e.getSource().equals(searchPlayerButton)) {
                             final SearchState currentUserLookupState = searchViewModel.getState();
 
-                            this.userLookupController.execute(currentUserLookupState.getSearchQuery());
+                            userLookupController.execute(currentUserLookupState.getQuery());
                         }
                     }
                 });
@@ -108,7 +108,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
     }
 
     private void setFields(SearchState state) {
-        searchField.setText(state.getSearchQuery());
+        searchField.setText(state.getQuery());
     }
 
     public String getViewName() {
