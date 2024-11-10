@@ -10,11 +10,11 @@ public class UserLookupOutputData {
 		this.trophies = trophies;
 	}
 
-	String getUsername() {
+	public String getUsername() {
 		return username;
 	}
 
-	int getTrophies() {
+	public int getTrophies() {
 		return trophies;
 	}
 }

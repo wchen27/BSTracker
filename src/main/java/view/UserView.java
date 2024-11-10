@@ -12,8 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.UserLookup.UserLookupState;
-import interface_adapter.UserLookup.UserLookupViewModel;
+import interface_adapter.user_lookup.UserLookupState;
+import interface_adapter.user_lookup.UserLookupViewModel;
 
 public class UserView extends JPanel implements PropertyChangeListener {
 
@@ -64,7 +64,6 @@ public class UserView extends JPanel implements PropertyChangeListener {
         userNameLabel.setText(state.getUsername());
 
         trophyCountLabel.setText(String.valueOf(state.getTrophyCount()));
-        
     }
     
 }
