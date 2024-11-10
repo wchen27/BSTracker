@@ -9,10 +9,10 @@ import io.github.cdimascio.dotenv.Dotenv;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import use_case.UserLookup.UserLookupDataAccessInterface;
+import use_case.user_lookup.UserLookupDataAccessInterface;
 
 public class APIDataAccessObject implements UserLookupDataAccessInterface {
-
+`
 	@Override
 	public User getUser(String tag) {
 

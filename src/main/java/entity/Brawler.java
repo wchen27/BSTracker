@@ -1,5 +1,5 @@
 package entity;
 
-public class Brawler {
+public interface Brawler {
     
 }

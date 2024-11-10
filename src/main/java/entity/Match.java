@@ -1,5 +1,5 @@
 package entity;
 
-public class Match {
+public interface Match {
     
 }
