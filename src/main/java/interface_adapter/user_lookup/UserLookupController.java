@@ -1,13 +1,13 @@
 package interface_adapter.user_lookup;
 
 import use_case.user_lookup.UserLookupInputData;
-import use_case.user_lookup.UserLookupInteractor;
+import use_case.user_lookup.UserLookupInputBoundary;
 
 public class UserLookupController {
 
-    private final UserLookupInteractor interactor;
+    private final UserLookupInputBoundary interactor;
 
-    public UserLookupController(UserLookupInteractor interactor) {
+    public UserLookupController(UserLookupInputBoundary interactor) {
         this.interactor = interactor;
     }
 
