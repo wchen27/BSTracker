@@ -1,5 +1,5 @@
-package interface_adapter.BrawlerLookup;
+package interface_adapter.brawler_lookup;
 
 public class BrawlerLookupController {
-    
+
 }

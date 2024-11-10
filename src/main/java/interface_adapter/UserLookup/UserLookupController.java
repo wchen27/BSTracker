@@ -12,9 +12,9 @@ public class UserLookupController {
     }
 
     public void execute(String tag) {
-        final UserLookupInputData inputData = UserLookupInputData(tag);
+        final UserLookupInputData inputData = new UserLookupInputData(tag);
 
         interactor.execute(inputData);
     }
-    
+
 }

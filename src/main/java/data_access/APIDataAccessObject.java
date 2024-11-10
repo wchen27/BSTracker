@@ -32,7 +32,7 @@ public class APIDataAccessObject implements UserLookupDataAccessInterface {
 			final Response response = client.newCall(request).execute();
 			final JSONObject responseBody = new JSONObject(response.body().string());
 			System.out.println(responseBody.toString());
-			return new User();
+			return new User(responseBody.getString("name"), responseBody.getInt("trophies"));
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);
