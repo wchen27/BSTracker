@@ -17,7 +17,7 @@ import interface_adapter.user_lookup.UserLookupViewModel;
 
 public class UserView extends JPanel implements PropertyChangeListener {
 
-    private final String viewName = "User";
+    private final String viewName = "user lookup";
     private final UserLookupViewModel viewModel;
     private final ViewManagerModel viewManagerModel;
 
@@ -46,7 +46,7 @@ public class UserView extends JPanel implements PropertyChangeListener {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewManagerModel.setState("search view");
+                viewManagerModel.setState("search");
                 viewManagerModel.firePropertyChanged();
             }
         });
@@ -66,6 +66,7 @@ public class UserView extends JPanel implements PropertyChangeListener {
         userNameLabel.setText(state.getUsername());
 
         trophyCountLabel.setText(String.valueOf(state.getTrophyCount()));
+        System.out.println("Property change in UserView");
     }
 
     public String getViewName() {

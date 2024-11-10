@@ -20,10 +20,10 @@ public class UserLookupPresenter implements UserLookupOutputBoundary {
         state.setUsername(outputData.getUsername());
         state.setTrophyCount(outputData.getTrophies());
 
-
         userViewModel.firePropertyChanged();
         this.viewManagerModel.setState(userViewModel.getViewName());
-        System.out.println("Succes in Presenter");
+        this.viewManagerModel.firePropertyChanged();
+        System.out.println("Success in Presenter");
     }
 
     @Override

@@ -22,6 +22,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		final JFrame application = new JFrame("Brawl Stars Tracker");
+
 		application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		final CardLayout cardLayout = new CardLayout();
