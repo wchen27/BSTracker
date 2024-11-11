@@ -10,11 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import interface_adapter.ViewManagerModel;
-import interface_adapter.user_lookup.UserLookupState;
-import interface_adapter.user_lookup.UserLookupViewModel;
-
-public class UserView extends JPanel implements PropertyChangeListener {
+public class PlayerView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = "user lookup";
     private final UserLookupViewModel viewModel;
