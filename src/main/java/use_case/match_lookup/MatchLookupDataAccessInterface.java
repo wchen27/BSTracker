@@ -2,6 +2,8 @@ package use_case.match_lookup;
 
 import entity.Match;
 
+import java.util.List;
+
 public interface MatchLookupDataAccessInterface {
-    Match getMatch(String tag);
+    List<Match> getMatches(String tag);
 }

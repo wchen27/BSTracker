@@ -18,7 +18,7 @@ import javax.swing.event.DocumentListener;
 
 public class SearchView extends JPanel implements PropertyChangeListener {
 
-    private final String viewName = "Search";
+    private final String viewName = "search";
     private final SearchViewModel searchViewModel;
 
     private final JTextField searchField = new JTextField();
@@ -33,13 +33,14 @@ public class SearchView extends JPanel implements PropertyChangeListener {
     private MatchLookupController matchLookupController;
 
     public SearchView(SearchViewModel viewModel, BrawlerLookupController brawlerLookupController,
-            UserLookupController userLookupController) {
+            UserLookupController userLookupController, MatchLookupController matchLookupController) {
         this.searchViewModel = viewModel;
         this.searchViewModel.addPropertyChangeListener(this);
         this.brawlerLookupController = brawlerLookupController;
         this.userLookupController = userLookupController;
+        this.matchLookupController = matchLookupController;
 
-        final JLabel title = new JLabel("Search");
+        final JLabel title = new JLabel("Player Tag:");
         title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
         searchField.setPreferredSize(new Dimension(200, searchField.getPreferredSize().height));
@@ -86,7 +87,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
                         }
                     }
                 }
-        )
+        );
 
         searchField.getDocument().addDocumentListener(new DocumentListener() {
 

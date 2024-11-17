@@ -7,8 +7,11 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.APIDataAccessObject;
+import entity.MatchFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.match_lookup.MatchLookupViewModel;
+import view.MatchView;
 import view.SearchView;
 import view.UserView;
 import view.ViewManager;
@@ -33,15 +36,20 @@ public class Main {
 
 		final SearchViewModel searchViewModel = new SearchViewModel();
 		final UserLookupViewModel userLookupViewModel = new UserLookupViewModel();
+		final MatchLookupViewModel matchLookupViewModel = new MatchLookupViewModel();
 
 		final APIDataAccessObject api = new APIDataAccessObject(new UserFactory());
+		final APIDataAccessObject matchApi = new APIDataAccessObject(new MatchFactory());
 
-		final SearchView searchView = SearchUseCaseFactory.create(searchViewModel, userLookupViewModel,
-				viewManagerModel, api, api);
+		final SearchView searchView = SearchUseCaseFactory.create(searchViewModel, userLookupViewModel, matchLookupViewModel,
+				viewManagerModel, api, api, matchApi);
 		views.add(searchView, searchView.getViewName());
 
 		final UserView userView = UserLookupUseCaseFactory.create(viewManagerModel, userLookupViewModel, api);
 		views.add(userView, userView.getViewName());
+
+		final MatchView matchView = MatchLookupUseCaseFactory.create(viewManagerModel, matchLookupViewModel);
+		views.add(matchView, matchView.getViewName());
 
 		viewManagerModel.setState(searchView.getViewName());
 		viewManagerModel.firePropertyChanged();

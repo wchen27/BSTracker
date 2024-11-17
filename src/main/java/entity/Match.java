@@ -47,4 +47,17 @@ public class Match {
     public int getTrophyCount() {
         return trophyCount;
     }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "time='" + time + '\'' +
+                ", mode='" + mode + '\'' +
+                ", map='" + map + '\'' +
+                ", result=" + result +
+                ", trophyChange=" + trophyChange +
+                ", starPlayer='" + starPlayer + '\'' +
+                ", trophyCount=" + trophyCount +
+                '}';
+    }
 }

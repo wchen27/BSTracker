@@ -2,6 +2,8 @@ package use_case.match_lookup;
 
 import entity.Match;
 
+import java.util.List;
+
 public class MatchLookupInteractor implements MatchLookupInputBoundary{
 
     private final MatchLookupDataAccessInterface matchLookupDataAccessInterface;
@@ -14,8 +16,8 @@ public class MatchLookupInteractor implements MatchLookupInputBoundary{
 
     public void execute(MatchLookupInputData matchLookupInputData) {
         try {
-            Match match = matchLookupDataAccessInterface.getMatch(matchLookupInputData.getTag());
-            final MatchLookupOutputData matchLookupOutputData = new MatchLookupOutputData(match.getTime(), match.getMode(), match.getMap(), match.isVictory(), match.getTrophyChange(), match.getStarPlayer(), match.getTrophyCount());
+            List<Match> matches = matchLookupDataAccessInterface.getMatches(matchLookupInputData.getTag());
+            final MatchLookupOutputData matchLookupOutputData = new MatchLookupOutputData(matches);
             matchLookupOutputBoundary.prepareSuccessView(matchLookupOutputData);
 
         } catch (RuntimeException e) {

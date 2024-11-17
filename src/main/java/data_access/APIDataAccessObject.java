@@ -16,10 +16,11 @@ import io.github.cdimascio.dotenv.Dotenv;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import use_case.match_lookup.MatchLookupDataAccessInterface;
 import use_case.user_lookup.UserLookupDataAccessInterface;
 import use_case.brawler_lookup.BrawlerLookupDataAccessInterface;
 
-public class APIDataAccessObject implements UserLookupDataAccessInterface, BrawlerLookupDataAccessInterface {
+public class APIDataAccessObject implements UserLookupDataAccessInterface, BrawlerLookupDataAccessInterface, MatchLookupDataAccessInterface {
 
 	private UserFactory userFactory;
 	private MatchFactory matchFactory;
@@ -76,9 +77,7 @@ public class APIDataAccessObject implements UserLookupDataAccessInterface, Brawl
 		try {
 			final Response response = client.newCall(request).execute();
 			final JSONObject responseBody = new JSONObject(response.body().string());
-			System.out.println(responseBody);
 			final JSONArray matches = responseBody.getJSONArray("items");
-			System.out.println(matches.toString());
 			List<Match> matchList = new ArrayList<>();
 			for (int i = 0; i < matches.length(); i++) {
 				matchList.add(extractMatchData(matches, i));
