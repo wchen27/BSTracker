@@ -1,16 +1,20 @@
-package use_case.fetch_user;
+package use_case.fetch_leaderboard_users;
 
 import org.junit.Test;
 
 import data_access.APIDataAccessObject;
 import entity.UserFactory;
+import entity.User;
 import entity.MatchFactory;
-public class GetUserTest {
+
+import java.util.List;
+
+public class GetLeaderboardTest {
 
 	@Test
-	public void getUserSuccessTest() {
+	public void getLeaderboardSuccessTest() {
 		APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory());
-		api.getUser("#822GY0JYY");
+		List<User> users = api.getLeaderboard(10);
 	}
 
 }

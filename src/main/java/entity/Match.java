@@ -8,15 +8,18 @@ public class Match {
     private final boolean result;
     private final int trophyChange;
     private final String starPlayer;
+    private final String starPlayerBrawler;
     private final int trophyCount;
 
-    public Match(String time, String mode, String map, boolean result, int trophyChange, String starPlayer, int trophyCount) {
+    public Match(String time, String mode, String map, boolean result, int trophyChange, String starPlayer,
+            String starPlayerBrawler, int trophyCount) {
         this.time = time;
         this.mode = mode;
         this.map = map;
         this.result = result;
         this.trophyChange = trophyChange;
         this.starPlayer = starPlayer;
+        this.starPlayerBrawler = starPlayerBrawler;
         this.trophyCount = trophyCount;
     }
 
@@ -46,6 +49,10 @@ public class Match {
 
     public int getTrophyCount() {
         return trophyCount;
+    }
+
+    public String getStarPlayerBrawler() {
+        return starPlayerBrawler;
     }
 
     @Override

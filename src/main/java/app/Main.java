@@ -9,14 +9,18 @@ import javax.swing.WindowConstants;
 import data_access.APIDataAccessObject;
 import entity.MatchFactory;
 import entity.UserFactory;
+
 import interface_adapter.ViewManagerModel;
-import interface_adapter.match_lookup.MatchLookupViewModel;
+
 import view.MatchView;
 import view.SearchView;
 import view.UserView;
+import view.LeaderboardView;
 import view.ViewManager;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.user_lookup.UserLookupViewModel;
+import interface_adapter.leaderboard_lookup.LeaderboardLookupViewModel;
+import interface_adapter.match_lookup.MatchLookupViewModel;
 
 public class Main {
 
@@ -37,12 +41,13 @@ public class Main {
 		final SearchViewModel searchViewModel = new SearchViewModel();
 		final UserLookupViewModel userLookupViewModel = new UserLookupViewModel();
 		final MatchLookupViewModel matchLookupViewModel = new MatchLookupViewModel();
+		final LeaderboardLookupViewModel leaderboardLookupViewModel = new LeaderboardLookupViewModel();
 
-		final APIDataAccessObject api = new APIDataAccessObject(new UserFactory());
-		final APIDataAccessObject matchApi = new APIDataAccessObject(new MatchFactory());
+		final APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory());
 
-		final SearchView searchView = SearchUseCaseFactory.create(searchViewModel, userLookupViewModel, matchLookupViewModel,
-				viewManagerModel, api, api, matchApi);
+		final SearchView searchView = SearchUseCaseFactory.create(searchViewModel, userLookupViewModel,
+				matchLookupViewModel, leaderboardLookupViewModel,
+				viewManagerModel, api, api, api, api);
 		views.add(searchView, searchView.getViewName());
 
 		final UserView userView = UserLookupUseCaseFactory.create(viewManagerModel, userLookupViewModel, api);
@@ -50,6 +55,10 @@ public class Main {
 
 		final MatchView matchView = MatchLookupUseCaseFactory.create(viewManagerModel, matchLookupViewModel);
 		views.add(matchView, matchView.getViewName());
+
+		final LeaderboardView leaderboardView = LeaderboardLookupUseCaseFactory.create(viewManagerModel,
+				leaderboardLookupViewModel);
+		views.add(leaderboardView, leaderboardView.getViewName());
 
 		viewManagerModel.setState(searchView.getViewName());
 		viewManagerModel.firePropertyChanged();
