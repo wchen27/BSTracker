@@ -1,11 +1,18 @@
 package app;
 
+import interface_adapter.match_lookup.MatchLookupController;
+import interface_adapter.match_lookup.MatchLookupPresenter;
+import interface_adapter.match_lookup.MatchLookupViewModel;
 import interface_adapter.user_lookup.UserLookupController;
 import interface_adapter.user_lookup.UserLookupPresenter;
 import interface_adapter.user_lookup.UserLookupViewModel;
 import use_case.brawler_lookup.BrawlerLookupDataAccessInterface;
 import use_case.brawler_lookup.BrawlerLookupInputBoundary;
 import use_case.brawler_lookup.BrawlerLookupOutputBoundary;
+import use_case.match_lookup.MatchLookupDataAccessInterface;
+import use_case.match_lookup.MatchLookupInputBoundary;
+import use_case.match_lookup.MatchLookupInteractor;
+import use_case.match_lookup.MatchLookupOutputBoundary;
 import use_case.user_lookup.UserLookupOutputBoundary;
 import view.SearchView;
 import interface_adapter.brawler_lookup.BrawlerLookupController;
@@ -22,22 +29,23 @@ public final class SearchUseCaseFactory {
     }
 
     public static SearchView create(
-            SearchViewModel searchViewModel, UserLookupViewModel userViewModel, ViewManagerModel viewManagerModel,
+            SearchViewModel searchViewModel, UserLookupViewModel userViewModel, MatchLookupViewModel matchViewModel, ViewManagerModel viewManagerModel,
             BrawlerLookupDataAccessInterface brawlerDataAccessObject,
-            UserLookupDataAccessInterface userLookupDataAcessObject) {
+            UserLookupDataAccessInterface userLookupDataAccessObject, MatchLookupDataAccessInterface matchLookupDataAccessObject) {
         final BrawlerLookupController brawlerLookupController = createBrawlerLookupUseCase(searchViewModel,
                 brawlerDataAccessObject);
         final UserLookupController userLookupController = createUserLookupUseCase(userViewModel, viewManagerModel,
-                userLookupDataAcessObject);
-        return new SearchView(searchViewModel, brawlerLookupController, userLookupController);
+                userLookupDataAccessObject);
+        final MatchLookupController matchLookupController = createMatchLookupUseCase(matchViewModel, viewManagerModel, matchLookupDataAccessObject);
+        return new SearchView(searchViewModel, brawlerLookupController, userLookupController, matchLookupController);
 
     }
 
     private static BrawlerLookupController createBrawlerLookupUseCase(SearchViewModel searchViewModel,
             BrawlerLookupDataAccessInterface brawlerDataAccessObject) {
-        final BrawlerLookupOutputBoundary brawlerLookupOnputBoundary = new BrawlerLookupPresenter();
+        final BrawlerLookupOutputBoundary brawlerLookupOutputBoundary = new BrawlerLookupPresenter();
         final BrawlerLookupInputBoundary brawlerLookupInteractor = new BrawlerLookupInteractor(brawlerDataAccessObject,
-                brawlerLookupOnputBoundary);
+                brawlerLookupOutputBoundary);
         return new BrawlerLookupController(brawlerLookupInteractor);
     }
 
@@ -50,6 +58,12 @@ public final class SearchUseCaseFactory {
                 userLookupOutputBoundary);
         return new UserLookupController(userLookupInteractor);
 
+    }
+
+    private static MatchLookupController createMatchLookupUseCase(MatchLookupViewModel matchLookupViewModel, ViewManagerModel viewManagerModel, MatchLookupDataAccessInterface matchLookupDataAccessObject) {
+        final MatchLookupOutputBoundary matchLookupOutputBoundary = new MatchLookupPresenter(matchLookupViewModel, viewManagerModel);
+        final MatchLookupInputBoundary matchLookupInteractor = new MatchLookupInteractor(matchLookupDataAccessObject, matchLookupOutputBoundary);
+        return new MatchLookupController(matchLookupInteractor);
     }
 
 }
