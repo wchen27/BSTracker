@@ -27,8 +27,7 @@ public class UserLookupPresenter implements UserLookupOutputBoundary {
 
     @Override
     public void prepareFailView(String errorMessage) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'prepareErrorBoundary'");
+        throw new UnsupportedOperationException(errorMessage);
     }
 
 }

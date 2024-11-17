@@ -10,7 +10,7 @@ public class GetUserTest {
 	@Test
 	public void getUserSuccessTest() {
 		APIDataAccessObject api = new APIDataAccessObject(new UserFactory());
-		api.getUser("%23822GY0JYY");
+		api.getUser("#822GY0JYY");
 	}
 
 }

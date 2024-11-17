@@ -1,6 +1,7 @@
 package view;
 
 import interface_adapter.brawler_lookup.BrawlerLookupController;
+import interface_adapter.match_lookup.MatchLookupController;
 import interface_adapter.search.SearchState;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.user_lookup.UserLookupController;
@@ -25,9 +26,11 @@ public class SearchView extends JPanel implements PropertyChangeListener {
 
     private final JButton searchBrawlerButton;
     private final JButton searchPlayerButton;
+    private final JButton searchMatchButton;
 
     private BrawlerLookupController brawlerLookupController;
     private UserLookupController userLookupController;
+    private MatchLookupController matchLookupController;
 
     public SearchView(SearchViewModel viewModel, BrawlerLookupController brawlerLookupController,
             UserLookupController userLookupController) {
@@ -45,8 +48,11 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         final JPanel buttons = new JPanel();
         searchBrawlerButton = new JButton("Search Brawler");
         searchPlayerButton = new JButton("Search Player");
+        searchMatchButton = new JButton("Search Match");
+
         buttons.add(searchBrawlerButton);
         buttons.add(searchPlayerButton);
+        buttons.add(searchMatchButton);
 
         searchBrawlerButton.addActionListener(
                 new ActionListener() {
@@ -69,6 +75,18 @@ public class SearchView extends JPanel implements PropertyChangeListener {
                         }
                     }
                 });
+
+        searchMatchButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(searchMatchButton)) {
+                            final SearchState currentMatchLookupState = searchViewModel.getState();
+
+                            matchLookupController.execute(currentMatchLookupState.getQuery());
+                        }
+                    }
+                }
+        )
 
         searchField.getDocument().addDocumentListener(new DocumentListener() {
 
