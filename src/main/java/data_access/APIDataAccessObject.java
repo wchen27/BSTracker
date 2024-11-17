@@ -51,9 +51,7 @@ public class APIDataAccessObject implements UserLookupDataAccessInterface, Brawl
 
 		try {
 			final Response response = client.newCall(request).execute();
-			System.out.println(response);
 			final JSONObject responseBody = new JSONObject(response.body().string());
-			System.out.println(responseBody.toString());
 			return userFactory.create(responseBody.getString("name"), responseBody.getInt("trophies"));
 
 		} catch (IOException e) {
