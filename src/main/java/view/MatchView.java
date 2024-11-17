@@ -57,25 +57,28 @@ public class MatchView extends JPanel implements PropertyChangeListener{
 
         List<Match> matches = state.getMatches();
         for (Match match : matches) {
-            /* 
-             * Create a JPanel for each match and add it to the view
-             * each JPanel should look like this:
-             * Result    MatchTime (convert from YYYYMMDDTHHMMSSZ to MM/DD/YYYY)
-             * Mode   Map  
-             * Trophy Change:               Star Player: 
-             */
             JPanel matchPanel = new JPanel();
             matchPanel.setLayout(new BoxLayout(matchPanel, BoxLayout.X_AXIS));
             JLabel result = new JLabel (match.isVictory() ? "Victory" : "Defeat ");
             result.setForeground(match.isVictory() ? Color.BLUE : Color.RED);
+
             String time = match.getTime();
             String fmtTime = time.substring(4, 6) + "/" + time.substring(6, 8) + "/" + time.substring(0, 4) + " " + time.substring(9, 11) + ":" + time.substring(11, 13);
             JLabel matchTime = new JLabel(fmtTime);
+
             JLabel mode = new JLabel(match.getMode());
+
             JLabel map = new JLabel(match.getMap());
+
             int trophyChange = match.getTrophyChange();
-            JLabel trophyChangeLabel = new JLabel(trophyChange > 0 ? "+" + trophyChange : "" + trophyChange);
+            String trophyChangeString = trophyChange >= 0 ? "+" + trophyChange : "" + trophyChange;
+            trophyChangeString = trophyChangeString.length() < 3 ? " " + trophyChangeString : trophyChangeString;
+            JLabel trophyChangeLabel = new JLabel(trophyChangeString);
+
             JLabel starPlayer = new JLabel("Star Player: " + match.getStarPlayer());
+
+
+            matchPanel.add(Box.createHorizontalStrut(50));
             matchPanel.add(result);
             matchPanel.add(Box.createHorizontalStrut(10));
             matchPanel.add(trophyChangeLabel);
