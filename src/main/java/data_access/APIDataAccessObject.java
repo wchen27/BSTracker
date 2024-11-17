@@ -90,16 +90,61 @@ public class APIDataAccessObject implements UserLookupDataAccessInterface, Brawl
 
 	private Match extractMatchData(JSONArray matches, int i) {
 		int trophyChange;
+		String battleTime;
+		String mode;
+		String map;
+		boolean result;
+		String starPlayerName;
 		JSONObject currMatch = matches.getJSONObject(i);
-		JSONObject event = currMatch.getJSONObject("event");
-		JSONObject battle = currMatch.getJSONObject("battle");
-		JSONObject starPlayer = battle.getJSONObject("starPlayer");
-
+		JSONObject event;
+		JSONObject battle;
+		JSONObject starPlayer;
+		try {
+			event = currMatch.getJSONObject("event");
+		} catch (JSONException e) {
+			event = new JSONObject();
+		}
+		try {
+			battle = currMatch.getJSONObject("battle");
+		} catch (JSONException e) {
+			battle = new JSONObject();
+		}
+		try {
+			starPlayer = battle.getJSONObject("starPlayer");
+		} catch (JSONException e) {
+			starPlayer = new JSONObject();
+		}
+		
 		try {
 			trophyChange = battle.optInt("trophyChange");
 		} catch (JSONException e) {
 			trophyChange = 0;
 		}
-		return matchFactory.create(currMatch.getString("battleTime"), event.getString("mode"), event.getString("map"), battle.getString("result").equals("victory"), trophyChange, starPlayer.getString("name"), 0);
+		try {
+			battleTime = currMatch.getString("battleTime");
+		} catch (JSONException e) {
+			battleTime = "Unknown";
+		}
+		try {
+			mode = event.getString("mode");
+		} catch (JSONException e) {
+			mode = "Unknown";
+		}
+		try {
+			map = event.getString("map");
+		} catch (JSONException e) {
+			map = "Unknown";
+		}
+		try {
+			result = battle.getString("result").equals("victory");
+		} catch (JSONException e) {
+			result = false;
+		}
+		try {
+			starPlayerName = starPlayer.getString("name");
+		} catch (JSONException e) {
+			starPlayerName = "Unknown";
+		}
+		return matchFactory.create(battleTime, mode, map, result, trophyChange, starPlayerName, 0);
 	}
 }
