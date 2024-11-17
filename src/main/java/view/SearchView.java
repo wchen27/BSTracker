@@ -1,6 +1,7 @@
 package view;
 
 import interface_adapter.brawler_lookup.BrawlerLookupController;
+import interface_adapter.leaderboard_lookup.LeaderboardLookupController;
 import interface_adapter.match_lookup.MatchLookupController;
 import interface_adapter.search.SearchState;
 import interface_adapter.search.SearchViewModel;
@@ -27,18 +28,13 @@ public class SearchView extends JPanel implements PropertyChangeListener {
     private final JButton searchBrawlerButton;
     private final JButton searchPlayerButton;
     private final JButton searchMatchButton;
-
-    private BrawlerLookupController brawlerLookupController;
-    private UserLookupController userLookupController;
-    private MatchLookupController matchLookupController;
+    private final JButton searchLeaderboardButton;
 
     public SearchView(SearchViewModel viewModel, BrawlerLookupController brawlerLookupController,
-            UserLookupController userLookupController, MatchLookupController matchLookupController) {
+            UserLookupController userLookupController, MatchLookupController matchLookupController,
+            LeaderboardLookupController leaderboardLookupController) {
         this.searchViewModel = viewModel;
         this.searchViewModel.addPropertyChangeListener(this);
-        this.brawlerLookupController = brawlerLookupController;
-        this.userLookupController = userLookupController;
-        this.matchLookupController = matchLookupController;
 
         final JLabel title = new JLabel("Player Tag:");
         title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -46,14 +42,25 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         searchField.setPreferredSize(new Dimension(200, searchField.getPreferredSize().height));
         final LabelTextPanel searchQuery = new LabelTextPanel(new JLabel("Search"), searchField);
 
-        final JPanel buttons = new JPanel();
+        final JPanel searchByTagPanel = new JPanel();
         searchBrawlerButton = new JButton("Search Brawler");
         searchPlayerButton = new JButton("Search Player");
         searchMatchButton = new JButton("Search Match");
 
-        buttons.add(searchBrawlerButton);
-        buttons.add(searchPlayerButton);
-        buttons.add(searchMatchButton);
+        searchByTagPanel.add(searchField);
+        searchByTagPanel.add(searchBrawlerButton);
+        searchByTagPanel.add(searchPlayerButton);
+        searchByTagPanel.add(searchMatchButton);
+
+        final JPanel leaderboardSearchPanel = new JPanel();
+        final JLabel instructions = new JLabel("Search for top brawlers in leaderboard: Top");
+        final Integer[] sizeChoices = new Integer[] { 5, 10, 15, 20 };
+        final JComboBox<Integer> leaderboardSize = new JComboBox<Integer>(sizeChoices);
+        viewModel.getState().setLeaderboardSize(sizeChoices[0]);
+        searchLeaderboardButton = new JButton("Search Leaderboard");
+        leaderboardSearchPanel.add(instructions);
+        leaderboardSearchPanel.add(leaderboardSize);
+        leaderboardSearchPanel.add(searchLeaderboardButton);
 
         searchBrawlerButton.addActionListener(
                 new ActionListener() {
@@ -86,8 +93,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
                             matchLookupController.execute(currentMatchLookupState.getQuery());
                         }
                     }
-                }
-        );
+                });
 
         searchField.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -113,10 +119,28 @@ public class SearchView extends JPanel implements PropertyChangeListener {
             }
         });
 
+        leaderboardSize.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                final SearchState currentState = searchViewModel.getState();
+                final int size = (int) leaderboardSize.getSelectedItem();
+                currentState.setLeaderboardSize(size);
+                searchViewModel.setState(currentState);
+            }
+        });
+
+        searchLeaderboardButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource().equals(searchLeaderboardButton)) {
+                    final SearchState currentLeaderBoardState = searchViewModel.getState();
+                    leaderboardLookupController.execute(currentLeaderBoardState.getLeaderboardSize());
+                }
+            }
+        });
+
         this.add(title);
-        this.add(searchField);
         this.add(searchErrorField);
-        this.add(buttons);
+        this.add(searchByTagPanel);
+        this.add(leaderboardSearchPanel);
     }
 
     public void actionPerformed(ActionEvent e) {

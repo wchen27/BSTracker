@@ -19,17 +19,17 @@ import okhttp3.Response;
 import use_case.match_lookup.MatchLookupDataAccessInterface;
 import use_case.user_lookup.UserLookupDataAccessInterface;
 import use_case.brawler_lookup.BrawlerLookupDataAccessInterface;
+import use_case.leaderboard_lookup.LeaderboardLookupDataAccessInterface;
 
-public class APIDataAccessObject implements UserLookupDataAccessInterface, BrawlerLookupDataAccessInterface, MatchLookupDataAccessInterface {
+public class APIDataAccessObject
+		implements UserLookupDataAccessInterface, BrawlerLookupDataAccessInterface, MatchLookupDataAccessInterface,
+		LeaderboardLookupDataAccessInterface {
 
 	private UserFactory userFactory;
 	private MatchFactory matchFactory;
 
-	public APIDataAccessObject(UserFactory userFactory) {
+	public APIDataAccessObject(UserFactory userFactory, MatchFactory matchFactory) {
 		this.userFactory = userFactory;
-	}
-
-	public APIDataAccessObject(MatchFactory matchFactory) {
 		this.matchFactory = matchFactory;
 	}
 
@@ -52,13 +52,15 @@ public class APIDataAccessObject implements UserLookupDataAccessInterface, Brawl
 		try {
 			final Response response = client.newCall(request).execute();
 			final JSONObject responseBody = new JSONObject(response.body().string());
-			return userFactory.create(responseBody.getString("name"), responseBody.getInt("trophies"));
+			return userFactory.create(responseBody.getString("name"), responseBody.getInt("trophies"),
+					responseBody.getString("tag"));
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	@Override
 	public List<Match> getMatches(String tag) {
 		Dotenv dotenv = Dotenv.load();
 
@@ -94,12 +96,45 @@ public class APIDataAccessObject implements UserLookupDataAccessInterface, Brawl
 		JSONObject event = currMatch.getJSONObject("event");
 		JSONObject battle = currMatch.getJSONObject("battle");
 		JSONObject starPlayer = battle.getJSONObject("starPlayer");
+		JSONObject starPlayerBrawler = starPlayer.getJSONObject("brawler");
 
 		try {
 			trophyChange = battle.optInt("trophyChange");
 		} catch (JSONException e) {
 			trophyChange = 0;
 		}
-		return matchFactory.create(currMatch.getString("battleTime"), event.getString("mode"), event.getString("map"), battle.getString("result").equals("victory"), trophyChange, starPlayer.getString("name"), 0);
+		return matchFactory.create(currMatch.getString("battleTime"), event.getString("mode"), event.getString("map"),
+				battle.getString("result").equals("victory"), trophyChange, starPlayer.getString("name"),
+				starPlayerBrawler.getString("name"), 0);
+	}
+
+	public List<User> getLeaderboard(int amount) {
+		Dotenv dotenv = Dotenv.load();
+
+		final String url = "https://api.brawlstars.com/v1/rankings/global/players?limit=" + amount;
+		final String key = dotenv.get("API_KEY");
+		final List<User> topUsers = new ArrayList<User>(amount);
+
+		final OkHttpClient client = new OkHttpClient().newBuilder().build();
+		final Request request = new Request.Builder()
+				.url(url)
+				.addHeader("Authorization", key)
+				.get()
+				.build();
+
+		try {
+			final Response response = client.newCall(request).execute();
+			final JSONObject responseBody = new JSONObject(response.body().string());
+			final JSONArray items = responseBody.getJSONArray("items");
+			for (int i = 0; i < items.length(); i++) {
+				JSONObject user = items.getJSONObject(i);
+				topUsers.add(
+						userFactory.create(user.getString("name"), user.getInt("trophies"), user.getString("tag")));
+			}
+			return topUsers;
+
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

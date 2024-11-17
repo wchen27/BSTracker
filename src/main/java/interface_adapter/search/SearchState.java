@@ -3,6 +3,7 @@ package interface_adapter.search;
 public class SearchState {
     private String query;
     private String searchError;
+    private int leaderboardSize;
 
     public void setQuery(String q) {
         this.query = q;
@@ -18,5 +19,13 @@ public class SearchState {
 
     public String getSearchError() {
         return searchError;
+    }
+
+    public void setLeaderboardSize(int size) {
+        this.leaderboardSize = size;
+    }
+
+    public int getLeaderboardSize() {
+        return leaderboardSize;
     }
 }
