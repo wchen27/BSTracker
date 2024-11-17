@@ -155,4 +155,34 @@ public class APIDataAccessObject
 		}
 		return matchFactory.create(battleTime, mode, map, result, trophyChange, starPlayerName, starPlayerBrawler, 0);
 	}
+	
+	public List<User> getLeaderboard(int amount) {
+		Dotenv dotenv = Dotenv.load();
+
+		final String url = "https://api.brawlstars.com/v1/rankings/global/players?limit=" + amount;
+		final String key = dotenv.get("API_KEY");
+		final List<User> topUsers = new ArrayList<User>(amount);
+
+		final OkHttpClient client = new OkHttpClient().newBuilder().build();
+		final Request request = new Request.Builder()
+				.url(url)
+				.addHeader("Authorization", key)
+				.get()
+				.build();
+
+		try {
+			final Response response = client.newCall(request).execute();
+			final JSONObject responseBody = new JSONObject(response.body().string());
+			final JSONArray items = responseBody.getJSONArray("items");
+			for (int i = 0; i < items.length(); i++) {
+				JSONObject user = items.getJSONObject(i);
+				topUsers.add(
+						userFactory.create(user.getString("name"), user.getInt("trophies"), user.getString("tag")));
+			}
+			return topUsers;
+
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
