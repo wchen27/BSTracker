@@ -1,5 +1,7 @@
 package use_case.brawler_lookup;
 
-public interface BrawlerLookupDataAccessInterface {
+import entity.Brawler;
 
+public interface BrawlerLookupDataAccessInterface {
+    Brawler getBrawler(int brawlerId);
 }
