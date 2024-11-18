@@ -1,6 +1,7 @@
 package view;
 
 import interface_adapter.brawler_lookup.BrawlerLookupController;
+import interface_adapter.club_lookup.ClubLookupController;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupController;
 import interface_adapter.match_lookup.MatchLookupController;
 import interface_adapter.search.SearchState;
@@ -28,11 +29,12 @@ public class SearchView extends JPanel implements PropertyChangeListener {
     private final JButton searchBrawlerButton;
     private final JButton searchPlayerButton;
     private final JButton searchMatchButton;
+    private final JButton searchClubButton;
     private final JButton searchLeaderboardButton;
 
     public SearchView(SearchViewModel viewModel, BrawlerLookupController brawlerLookupController,
             UserLookupController userLookupController, MatchLookupController matchLookupController,
-            LeaderboardLookupController leaderboardLookupController) {
+            LeaderboardLookupController leaderboardLookupController, ClubLookupController clubLookupController) {
         this.searchViewModel = viewModel;
         this.searchViewModel.addPropertyChangeListener(this);
 
@@ -46,11 +48,13 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         searchBrawlerButton = new JButton("Search Brawler");
         searchPlayerButton = new JButton("Search Player");
         searchMatchButton = new JButton("Search Match");
+        searchClubButton = new JButton("Search Club");
 
         searchByTagPanel.add(searchField);
         searchByTagPanel.add(searchBrawlerButton);
         searchByTagPanel.add(searchPlayerButton);
         searchByTagPanel.add(searchMatchButton);
+        searchByTagPanel.add(searchClubButton);
 
         final JPanel leaderboardSearchPanel = new JPanel();
         final JLabel instructions = new JLabel("Search for top brawlers in leaderboard: Top");
@@ -91,6 +95,17 @@ public class SearchView extends JPanel implements PropertyChangeListener {
                             final SearchState currentMatchLookupState = searchViewModel.getState();
 
                             matchLookupController.execute(currentMatchLookupState.getQuery());
+                        }
+                    }
+                });
+
+        searchClubButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(searchClubButton)) {
+                            final SearchState currentClubLookupState = searchViewModel.getState();
+
+                            clubLookupController.execute(currentClubLookupState.getQuery());
                         }
                     }
                 });

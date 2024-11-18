@@ -1,5 +1,6 @@
 package use_case.fetch_leaderboard_users;
 
+import entity.ClubFactory;
 import org.junit.Test;
 
 import data_access.APIDataAccessObject;
@@ -13,7 +14,7 @@ public class GetLeaderboardTest {
 
 	@Test
 	public void getLeaderboardSuccessTest() {
-		APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory());
+		APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(), new ClubFactory());
 		List<User> users = api.getLeaderboard(10);
 	}
 

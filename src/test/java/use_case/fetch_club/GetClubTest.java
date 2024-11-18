@@ -1,4 +1,4 @@
-package use_case.fetch_battle_log;
+package use_case.fetch_club;
 
 import data_access.APIDataAccessObject;
 import entity.ClubFactory;
@@ -6,12 +6,12 @@ import entity.MatchFactory;
 import entity.UserFactory;
 import org.junit.Test;
 
-public class GetMatchesTest {
+public class GetClubTest {
 
     @Test
-    public void getMatchesTest() {
+    public void getClubSuccessTest() {
         APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(), new ClubFactory());
-        api.getMatches("#99uv0990");
+        api.getUser("#2VOQL2LUG");
     }
 
 }
