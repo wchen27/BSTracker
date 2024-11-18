@@ -17,8 +17,7 @@ public class UserLookupPresenter implements UserLookupOutputBoundary {
     @Override
     public void prepareSuccessView(UserLookupOutputData outputData) {
         final UserLookupState state = userViewModel.getState();
-        state.setUsername(outputData.getUsername());
-        state.setTrophyCount(outputData.getTrophies());
+        state.setUser(outputData.getUser());
 
         userViewModel.firePropertyChanged();
         this.viewManagerModel.setState(userViewModel.getViewName());

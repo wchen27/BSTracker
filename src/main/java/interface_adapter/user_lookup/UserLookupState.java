@@ -1,23 +1,50 @@
 package interface_adapter.user_lookup;
 
-public class UserLookupState {
-    private String username;
+import entity.Brawler;
+import entity.Match;
+import entity.User;
 
-    private int trophyCount;
+public class UserLookupState {
+    private User user;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getTag() {
+        return user.getTag();
+    }
 
     public String getUsername() {
-        return username;
+        return user.getUsername();
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public int getTrophies() {
+        return user.getTrophies();
     }
 
-    public int getTrophyCount() {
-        return trophyCount;
+    public int getHighestTrophies() {
+        return user.getTrophies();
     }
 
-    public void setTrophyCount(int trophyCount) {
-        this.trophyCount = trophyCount;
+    public int getTrioVictories() {
+        return user.getTrioVictories();
     }
+
+    public int getDuoVictories() {
+        return user.getDuoVictories();
+    }
+
+    public int getSoloVictories() {
+        return user.getSoloVictories();
+    }
+
+    public Brawler[] getBrawlers() {
+        return user.getBrawlers();
+    }
+
+    public Match[] getMatches() {
+        return user.getMatches();
+    }
+
 }
