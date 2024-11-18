@@ -7,16 +7,14 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.APIDataAccessObject;
+import entity.ClubFactory;
 import entity.MatchFactory;
 import entity.UserFactory;
 
 import interface_adapter.ViewManagerModel;
 
-import view.MatchView;
-import view.SearchView;
-import view.UserView;
-import view.LeaderboardView;
-import view.ViewManager;
+import interface_adapter.club_lookup.ClubLookupViewModel;
+import view.*;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.user_lookup.UserLookupViewModel;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupViewModel;
@@ -41,13 +39,15 @@ public class Main {
 		final SearchViewModel searchViewModel = new SearchViewModel();
 		final UserLookupViewModel userLookupViewModel = new UserLookupViewModel();
 		final MatchLookupViewModel matchLookupViewModel = new MatchLookupViewModel();
+		final ClubLookupViewModel clubLookupViewModel = new ClubLookupViewModel();
 		final LeaderboardLookupViewModel leaderboardLookupViewModel = new LeaderboardLookupViewModel();
 
-		final APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory());
+		final APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(),
+				new ClubFactory());
 
 		final SearchView searchView = SearchUseCaseFactory.create(searchViewModel, userLookupViewModel,
-				matchLookupViewModel, leaderboardLookupViewModel,
-				viewManagerModel, api, api, api, api);
+				matchLookupViewModel, leaderboardLookupViewModel, clubLookupViewModel,
+				viewManagerModel, api, api, api, api, api);
 		views.add(searchView, searchView.getViewName());
 
 		final UserView userView = UserLookupUseCaseFactory.create(viewManagerModel, userLookupViewModel, api);
@@ -55,6 +55,9 @@ public class Main {
 
 		final MatchView matchView = MatchLookupUseCaseFactory.create(viewManagerModel, matchLookupViewModel);
 		views.add(matchView, matchView.getViewName());
+
+		final ClubView clubView = ClubLookupUseCaseFactory.create(viewManagerModel, clubLookupViewModel);
+		views.add(clubView, clubView.getViewName());
 
 		final LeaderboardView leaderboardView = LeaderboardLookupUseCaseFactory.create(viewManagerModel,
 				leaderboardLookupViewModel);

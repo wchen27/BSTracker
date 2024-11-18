@@ -4,18 +4,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Match;
-import entity.MatchFactory;
+import entity.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import entity.UserFactory;
-import entity.User;
 import io.github.cdimascio.dotenv.Dotenv;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import use_case.club_lookup.ClubLookupDataAccessInterface;
 import use_case.match_lookup.MatchLookupDataAccessInterface;
 import use_case.user_lookup.UserLookupDataAccessInterface;
 import use_case.brawler_lookup.BrawlerLookupDataAccessInterface;
@@ -23,14 +21,16 @@ import use_case.leaderboard_lookup.LeaderboardLookupDataAccessInterface;
 
 public class APIDataAccessObject
 		implements UserLookupDataAccessInterface, BrawlerLookupDataAccessInterface, MatchLookupDataAccessInterface,
-		LeaderboardLookupDataAccessInterface {
+		LeaderboardLookupDataAccessInterface, ClubLookupDataAccessInterface {
 
 	private UserFactory userFactory;
 	private MatchFactory matchFactory;
+	private ClubFactory clubFactory;
 
-	public APIDataAccessObject(UserFactory userFactory, MatchFactory matchFactory) {
+	public APIDataAccessObject(UserFactory userFactory, MatchFactory matchFactory, ClubFactory clubFactory) {
 		this.userFactory = userFactory;
 		this.matchFactory = matchFactory;
+		this.clubFactory = clubFactory;
 	}
 
 	@Override
@@ -132,6 +132,39 @@ public class APIDataAccessObject
 						userFactory.create(user.getString("name"), user.getInt("trophies"), user.getString("tag")));
 			}
 			return topUsers;
+
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public List<User> getMembers(String tag) {
+		Dotenv dotenv = Dotenv.load();
+
+		tag = tag.replace("#", "%23");
+
+		final String url = "https://api.brawlstars.com/v1/clubs/" + tag + "/members";
+		final String key = dotenv.get("API_KEY");
+
+		final OkHttpClient client = new OkHttpClient().newBuilder().build();
+		final Request request = new Request.Builder()
+				.url(url)
+				.addHeader("Authorization", key)
+				.get()
+				.build();
+
+		try {
+			final Response response = client.newCall(request).execute();
+			final JSONObject responseBody = new JSONObject(response.body().string());
+			final JSONArray items = responseBody.getJSONArray("items");
+			final List<User> members = new ArrayList<User>(items.length());
+			for (int i = 0; i < items.length(); i++) {
+				JSONObject user = items.getJSONObject(i);
+				members.add(
+						userFactory.create(user.getString("name"), user.getInt("trophies"), user.getString("tag")));
+			}
+			return members;
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);

@@ -1,5 +1,8 @@
 package app;
 
+import interface_adapter.club_lookup.ClubLookupController;
+import interface_adapter.club_lookup.ClubLookupPresenter;
+import interface_adapter.club_lookup.ClubLookupViewModel;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupController;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupPresenter;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupViewModel;
@@ -12,6 +15,10 @@ import interface_adapter.user_lookup.UserLookupViewModel;
 import use_case.brawler_lookup.BrawlerLookupDataAccessInterface;
 import use_case.brawler_lookup.BrawlerLookupInputBoundary;
 import use_case.brawler_lookup.BrawlerLookupOutputBoundary;
+import use_case.club_lookup.ClubLookupDataAccessInterface;
+import use_case.club_lookup.ClubLookupInputBoundary;
+import use_case.club_lookup.ClubLookupInteractor;
+import use_case.club_lookup.ClubLookupOutputBoundary;
 import use_case.match_lookup.MatchLookupDataAccessInterface;
 import use_case.match_lookup.MatchLookupInputBoundary;
 import use_case.match_lookup.MatchLookupInteractor;
@@ -40,11 +47,14 @@ public final class SearchUseCaseFactory {
                         UserLookupViewModel userViewModel,
                         MatchLookupViewModel matchViewModel,
                         LeaderboardLookupViewModel leaderboardViewModel,
+                        ClubLookupViewModel clubViewModel,
                         ViewManagerModel viewManagerModel,
                         BrawlerLookupDataAccessInterface brawlerDataAccessObject,
                         UserLookupDataAccessInterface userLookupDataAccessObject,
                         MatchLookupDataAccessInterface matchLookupDataAccessObject,
-                        LeaderboardLookupDataAccessInterface leaderboardLookupDataAccessObject) {
+                        LeaderboardLookupDataAccessInterface leaderboardLookupDataAccessObject,
+                        ClubLookupDataAccessInterface clubLookupDataAccessObject
+                        ) {
                 final BrawlerLookupController brawlerLookupController = createBrawlerLookupUseCase(searchViewModel,
                                 brawlerDataAccessObject);
                 final UserLookupController userLookupController = createUserLookupUseCase(userViewModel,
@@ -54,8 +64,10 @@ public final class SearchUseCaseFactory {
                                 viewManagerModel, matchLookupDataAccessObject);
                 final LeaderboardLookupController leaderboardLookupController = createLeaderboardLookupUseCase(
                                 leaderboardViewModel, viewManagerModel, leaderboardLookupDataAccessObject);
+                final ClubLookupController clubLookupController = createClubLookupUseCase(clubViewModel,
+                                viewManagerModel, clubLookupDataAccessObject);
                 return new SearchView(searchViewModel, brawlerLookupController, userLookupController,
-                                matchLookupController, leaderboardLookupController);
+                                matchLookupController, leaderboardLookupController, clubLookupController);
 
         }
 
@@ -99,5 +111,14 @@ public final class SearchUseCaseFactory {
 
                 return new LeaderboardLookupController(leaderboardLookupInteractor);
 
+        }
+
+        private static ClubLookupController createClubLookupUseCase(ClubLookupViewModel clubLookupViewModel,
+                        ViewManagerModel viewManagerModel, ClubLookupDataAccessInterface clubLookupDataAccessObject) {
+                final ClubLookupOutputBoundary clubLookupOutputBoundary = new ClubLookupPresenter(clubLookupViewModel,
+                                viewManagerModel);
+                final ClubLookupInputBoundary clubLookupInteractor = new ClubLookupInteractor(
+                        clubLookupDataAccessObject, clubLookupOutputBoundary);
+                return new ClubLookupController(clubLookupInteractor);
         }
 }
