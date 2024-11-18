@@ -217,7 +217,8 @@ public class APIDataAccessObject
 			for (int i = 0; i < items.length(); i++) {
 				JSONObject user = items.getJSONObject(i);
 				members.add(
-						userFactory.create(responseBody.getString("tag"), responseBody.getString("name"), responseBody.getInt("trophies"), responseBody.getInt("highestTrophies"), responseBody.getInt("3vs3Victories"), responseBody.getInt("duoVictories"), responseBody.getInt("soloVictories"), new Brawler[]{}, new Match[]{})
+						userFactory.create(user.getString("tag"), user.getString("name"),
+								user.getInt("trophies"))
 				);
 			}
 			return members;
