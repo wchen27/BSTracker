@@ -18,8 +18,7 @@ public class UserLookupInteractor implements UserLookupInputBoundary {
 
 		try {
 			User user = userLookupDataAccessInterface.getUser(userLookupInputData.getTag());
-			final UserLookupOutputData userLookupOutputData = new UserLookupOutputData(user.getUsername(),
-					user.getTrophies());
+			final UserLookupOutputData userLookupOutputData = new UserLookupOutputData(user);
 			userLookupOutputBoundary.prepareSuccessView(userLookupOutputData);
 		} catch (RuntimeException e) {
 			userLookupOutputBoundary.prepareFailView(e.getMessage());

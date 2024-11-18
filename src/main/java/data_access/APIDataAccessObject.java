@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import entity.Brawler;
 import entity.Match;
 import entity.MatchFactory;
 import org.json.JSONArray;
@@ -21,6 +22,7 @@ import use_case.user_lookup.UserLookupDataAccessInterface;
 import use_case.brawler_lookup.BrawlerLookupDataAccessInterface;
 import use_case.leaderboard_lookup.LeaderboardLookupDataAccessInterface;
 
+
 public class APIDataAccessObject
 		implements UserLookupDataAccessInterface, BrawlerLookupDataAccessInterface, MatchLookupDataAccessInterface,
 		LeaderboardLookupDataAccessInterface {
@@ -37,7 +39,12 @@ public class APIDataAccessObject
 	public User getUser(String tag) {
 
 		Dotenv dotenv = Dotenv.load();
-		String prettyTag = tag.replace("#", "%23");
+		String prettyTag = "";
+		if(tag.startsWith("#")) {
+			tag.replace("#", "%23");
+		} else {
+			prettyTag = "%23" + tag;
+		}
 
 		final String url = "https://api.brawlstars.com/v1/players/" + prettyTag;
 		final String key = dotenv.get("API_KEY");
@@ -52,8 +59,8 @@ public class APIDataAccessObject
 		try {
 			final Response response = client.newCall(request).execute();
 			final JSONObject responseBody = new JSONObject(response.body().string());
-			return userFactory.create(responseBody.getString("name"), responseBody.getInt("trophies"),
-					responseBody.getString("tag"));
+			//TODO - put the matches and brawlers into the user
+			return userFactory.create(responseBody.getString("tag"), responseBody.getString("name"), responseBody.getInt("trophies"), responseBody.getInt("highestTrophies"), responseBody.getInt("3vs3Victories"), responseBody.getInt("duoVictories"), responseBody.getInt("soloVictories"), new Brawler[]{}, new Match[]{});
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -129,7 +136,7 @@ public class APIDataAccessObject
 			for (int i = 0; i < items.length(); i++) {
 				JSONObject user = items.getJSONObject(i);
 				topUsers.add(
-						userFactory.create(user.getString("name"), user.getInt("trophies"), user.getString("tag")));
+						userFactory.create(user.getString("tag"), user.getString("name"), user.getInt("trophies"), user.getInt("highestTrophies"), user.getInt("3vs3Victories"), user.getInt("duoVictories"), user.getInt("soloVictories"), new Brawler[]{}, new Match[]{}));
 			}
 			return topUsers;
 
