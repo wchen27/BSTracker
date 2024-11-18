@@ -1,20 +1,16 @@
 package use_case.user_lookup;
 
+import entity.User;
+
 public class UserLookupOutputData {
 
-	private final String username;
-	private final int trophies;
+	private final User user;
 
-	public UserLookupOutputData(String username, int trophies) {
-		this.username = username;
-		this.trophies = trophies;
+	public UserLookupOutputData(User user) {
+		this.user = user;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public int getTrophies() {
-		return trophies;
+	public User getUser() {
+		return user;
 	}
 }
