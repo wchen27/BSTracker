@@ -41,7 +41,7 @@ public class APIDataAccessObject
 		Dotenv dotenv = Dotenv.load();
 		String prettyTag = "";
 		if(tag.startsWith("#")) {
-			tag = tag.replace("#", "%23");
+			prettyTag = tag.replace("#", "%23");
 		} else {
 			prettyTag = "%23" + tag;
 		}
