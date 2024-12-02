@@ -107,6 +107,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 		columnModel.getColumn(1).setPreferredWidth(120);
 		table.setBackground(Color.WHITE);
 		tablePanel.add(table);
+		tablePanel.setBackground(Color.WHITE);
 		this.add(tablePanel);
 
 		this.repaint();
