@@ -1,9 +1,20 @@
 package view;
 
+import app.UserLookupUseCaseFactory;
+import data_access.APIDataAccessObject;
+import entity.ClubFactory;
+import entity.MatchFactory;
 import entity.User;
+import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.club_lookup.ClubLookupState;
 import interface_adapter.club_lookup.ClubLookupViewModel;
+import interface_adapter.user_lookup.UserLookupPresenter;
+import interface_adapter.user_lookup.UserLookupViewModel;
+import use_case.user_lookup.UserLookupDataAccessInterface;
+import use_case.user_lookup.UserLookupInteractor;
+import use_case.user_lookup.UserLookupOutputBoundary;
+import use_case.user_lookup.UserLookupOutputData;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -54,18 +65,38 @@ public class ClubView extends JPanel implements PropertyChangeListener {
         JPanel tableHeader = new JPanel();
         List<User> members = state.getMembers();
         if (members.isEmpty()) {
-            subtitle = "No data found";
+            subtitle = "No members found";
         } else {
-            subtitle = "Members of the club:"; // Add name of the club
         }
-        tableHeader.add(new JLabel(subtitle));
-        this.add(tableHeader);
 
         for (User member : members) {
             JPanel row = new JPanel();
-            JLabel memberName = new JLabel(member.getUsername());
-            row.add(memberName);
+            JLabel memberTrophies = new JLabel(String.valueOf(member.getTrophies()));
+            JButton memberButton = new JButton(member.getUsername());
+            row.add(memberTrophies);
+            row.add(memberButton);
             this.add(row);
+
+            memberButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    viewManagerModel.setState("user");
+                    viewManagerModel.firePropertyChanged();
+
+                    // TODO: Popup user view in a new window
+
+                    UserLookupViewModel userLookupViewModel = new UserLookupViewModel();
+                    UserLookupOutputBoundary userLookupOutputBoundary = new UserLookupPresenter(userLookupViewModel,
+                            viewManagerModel);
+
+                    try {
+                        final UserLookupOutputData userLookupOutputData = new UserLookupOutputData(member);
+                        userLookupOutputBoundary.prepareSuccessView(userLookupOutputData);
+                    } catch (RuntimeException error) {
+                        userLookupOutputBoundary.prepareFailView(error.getMessage());
+                    }
+                }
+            });
         }
     }
 
