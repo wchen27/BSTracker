@@ -75,6 +75,7 @@ public class UserView extends JPanel implements PropertyChangeListener {
         
 
         backButton = new JButton("Back");
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Set up panels for a nicer overall look
         JPanel userAccountPanel = new JPanel();
