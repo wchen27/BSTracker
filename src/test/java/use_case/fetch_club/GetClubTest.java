@@ -1,6 +1,7 @@
 package use_case.fetch_club;
 
 import data_access.APIDataAccessObject;
+import data_access.FileDataAccessObject;
 import entity.ClubFactory;
 import entity.MatchFactory;
 import entity.User;
@@ -14,7 +15,8 @@ public class GetClubTest {
 
     @Test
     public void getClubSuccessTest() {
-        APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(), new ClubFactory());
+        APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(), new ClubFactory(),
+                new FileDataAccessObject("testfile.txt"));
         List<User> members = api.getMembers("#2VOQL2LUG");
         List<String> membernames = new ArrayList<>();
         for (User member : members) {
