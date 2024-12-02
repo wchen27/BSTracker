@@ -24,6 +24,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+/*
+ * The view for the search
+ * Allows the user to search for the leaderboard, club, user, or user's matches
+ */
 public class SearchView extends JPanel implements PropertyChangeListener, MouseListener {
 
     private final String viewName = "search";
@@ -52,6 +56,7 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
             UserLookupController userLookupController, MatchLookupController matchLookupController,
             LeaderboardLookupController leaderboardLookupController, ClubLookupController clubLookupController,
             PreviousSearchController previousSearchController) {
+        // Prepares the Clean Architecture requirements
         this.searchViewModel = viewModel;
         this.searchViewModel.addPropertyChangeListener(this);
         this.previousSearchViewModel = previousSearchViewModel;
@@ -61,6 +66,7 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
         this.matchLookupController = matchLookupController;
         this.userLookupController = userLookupController;
 
+        // Prepares the java swing components
         final JLabel title = new JLabel("Search:");
         title.setBorder(new EmptyBorder(0,20,0,10));
 
@@ -97,6 +103,7 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
         previousSearchScrollPane = new JScrollPane(previousSearchPanel);
         previousSearchScrollPane.setMaximumSize(new Dimension(600, 200));
 
+        // Creates the action listeners for the buttons
         searchBrawlerButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -183,6 +190,7 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
             }
         });
 
+        // Finishes setting up the layout for the panel
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
         searchPanel.add(title);
@@ -214,10 +222,19 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
         previousSearchController.execute();
     }
 
+    /**
+     * Action performed event
+     * @param e the action event
+     */
     public void actionPerformed(ActionEvent e) {
         System.out.println(e.getActionCommand());
     }
 
+    /**
+     * Updates the panel when a change is made
+     * 
+     * @param e the event of the change
+     */
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         if(e.getNewValue() instanceof SearchState) {
@@ -239,6 +256,10 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
         }
     }
 
+    /**
+     * sets the search field as needed
+     * @param state the error message state that will be shown
+     */
     private void setFields(SearchState state) {
         searchField.setText(state.getQuery());
     }
@@ -247,6 +268,11 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
         return viewName;
     }
 
+    /**
+     * Handles the click if a mouse click is done on a JLabel
+     * 
+     * @param e the mouse event when a JLabel is clicked
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         JLabel label = (JLabel) e.getComponent();

@@ -6,7 +6,7 @@ package use_case.user_lookup;
 public class UserLookupInputData {
 
 	private final String tag;
-
+	
 	public UserLookupInputData(String tag) {
 		this.tag = tag;
 	}

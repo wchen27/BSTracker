@@ -1,5 +1,8 @@
 package use_case.previous_search;
 
+/*
+ * The interactor for the previous search which gets the previous searches
+ */
 public class PreviousSearchInteractor implements PreviousSearchInputBoundary{
 
     final private PreviousSearchDataAccessInterface dataAccessInterface;
@@ -10,6 +13,9 @@ public class PreviousSearchInteractor implements PreviousSearchInputBoundary{
         this.outputBoundary = outputBoundary;
     }
 
+    /*
+     * Gets the previous searches and then sends it to the presenter
+     */
     @Override
     public void execute() {
         try {

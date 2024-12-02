@@ -3,6 +3,9 @@ package use_case.user_lookup;
 import entity.User;
 import use_case.user_lookup.UserLookupDataAccessInterface;
 
+/*
+ * The interactor for the user lookup use case which fetches the required user and does calculations
+ */
 public class UserLookupInteractor implements UserLookupInputBoundary {
 
 	private final UserLookupDataAccessInterface userLookupDataAccessInterface;

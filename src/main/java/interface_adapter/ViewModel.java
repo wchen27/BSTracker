@@ -3,6 +3,10 @@ package interface_adapter;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+/*
+ * The parent View Model which all other view models extend
+ * Allows to change a specific state and then send the property change to the view
+ */
 public class ViewModel<T> {
 
     private final String viewName;

@@ -9,6 +9,9 @@ import java.util.Scanner;
 
 import use_case.previous_search.PreviousSearchDataAccessInterface;
 
+/*
+ * Allows for access of the data from the file
+ */
 public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
     
     String fileName;
@@ -17,10 +20,15 @@ public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
         this.fileName = fileName;
     }
 
+    /*
+     * Gets all the previous searches done by the users
+     */
     public String[] getPreviousSearches() {
         File file = new File(fileName);
+        // Checks if the file exists and if not creates a new one
         if(file.exists()) {
             ArrayList<String> out = new ArrayList<>();
+            // Gets all the lines from the file
             try {
                 Scanner scanner = new Scanner(file);
                 while(scanner.hasNextLine()) {
@@ -33,6 +41,7 @@ public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
             }
             return out.toArray(new String[out.size()]);
         } else {
+            // Creates a new file if one couldn't be found
             try {
                 file.createNewFile();
             } catch(IOException ex) {
@@ -43,9 +52,13 @@ public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
         }
     }
 
+    /*
+     * Saves a search to the file for future reference
+     */
     public void addSearch(String search) {
         String[] searches = this.getPreviousSearches();
         try {
+            // Puts all the previous searches in the file and then the new one
             FileWriter fw = new FileWriter(fileName);
             fw.write(search);
             fw.write("\n");
