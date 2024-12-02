@@ -1,0 +1,56 @@
+package data_access;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import use_case.previous_search.PreviousSearchDataAccessInterface;
+
+public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
+    
+    String fileName;
+
+    public FileDataAccessObject(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String[] getPreviousSearches() {
+        File file = new File(fileName);
+        if(file.exists()) {
+            ArrayList<String> out = new ArrayList<>();
+            try {
+                Scanner scanner = new Scanner(file);
+                while(scanner.hasNextLine()) {
+                    out.add(scanner.nextLine());
+                }
+                scanner.close();
+            } catch(FileNotFoundException e) {
+                System.out.println("Coulnd't find file: " + fileName);
+                e.printStackTrace();
+            }
+            return out.toArray(new String[out.size()]);
+        } else {
+            try {
+                file.createNewFile();
+            } catch(IOException ex) {
+                System.out.println("Couldn't create file: " + fileName);
+                ex.printStackTrace();
+            }
+            return new String[]{};
+        }
+    }
+
+    public void addSearch(String search) {
+        try {
+            FileWriter fw = new FileWriter(fileName, true);
+            fw.write(search);
+            fw.close();
+        } catch(IOException e) {
+            System.out.println("Couldn't find file: " + fileName);
+            e.printStackTrace();
+        }
+    }
+}

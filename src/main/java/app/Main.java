@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.APIDataAccessObject;
+import data_access.FileDataAccessObject;
 import entity.ClubFactory;
 import entity.MatchFactory;
 import entity.UserFactory;
@@ -19,6 +20,7 @@ import interface_adapter.search.SearchViewModel;
 import interface_adapter.user_lookup.UserLookupViewModel;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupViewModel;
 import interface_adapter.match_lookup.MatchLookupViewModel;
+import interface_adapter.previous_search.PreviousSearchViewModel;
 
 public class Main {
 
@@ -41,13 +43,15 @@ public class Main {
 		final MatchLookupViewModel matchLookupViewModel = new MatchLookupViewModel();
 		final ClubLookupViewModel clubLookupViewModel = new ClubLookupViewModel();
 		final LeaderboardLookupViewModel leaderboardLookupViewModel = new LeaderboardLookupViewModel();
+		final PreviousSearchViewModel previousSearchViewModel = new PreviousSearchViewModel();
 
 		final APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(),
 				new ClubFactory());
+		final FileDataAccessObject fileDataAccessObject = new FileDataAccessObject("previousSearches.txt");
 
 		final SearchView searchView = SearchUseCaseFactory.create(searchViewModel, userLookupViewModel,
-				matchLookupViewModel, leaderboardLookupViewModel, clubLookupViewModel,
-				viewManagerModel, api, api, api, api, api);
+				matchLookupViewModel, leaderboardLookupViewModel, clubLookupViewModel, previousSearchViewModel,
+				viewManagerModel, api, api, api, api, api, fileDataAccessObject);
 		views.add(searchView, searchView.getViewName());
 
 		final UserView userView = UserLookupUseCaseFactory.create(viewManagerModel, userLookupViewModel, api);

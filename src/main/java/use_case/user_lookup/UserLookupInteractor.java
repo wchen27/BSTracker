@@ -1,6 +1,7 @@
 package use_case.user_lookup;
 
 import entity.User;
+import use_case.user_lookup.UserLookupDataAccessInterface;
 
 public class UserLookupInteractor implements UserLookupInputBoundary {
 
