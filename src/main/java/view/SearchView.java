@@ -40,13 +40,13 @@ public class SearchView extends JPanel implements PropertyChangeListener {
     private final JButton searchMatchButton;
     private final JButton searchClubButton;
     private final JButton searchLeaderboardButton;
-    
+
     private final JScrollPane previousSearchScrollPane;
     private final JPanel previousSearchPanel;
     private JLabel[] previousSearchLabels;
 
     public SearchView(SearchViewModel viewModel, PreviousSearchViewModel previousSearchViewModel,
-     BrawlerLookupController brawlerLookupController,
+            BrawlerLookupController brawlerLookupController,
             UserLookupController userLookupController, MatchLookupController matchLookupController,
             LeaderboardLookupController leaderboardLookupController, ClubLookupController clubLookupController,
             PreviousSearchController previousSearchController) {
@@ -68,7 +68,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         this.add(logoLabel);
 
         final JLabel title = new JLabel("Search:");
-        title.setBorder(new EmptyBorder(0,20,0,10));
+        title.setBorder(new EmptyBorder(0, 20, 0, 10));
 
         searchField.setPreferredSize(new Dimension(200, searchField.getPreferredSize().height));
         final LabelTextPanel searchQuery = new LabelTextPanel(new JLabel("Search"), searchField);
@@ -85,7 +85,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         searchByTagPanel.add(searchClubButton);
 
         final JPanel leaderboardSearchPanel = new JPanel();
-        leaderboardSearchPanel.setBorder(new EmptyBorder(10,0,0,0));
+        leaderboardSearchPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
         final JLabel instructions = new JLabel("Search for top brawlers in leaderboard: Top");
         final Integer[] sizeChoices = new Integer[] { 5, 10, 15, 20 };
         final JComboBox<Integer> leaderboardSize = new JComboBox<Integer>(sizeChoices);
@@ -199,7 +199,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         searchPanel.add(title);
         searchPanel.add(searchField);
         searchPanel.setMaximumSize(new Dimension(200, 100));
-        searchPanel.setBorder(new EmptyBorder(0,0,10,0));
+        searchPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -210,13 +210,13 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         JPanel buttonLeaderPanel = new JPanel();
         buttonLeaderPanel.add(buttonPanel);
         buttonLeaderPanel.add(leaderboardSearchPanel);
-        buttonLeaderPanel.setMaximumSize(new Dimension(800,100));
+        buttonLeaderPanel.setMaximumSize(new Dimension(800, 100));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JPanel currentSearchPanel = new JPanel();
         currentSearchPanel.add(buttonPanel);
         currentSearchPanel.add(buttonLeaderPanel);
-        currentSearchPanel.setMaximumSize(new Dimension(800,150));
+        currentSearchPanel.setMaximumSize(new Dimension(800, 150));
 
         this.add(currentSearchPanel);
         this.add(previousSearchScrollPane);
@@ -238,7 +238,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent e) {
-        if(e.getNewValue() instanceof SearchState) {
+        if (e.getNewValue() instanceof SearchState) {
             final SearchState state = (SearchState) e.getNewValue();
             setFields(state);
             searchErrorField.setText(state.getSearchError());
@@ -247,7 +247,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
             final PreviousSearchState state = (PreviousSearchState) e.getNewValue();
             previousSearchPanel.removeAll();
             previousSearchLabels = new JLabel[state.getPreviousSearches().length];
-            for(int i = 0; i < state.getPreviousSearches().length; i++) {
+            for (int i = 0; i < state.getPreviousSearches().length; i++) {
                 previousSearchLabels[i] = new JLabel(state.getPreviousSearches()[i]);
                 previousSearchPanel.add(previousSearchLabels[i]);
             }
