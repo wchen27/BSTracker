@@ -35,6 +35,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 		title.setAlignmentX(CENTER_ALIGNMENT);
 
 		backButton = new JButton("Back");
+		backButton.setAlignmentX(CENTER_ALIGNMENT);
 
 		backButton.addActionListener(new ActionListener() {
 			@Override

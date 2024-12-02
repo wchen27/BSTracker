@@ -14,9 +14,13 @@ import interface_adapter.user_lookup.UserLookupController;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
@@ -51,6 +55,18 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         this.previousSearchViewModel = previousSearchViewModel;
         this.previousSearchViewModel.addPropertyChangeListener(this);
 
+        final BufferedImage logo;
+        try {
+            logo = ImageIO.read(new File("src/resources/logo.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        final JLabel logoLabel = new JLabel(new ImageIcon(logo.getScaledInstance(100,
+                100, Image.SCALE_SMOOTH)));
+        logoLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.add(logoLabel);
+
         final JLabel title = new JLabel("Search:");
         title.setBorder(new EmptyBorder(0,20,0,10));
 
@@ -73,19 +89,23 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         final JLabel instructions = new JLabel("Search for top brawlers in leaderboard: Top");
         final Integer[] sizeChoices = new Integer[] { 5, 10, 15, 20 };
         final JComboBox<Integer> leaderboardSize = new JComboBox<Integer>(sizeChoices);
-        viewModel.getState().setLeaderboardSize(sizeChoices[0]);
+        leaderboardSize.setPreferredSize(new Dimension(100, 25));
         searchLeaderboardButton = new JButton("Search Leaderboard");
         leaderboardSearchPanel.add(instructions);
         leaderboardSearchPanel.add(leaderboardSize);
         leaderboardSearchPanel.add(searchLeaderboardButton);
-        leaderboardSize.setMaximumSize(new Dimension(100,25));
+        leaderboardSize.setSize(new Dimension(200,25));
         leaderboardSearchPanel.setMaximumSize(new Dimension(800,50));
         leaderboardSize.setBorder(new EmptyBorder(0,5,0,5));
+        leaderboardSearchPanel.setBackground(Color.WHITE);
 
         previousSearchPanel = new JPanel();
         previousSearchPanel.setLayout(new BoxLayout(previousSearchPanel, BoxLayout.Y_AXIS));
+        previousSearchPanel.setMaximumSize(new Dimension(600, 100));
         previousSearchScrollPane = new JScrollPane(previousSearchPanel);
         previousSearchScrollPane.setMaximumSize(new Dimension(600, 200));
+        previousSearchScrollPane.setPreferredSize(new Dimension(600, 200));
+        previousSearchScrollPane.setBackground(new Color(255, 255, 255));
 
         searchBrawlerButton.addActionListener(
                 new ActionListener() {
@@ -200,6 +220,13 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         this.add(currentSearchPanel);
         this.add(previousSearchScrollPane);
         this.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+        this.setBackground(new Color(255, 255, 255));
+        currentSearchPanel.setBackground(new Color(255, 255, 255));
+        searchPanel.setBackground(new Color(255, 255, 255));
+        buttonPanel.setBackground(new Color(255, 255, 255));
+        searchByTagPanel.setBackground(new Color(255, 255, 255));
+        buttonLeaderPanel.setBackground(new Color(255, 255, 255));
 
         previousSearchController.execute();
     }
