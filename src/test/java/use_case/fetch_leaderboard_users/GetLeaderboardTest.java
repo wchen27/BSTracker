@@ -18,4 +18,14 @@ public class GetLeaderboardTest {
 		List<User> users = api.getLeaderboard(10);
 	}
 
+	@Test
+	public void getLeaderboardFailTest() {
+		APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(), new ClubFactory());
+		try {
+			List<User> users = api.getLeaderboard(-1);
+		} catch (RuntimeException e) {
+			System.out.println("Caught");
+		}
+	}
+
 }
