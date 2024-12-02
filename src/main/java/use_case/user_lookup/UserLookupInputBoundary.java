@@ -1,5 +1,8 @@
 package use_case.user_lookup;
 
+/*
+ * The input boundary for the user lookup
+ */
 public interface UserLookupInputBoundary {
 
 	/**

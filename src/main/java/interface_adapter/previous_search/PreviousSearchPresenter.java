@@ -5,6 +5,9 @@ import use_case.previous_search.PreviousSearchInputBoundary;
 import use_case.previous_search.PreviousSearchOutputBoundary;
 import use_case.previous_search.PreviousSearchOutputData;
 
+/*
+ * The presenter for the previous search
+ */
 public class PreviousSearchPresenter implements PreviousSearchOutputBoundary {
 
     private PreviousSearchViewModel viewModel;
@@ -15,6 +18,11 @@ public class PreviousSearchPresenter implements PreviousSearchOutputBoundary {
         this.viewManagerModel = viewManagerModel;
     }
 
+    /**
+     * Prepares the success view if the previous searches are able to be gotten successfully
+     * 
+     * @param data The data that will be shown to the user
+     */
     @Override
     public void prepareSuccessView(PreviousSearchOutputData data) {
         final PreviousSearchState state = viewModel.getState();
@@ -23,6 +31,10 @@ public class PreviousSearchPresenter implements PreviousSearchOutputBoundary {
         viewModel.firePropertyChanged();
     }
 
+    /**
+     * Prepares the fail view if the previous searches aren't able to be gotten successfully
+     * @param errorMsg The error message to be shown to the user
+     */
     @Override
     public void prepareFailView(String errorMsg) {
         final PreviousSearchState state = viewModel.getState();

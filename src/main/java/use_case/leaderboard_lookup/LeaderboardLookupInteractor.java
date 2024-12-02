@@ -6,6 +6,9 @@ import entity.Match;
 import java.util.List;
 import java.util.ArrayList;
 
+/*
+ * The interactor class that handles the leaderboard lookup use case.
+ */
 public class LeaderboardLookupInteractor implements LeaderboardLookupInputBoundary {
 
 	private final LeaderboardLookupDataAccessInterface leaderboardLookupDataAccessInterface;
@@ -17,6 +20,9 @@ public class LeaderboardLookupInteractor implements LeaderboardLookupInputBounda
 		this.leaderboardLookupOutputBoundary = leaderboardLookupOutputBoundary;
 	}
 
+	/**
+	 * Executes the leaderboard lookup use case.
+	 */
 	public void execute(LeaderboardLookupInputData leaderboardLookupInputData) {
 		try {
 			List<User> users = leaderboardLookupDataAccessInterface

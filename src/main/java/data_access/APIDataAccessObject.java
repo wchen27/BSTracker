@@ -39,6 +39,8 @@ public class APIDataAccessObject
 	@Override
 	public User getUser(String tag) {
 
+		fileDataAccessObject.addSearch("User: " + tag);
+
 		Dotenv dotenv = Dotenv.load();
 		String prettyTag = "";
 		if (tag.startsWith("#")) {
@@ -135,12 +137,14 @@ public class APIDataAccessObject
 	public List<Match> getMatches(String tag) {
 		Dotenv dotenv = Dotenv.load();
 
+
 		String prettyTag = "";
 		if (tag.startsWith("#")) {
 			prettyTag = tag.replace("#", "%23");
 		} else {
 			prettyTag = "%23" + tag;
 		}
+
 		final String key = dotenv.get("API_KEY");
 		final String url = "https://api.brawlstars.com/v1/players/" + prettyTag + "/battlelog";
 		final OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -273,6 +277,8 @@ public class APIDataAccessObject
 	@Override
 	public List<User> getMembers(String tag) {
 		Dotenv dotenv = Dotenv.load();
+	
+		fileDataAccessObject.addSearch("Club: " + tag);
 
 		String prettyTag = "";
 		if (tag.startsWith("#")) {

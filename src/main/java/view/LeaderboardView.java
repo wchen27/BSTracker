@@ -18,6 +18,9 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 
+/*
+ * View configuration for the leaderboard use case. 
+ */
 public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
 	private final String viewName = "leaderboard lookup";
@@ -30,11 +33,13 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 	private final JPanel tablePanel;
 
 	public LeaderboardView(LeaderboardLookupViewModel viewModel, ViewManagerModel viewManagerModel) {
+		// Link the view models and manager. 
 		super();
 		this.viewModel = viewModel;
 		this.viewManagerModel = viewManagerModel;
 		viewModel.addPropertyChangeListener(this);
 
+		// View title setup
 		title = new JLabel("Top Brawlers on Global Leaderboard");
 		title.setAlignmentX(CENTER_ALIGNMENT);
 		title.setBackground(Color.WHITE);
@@ -43,6 +48,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 		backButton.setAlignmentX(CENTER_ALIGNMENT);
 		backButton.setBackground(Color.WHITE);
 
+		// Add the listener to send the view back to the home screen.
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -53,15 +59,17 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
 		tableHeader = new JPanel();
 		tablePanel = new JPanel();
-
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
 		this.add(title);
 		this.add(backButton);
 		this.setBackground(Color.WHITE);
 
 	}
 
+	/*
+	 * On property change, update the view to contain the search results
+	 * (frequency of brawlers played in recent matches for the top leader)
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		final LeaderboardLookupState state = (LeaderboardLookupState) evt.getNewValue();
@@ -71,6 +79,8 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
 		final String subtitle;
 		Map<String, Integer> brawlerFrequency = state.getBrawlerFrequency();
+		
+		// Check if there are brawlers to display.
 		if (brawlerFrequency.isEmpty()) {
 			subtitle = "No data found";
 		} else {
@@ -80,6 +90,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 		tableHeader.setBackground(Color.WHITE);
 		this.add(tableHeader);
 
+		// Sort the frequency map so we can display from most played brawlers to least played
 		List<Map.Entry<String, Integer>> sortedBrawlerFrequency = new ArrayList<>(brawlerFrequency.entrySet());
 		Collections.sort(sortedBrawlerFrequency, (e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
@@ -115,6 +126,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 		this.revalidate();
 	}
 
+	// Returns the name of the view. 
 	public String getViewName() {
 		return viewName;
 	}

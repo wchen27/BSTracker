@@ -9,6 +9,10 @@ import java.util.Scanner;
 
 import use_case.previous_search.PreviousSearchDataAccessInterface;
 
+
+/*
+ * Allows for access of the data from the file
+ */
 public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
     
     String fileName;
@@ -17,6 +21,9 @@ public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
         this.fileName = fileName;
     }
 
+    /*
+     * Gets all the previous searches done by the users
+     */
     public String[] getPreviousSearches() {
         File file = new File(fileName);
         if(file.exists()) {

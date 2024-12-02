@@ -26,20 +26,25 @@ import interface_adapter.previous_search.PreviousSearchViewModel;
 
 public class Main {
 
+	/*
+	 * Main method for the Brawl Stars Tracker!
+	 */
 	public static void main(String[] args) {
 
+		// Create the main frame for the application and configure its exit behaviour
 		final JFrame application = new JFrame("Brawl Stars Tracker");
-
 		application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+		// Initialize the card layout for the views
 		final CardLayout cardLayout = new CardLayout();
-
 		final JPanel views = new JPanel(cardLayout);
 		application.add(views);
 
+		// Make the view manager model. 
 		final ViewManagerModel viewManagerModel = new ViewManagerModel();
 		new ViewManager(views, cardLayout, viewManagerModel);
 
+		// Initialize the view models for each view in the application. 
 		final SearchViewModel searchViewModel = new SearchViewModel();
 		final UserLookupViewModel userLookupViewModel = new UserLookupViewModel();
 		final MatchLookupViewModel matchLookupViewModel = new MatchLookupViewModel();
@@ -47,10 +52,12 @@ public class Main {
 		final LeaderboardLookupViewModel leaderboardLookupViewModel = new LeaderboardLookupViewModel();
 		final PreviousSearchViewModel previousSearchViewModel = new PreviousSearchViewModel();
 
+		// Set up the DAO for calls to the Brawl Stars API.
 		final FileDataAccessObject fileDataAccessObject = new FileDataAccessObject("previousSearches.txt");
 		final APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(),
 				new ClubFactory(), fileDataAccessObject);
 
+		// Create the actual views.
 		final SearchView searchView = SearchUseCaseFactory.create(searchViewModel, userLookupViewModel,
 				matchLookupViewModel, leaderboardLookupViewModel, clubLookupViewModel, previousSearchViewModel,
 				viewManagerModel, api, api, api, api, api, fileDataAccessObject);
@@ -70,9 +77,11 @@ public class Main {
 				leaderboardLookupViewModel);
 		views.add(leaderboardView, leaderboardView.getViewName());
 
+		// Set the default screen to the searching home screen.
 		viewManagerModel.setState(searchView.getViewName());
 		viewManagerModel.firePropertyChanged();
 
+		// Configure visibility and dimension settings. 
 		application.setSize(800, 600);
 		application.setVisible(true);
 	}

@@ -34,10 +34,12 @@ public class MatchView extends JPanel implements PropertyChangeListener{
         this.viewManagerModel = viewManagerModel;
         viewModel.addPropertyChangeListener(this);
 
+        // Create the big title label
         title = new JLabel("Match Lookup\n");
         title.setAlignmentX(CENTER_ALIGNMENT);
         title.setFont(title.getFont().deriveFont(20f));
 
+        // Create the Back button
         backButton = new JButton("Back");
         backButton.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -50,6 +52,7 @@ public class MatchView extends JPanel implements PropertyChangeListener{
         matchesScrollPane = new JScrollPane();
         matchesPanel = new JPanel();
 
+        // Add functionality to the Back button
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,6 +61,7 @@ public class MatchView extends JPanel implements PropertyChangeListener{
             }
         });
 
+        // Set the layout for the view
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         matchesScrollPane = new JScrollPane(matchesPanel);
         matchesScrollPane.setBackground(Color.WHITE);
@@ -76,7 +80,6 @@ public class MatchView extends JPanel implements PropertyChangeListener{
 
         matchesPanel.removeAll();
         matchesPanel.setLayout(new BoxLayout(matchesPanel, BoxLayout.Y_AXIS));
-
         List<Match> matches = state.getMatches();
         double winrate = state.getWinrate();
         winrateLabel.setText("Winrate: " + winrate + "%");
@@ -84,26 +87,33 @@ public class MatchView extends JPanel implements PropertyChangeListener{
         trophyChange.setText("Trophies Gained: " + trophyChanged);
         for (Match match : matches) {
             JPanel matchPanel = new JPanel();
+            // Set the layout of each Match panel
             matchPanel.setLayout(new BoxLayout(matchPanel, BoxLayout.X_AXIS));
             JScrollPane matchScrollPane = new JScrollPane(matchPanel);
             JLabel result = new JLabel (match.isVictory() ? "Victory" : "Defeat ");
             result.setForeground(match.isVictory() ? Color.BLUE : Color.RED);
 
+            // Format the time of the match
             String time = match.getTime();
             String fmtTime = time.substring(4, 6) + "/" + time.substring(6, 8) + "/" + time.substring(0, 4) + " " + time.substring(9, 11) + ":" + time.substring(11, 13);
             JLabel matchTime = new JLabel(fmtTime);
 
+            // Add the mode of the match
             JLabel mode = new JLabel(match.getMode());
 
+            // Add the map the match was played on
             JLabel map = new JLabel(match.getMap());
 
+            // Get the trophy change result of the map and calculate the offset so the text lines up
             int trophyChange = match.getTrophyChange();
             String trophyChangeString = trophyChange >= 0 ? "+" + trophyChange : "" + trophyChange;
             trophyChangeString = trophyChangeString.length() < 3 ? " " + trophyChangeString : trophyChangeString;
             JLabel trophyChangeLabel = new JLabel(trophyChangeString);
 
+            // Get the star player of the match
             JLabel starPlayer = new JLabel("Star Player: " + match.getStarPlayer());
 
+            // Format everything together nicely
             matchPanel.add(Box.createHorizontalStrut(50));
             matchPanel.add(result);
             matchPanel.add(Box.createHorizontalStrut(10));

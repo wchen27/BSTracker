@@ -2,6 +2,9 @@ package use_case.user_lookup;
 
 import entity.User;
 
+/*
+ * The output data for the user lookup use case
+ */
 public class UserLookupOutputData {
 
 	private final User user;
