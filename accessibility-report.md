@@ -13,4 +13,4 @@ The technicality of the data used in this application, though interesting for th
 
 
 ### Demographics and Ethics
-Improvements to the application 
+Improvements to the application could be made to support users with accessibility impairments. For example, a dark, high contrast theme can help those who cannot use interfaces with a bright background. However, due to the simplified approach to implementing the user interface and the commonality of Brawl Stars experience, 
