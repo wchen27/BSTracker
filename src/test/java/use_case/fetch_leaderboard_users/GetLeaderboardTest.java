@@ -4,6 +4,7 @@ import entity.ClubFactory;
 import org.junit.Test;
 
 import data_access.APIDataAccessObject;
+import data_access.FileDataAccessObject;
 import entity.UserFactory;
 import entity.User;
 import entity.MatchFactory;
@@ -14,7 +15,8 @@ public class GetLeaderboardTest {
 
 	@Test
 	public void getLeaderboardSuccessTest() {
-		APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(), new ClubFactory());
+		APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(), new ClubFactory(),
+				new FileDataAccessObject("testfile.txt"));
 		List<User> users = api.getLeaderboard(10);
 	}
 

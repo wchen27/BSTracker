@@ -8,7 +8,8 @@ public class PreviousSearchInteractor implements PreviousSearchInputBoundary{
     final private PreviousSearchDataAccessInterface dataAccessInterface;
     final private PreviousSearchOutputBoundary outputBoundary;
 
-    public PreviousSearchInteractor(PreviousSearchDataAccessInterface dataAccessInterface, PreviousSearchOutputBoundary outputBoundary) {
+    public PreviousSearchInteractor(PreviousSearchDataAccessInterface dataAccessInterface,
+     PreviousSearchOutputBoundary outputBoundary) {
         this.dataAccessInterface = dataAccessInterface;
         this.outputBoundary = outputBoundary;
     }
@@ -28,4 +29,16 @@ public class PreviousSearchInteractor implements PreviousSearchInputBoundary{
         }
     }
     
+    @Override
+    public void execute(String search) {
+        try {
+            dataAccessInterface.addSearch(search);
+            String[] prev = dataAccessInterface.getPreviousSearches();
+            final PreviousSearchOutputData outputData = new PreviousSearchOutputData(prev);
+            outputBoundary.prepareSuccessView(outputData);
+        } catch(Exception ex) {
+            outputBoundary.prepareFailView(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
 }

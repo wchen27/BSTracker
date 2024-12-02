@@ -9,7 +9,8 @@ public class ClubLookupInteractor implements ClubLookupInputBoundary {
     private final ClubLookupDataAccessInterface clubLookupDataAccessInterface;
     private final ClubLookupOutputBoundary clubLookupOutputBoundary;
 
-    public ClubLookupInteractor(ClubLookupDataAccessInterface clubLookupDataAccessInterface, ClubLookupOutputBoundary clubLookupOutputBoundary) {
+    public ClubLookupInteractor(ClubLookupDataAccessInterface clubLookupDataAccessInterface,
+                                ClubLookupOutputBoundary clubLookupOutputBoundary) {
         this.clubLookupDataAccessInterface = clubLookupDataAccessInterface;
         this.clubLookupOutputBoundary = clubLookupOutputBoundary;
     }
@@ -25,3 +26,5 @@ public class ClubLookupInteractor implements ClubLookupInputBoundary {
     }
 
 }
+
+

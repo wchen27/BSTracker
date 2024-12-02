@@ -5,7 +5,6 @@ import use_case.previous_search.PreviousSearchInputBoundary;
 import use_case.previous_search.PreviousSearchOutputBoundary;
 import use_case.previous_search.PreviousSearchOutputData;
 
-
 /*
  * The presenter for the previous search
  */
@@ -30,8 +29,6 @@ public class PreviousSearchPresenter implements PreviousSearchOutputBoundary {
         state.setPreviousSearches(data.getPreviousSearches());
 
         viewModel.firePropertyChanged();
-        viewManagerModel.setState("search");
-        viewManagerModel.firePropertyChanged();
     }
 
     /**

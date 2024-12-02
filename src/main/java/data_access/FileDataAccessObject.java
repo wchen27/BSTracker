@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import use_case.previous_search.PreviousSearchDataAccessInterface;
 
+
 /*
  * Allows for access of the data from the file
  */
@@ -25,10 +26,8 @@ public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
      */
     public String[] getPreviousSearches() {
         File file = new File(fileName);
-        // Checks if the file exists and if not creates a new one
         if(file.exists()) {
             ArrayList<String> out = new ArrayList<>();
-            // Gets all the lines from the file
             try {
                 Scanner scanner = new Scanner(file);
                 while(scanner.hasNextLine()) {
@@ -36,35 +35,26 @@ public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
                 }
                 scanner.close();
             } catch(FileNotFoundException e) {
-                System.out.println("Coulnd't find file: " + fileName);
-                e.printStackTrace();
+                try{
+                    file.createNewFile();
+                } catch(IOException ex) {
+                    System.out.println("Couldn't create file: " + fileName);
+                    ex.printStackTrace();
+                }
             }
             return out.toArray(new String[out.size()]);
-        } else {
-            // Creates a new file if one couldn't be found
-            try {
-                file.createNewFile();
-            } catch(IOException ex) {
-                System.out.println("Couldn't create file: " + fileName);
-                ex.printStackTrace();
-            }
-            return new String[]{};
         }
+        return new String[]{};
     }
 
-    /*
-     * Saves a search to the file for future reference
-     */
     public void addSearch(String search) {
-        String[] searches = this.getPreviousSearches();
+        String[] prev = getPreviousSearches();
         try {
-            // Puts all the previous searches in the file and then the new one
             FileWriter fw = new FileWriter(fileName);
             fw.write(search);
-            fw.write("\n");
-            for(int i = 0; i < searches.length; i++) {
-                fw.write(searches[i]);
+            for(int i = 0; i < prev.length; i++) {
                 fw.write("\n");
+                fw.write(prev[i]);
             }
             fw.close();
         } catch(IOException e) {

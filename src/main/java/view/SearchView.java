@@ -16,9 +16,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
@@ -29,10 +33,12 @@ import javax.swing.event.DocumentListener;
  * Allows the user to search for the leaderboard, club, user, or user's matches
  */
 public class SearchView extends JPanel implements PropertyChangeListener, MouseListener {
-
     private final String viewName = "search";
     private final SearchViewModel searchViewModel;
     private final PreviousSearchViewModel previousSearchViewModel;
+    private final ClubLookupController clubLookupController;
+    private final MatchLookupController matchLookupController;
+    private final UserLookupController userLookupController;
 
     private final JTextField searchField = new JTextField();
     private final JLabel searchErrorField = new JLabel();
@@ -47,28 +53,39 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
     private final JPanel previousSearchPanel;
     private JLabel[] previousSearchLabels;
 
-    private final UserLookupController userLookupController;
-    private final MatchLookupController matchLookupController;
-    private final ClubLookupController clubLookupController; 
+        // Prepares the Clean Architecture requirements
+    private final JScrollPane previousSearchScrollPane;
+    private final JPanel previousSearchPanel;
+    private JLabel[] previousSearchLabels;
 
     public SearchView(SearchViewModel viewModel, PreviousSearchViewModel previousSearchViewModel,
-     BrawlerLookupController brawlerLookupController,
+            BrawlerLookupController brawlerLookupController,
             UserLookupController userLookupController, MatchLookupController matchLookupController,
             LeaderboardLookupController leaderboardLookupController, ClubLookupController clubLookupController,
             PreviousSearchController previousSearchController) {
-        // Prepares the Clean Architecture requirements
         this.searchViewModel = viewModel;
         this.searchViewModel.addPropertyChangeListener(this);
         this.previousSearchViewModel = previousSearchViewModel;
         this.previousSearchViewModel.addPropertyChangeListener(this);
-
+      
         this.clubLookupController = clubLookupController;
         this.matchLookupController = matchLookupController;
         this.userLookupController = userLookupController;
 
-        // Prepares the java swing components
+        final BufferedImage logo;
+        try {
+            logo = ImageIO.read(new File("src/resources/logo.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        final JLabel logoLabel = new JLabel(new ImageIcon(logo.getScaledInstance(100,
+                100, Image.SCALE_SMOOTH)));
+        logoLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.add(logoLabel);
+
         final JLabel title = new JLabel("Search:");
-        title.setBorder(new EmptyBorder(0,20,0,10));
+        title.setBorder(new EmptyBorder(0, 20, 0, 10));
 
         searchField.setPreferredSize(new Dimension(200, searchField.getPreferredSize().height));
         final LabelTextPanel searchQuery = new LabelTextPanel(new JLabel("Search"), searchField);
@@ -85,23 +102,30 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
         searchByTagPanel.add(searchClubButton);
 
         final JPanel leaderboardSearchPanel = new JPanel();
-        leaderboardSearchPanel.setBorder(new EmptyBorder(10,0,0,0));
+        leaderboardSearchPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
         final JLabel instructions = new JLabel("Search for top brawlers in leaderboard: Top");
         final Integer[] sizeChoices = new Integer[] { 5, 10, 15, 20 };
         final JComboBox<Integer> leaderboardSize = new JComboBox<Integer>(sizeChoices);
         viewModel.getState().setLeaderboardSize(sizeChoices[0]);
+        leaderboardSize.setPreferredSize(new Dimension(100, 25));
         searchLeaderboardButton = new JButton("Search Leaderboard");
         leaderboardSearchPanel.add(instructions);
         leaderboardSearchPanel.add(leaderboardSize);
         leaderboardSearchPanel.add(searchLeaderboardButton);
-        leaderboardSize.setMaximumSize(new Dimension(100,25));
+
+        leaderboardSize.setSize(new Dimension(200,25));
         leaderboardSearchPanel.setMaximumSize(new Dimension(800,50));
         leaderboardSize.setBorder(new EmptyBorder(0,5,0,5));
+        leaderboardSearchPanel.setBackground(Color.WHITE);
 
         previousSearchPanel = new JPanel();
         previousSearchPanel.setLayout(new BoxLayout(previousSearchPanel, BoxLayout.Y_AXIS));
+        previousSearchPanel.setMaximumSize(new Dimension(600, 100));
         previousSearchScrollPane = new JScrollPane(previousSearchPanel);
         previousSearchScrollPane.setMaximumSize(new Dimension(600, 200));
+        previousSearchScrollPane.setPreferredSize(new Dimension(600, 200));
+        previousSearchScrollPane.setBackground(new Color(255, 255, 255));
+
 
         // Creates the action listeners for the buttons
         searchBrawlerButton.addActionListener(
@@ -119,6 +143,7 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(searchPlayerButton)) {
+                            previousSearchController.execute("User: " + searchViewModel.getState().getQuery());
                             final SearchState currentUserLookupState = searchViewModel.getState();
 
                             userLookupController.execute(currentUserLookupState.getQuery());
@@ -130,6 +155,7 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(searchMatchButton)) {
+                            previousSearchController.execute("Matches: " + searchViewModel.getState().getQuery());
                             final SearchState currentMatchLookupState = searchViewModel.getState();
 
                             matchLookupController.execute(currentMatchLookupState.getQuery());
@@ -141,6 +167,7 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(searchClubButton)) {
+                            previousSearchController.execute("Club: " + searchViewModel.getState().getQuery());
                             final SearchState currentClubLookupState = searchViewModel.getState();
 
                             clubLookupController.execute(currentClubLookupState.getQuery());
@@ -196,7 +223,7 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
         searchPanel.add(title);
         searchPanel.add(searchField);
         searchPanel.setMaximumSize(new Dimension(200, 100));
-        searchPanel.setBorder(new EmptyBorder(0,0,10,0));
+        searchPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -207,17 +234,24 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
         JPanel buttonLeaderPanel = new JPanel();
         buttonLeaderPanel.add(buttonPanel);
         buttonLeaderPanel.add(leaderboardSearchPanel);
-        buttonLeaderPanel.setMaximumSize(new Dimension(800,100));
+        buttonLeaderPanel.setMaximumSize(new Dimension(800, 100));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JPanel currentSearchPanel = new JPanel();
         currentSearchPanel.add(buttonPanel);
         currentSearchPanel.add(buttonLeaderPanel);
-        currentSearchPanel.setMaximumSize(new Dimension(800,150));
+        currentSearchPanel.setMaximumSize(new Dimension(800, 150));
 
         this.add(currentSearchPanel);
         this.add(previousSearchScrollPane);
         this.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+        this.setBackground(new Color(255, 255, 255));
+        currentSearchPanel.setBackground(new Color(255, 255, 255));
+        searchPanel.setBackground(new Color(255, 255, 255));
+        buttonPanel.setBackground(new Color(255, 255, 255));
+        searchByTagPanel.setBackground(new Color(255, 255, 255));
+        buttonLeaderPanel.setBackground(new Color(255, 255, 255));
 
         previousSearchController.execute();
     }
@@ -237,7 +271,7 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
      */
     @Override
     public void propertyChange(PropertyChangeEvent e) {
-        if(e.getNewValue() instanceof SearchState) {
+        if (e.getNewValue() instanceof SearchState) {
             final SearchState state = (SearchState) e.getNewValue();
             setFields(state);
             searchErrorField.setText(state.getSearchError());
@@ -246,7 +280,7 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
             final PreviousSearchState state = (PreviousSearchState) e.getNewValue();
             previousSearchPanel.removeAll();
             previousSearchLabels = new JLabel[state.getPreviousSearches().length];
-            for(int i = 0; i < state.getPreviousSearches().length; i++) {
+            for (int i = 0; i < state.getPreviousSearches().length; i++) {
                 previousSearchLabels[i] = new JLabel(state.getPreviousSearches()[i]);
                 previousSearchLabels[i].addMouseListener(this);
                 previousSearchPanel.add(previousSearchLabels[i]);
@@ -278,12 +312,19 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
         JLabel label = (JLabel) e.getComponent();
         String text = label.getText();
         String[] split = text.split(" ");
-        if(split[0].equals("Club:")) {
-            clubLookupController.execute(split[1]);
-        } else if (split[0].equals("Matches:")) {
-            matchLookupController.execute(split[1]);
-        } else if (split[0].equals("User:")) {
-            userLookupController.execute(split[1]);
+        switch (split[0]) {
+            case "Club:":
+                this.clubLookupController.execute(split[1]);
+                break;
+            case "User:":
+                this.userLookupController.execute(split[1]);
+
+                break;
+            case "Matches:":
+                this.matchLookupController.execute(split[1]);
+                break; 
+            default:
+                break;
         }
     }
 

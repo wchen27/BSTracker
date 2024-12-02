@@ -1,63 +1,54 @@
 package view;
 
-import app.UserLookupUseCaseFactory;
-import data_access.APIDataAccessObject;
-import entity.ClubFactory;
-import entity.MatchFactory;
 import entity.User;
-import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.club_lookup.ClubLookupState;
 import interface_adapter.club_lookup.ClubLookupViewModel;
-import interface_adapter.user_lookup.UserLookupPresenter;
-import interface_adapter.user_lookup.UserLookupViewModel;
-import use_case.user_lookup.UserLookupDataAccessInterface;
-import use_case.user_lookup.UserLookupInteractor;
-import use_case.user_lookup.UserLookupOutputBoundary;
-import use_case.user_lookup.UserLookupOutputData;
+import interface_adapter.user_lookup.UserLookupController;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
 public class ClubView extends JPanel implements PropertyChangeListener {
 
-    private final String viewName = "Club lookup";
     private final ClubLookupViewModel viewModel;
     private final ViewManagerModel viewManagerModel;
+    private final UserLookupController userLookupController;
 
-    private final JLabel title = new JLabel("Club Members");;
-    private final JButton backButton = new JButton("Back");;
+    private final JLabel title = new JLabel("Club Members");
+    private final JButton backButton = new JButton("Back");
 
-    public ClubView(ClubLookupViewModel viewModel, ViewManagerModel viewManagerModel) {
+    public ClubView(ClubLookupViewModel viewModel, ViewManagerModel viewManagerModel,
+                    UserLookupController userLookupController) {
         super();
+
+        title.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
+
         this.viewModel = viewModel;
         this.viewManagerModel = viewManagerModel;
+        this.userLookupController = userLookupController;
         viewModel.addPropertyChangeListener(this);
 
+        title.setAlignmentX(CENTER_ALIGNMENT);
+        backButton.setAlignmentX(CENTER_ALIGNMENT);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final ClubLookupState state = (ClubLookupState) evt.getNewValue();
-        final String subtitle;
         List<User> members = state.getMembers();
         if (members.isEmpty()) {
-            subtitle = "No members found";
+            System.out.println("No members found");
         } else {
             // clear view
             this.removeAll();
 
             title.setAlignmentX(CENTER_ALIGNMENT);
-            backButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    viewManagerModel.setState("search");
-                    viewManagerModel.firePropertyChanged();
-                }
+            backButton.addActionListener(e -> {
+                viewManagerModel.setState("search");
+                viewManagerModel.firePropertyChanged();
             });
 
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -66,39 +57,47 @@ public class ClubView extends JPanel implements PropertyChangeListener {
             this.add(backButton);
         }
 
+        JPanel topLabels = new JPanel();
+        topLabels.setLayout(new BoxLayout(topLabels, BoxLayout.X_AXIS));
+        topLabels.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+        JLabel trophiesLabel = new JLabel("Trophy Count");
+        trophiesLabel.setFont(trophiesLabel.getFont().deriveFont(1));
+        trophiesLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+
+        JLabel memberLabel = new JLabel("Member Username");
+        memberLabel.setFont(trophiesLabel.getFont().deriveFont(1));
+        memberLabel.setAlignmentX(CENTER_ALIGNMENT);
+
+        topLabels.add(trophiesLabel);
+        topLabels.add(memberLabel);
+        this.add(topLabels);
+
         for (User member : members) {
             JPanel row = new JPanel();
+            row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
+            row.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
             JLabel memberTrophies = new JLabel(String.valueOf(member.getTrophies()));
+            memberTrophies.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+
             JButton memberButton = new JButton(member.getUsername());
-            System.out.println(member.getTrophies());
+            memberButton.setAlignmentX(CENTER_ALIGNMENT);
+
             row.add(memberTrophies);
             row.add(memberButton);
             this.add(row);
 
-            memberButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    viewManagerModel.setState("user");
-                    viewManagerModel.firePropertyChanged();
+            memberButton.addActionListener(e -> {
+                viewManagerModel.setState("user lookup");
+                viewManagerModel.firePropertyChanged();
 
-                    // TODO: Popup user view in a new window
-
-                    UserLookupViewModel userLookupViewModel = new UserLookupViewModel();
-                    UserLookupOutputBoundary userLookupOutputBoundary = new UserLookupPresenter(userLookupViewModel,
-                            viewManagerModel);
-
-                    try {
-                        final UserLookupOutputData userLookupOutputData = new UserLookupOutputData(member);
-                        userLookupOutputBoundary.prepareSuccessView(userLookupOutputData);
-                    } catch (RuntimeException error) {
-                        userLookupOutputBoundary.prepareFailView(error.getMessage());
-                    }
-                }
+                userLookupController.execute(member.getTag());
             });
         }
     }
 
     public String getViewName() {
-        return viewName;
+        return "Club lookup";
     }
 }

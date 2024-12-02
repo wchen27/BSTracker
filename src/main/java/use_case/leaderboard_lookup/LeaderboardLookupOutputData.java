@@ -24,6 +24,9 @@ public class LeaderboardLookupOutputData {
 		Map<String, Integer> result = new HashMap<>();
 		for (Match match : matches) {
 			String brawler = match.getStarPlayerBrawler();
+			if (brawler.equals("Unknown")) {
+				continue;
+			}
 			if (result.containsKey(brawler)) {
 				result.put(brawler, result.get(brawler) + 1);
 			} else {
