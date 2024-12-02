@@ -17,13 +17,15 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.user_lookup.UserLookupState;
 import interface_adapter.user_lookup.UserLookupViewModel;
 
+/*
+ * The view when the user looks up a user
+ */
 public class UserView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = "user lookup";
     private final UserLookupViewModel viewModel;
     private final ViewManagerModel viewManagerModel;
 
-    // TODO implement a club for the user
     private final JLabel title;
     private final JLabel tagLabel;
     private final JLabel userNameLabel;
@@ -40,10 +42,12 @@ public class UserView extends JPanel implements PropertyChangeListener {
 
     public UserView(UserLookupViewModel viewModel, ViewManagerModel viewManagerModel) {
         super();
+        // Sets up the Clean Architecture requirements
         this.viewModel = viewModel;
         this.viewManagerModel = viewManagerModel;
         viewModel.addPropertyChangeListener(this);
 
+        // Sets up the java swing components
         title = new JLabel("User Lookup");
         title.setAlignmentX(CENTER_ALIGNMENT);
         title.setFont(title.getFont().deriveFont(20f));
@@ -128,12 +132,18 @@ public class UserView extends JPanel implements PropertyChangeListener {
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+        // Adds the required components to the panel
         this.add(title);
         this.add(userPanel);
         this.add(matchBrawlerPanel);
         this.add(backButton);
     }
 
+    /**
+     * Updates the view when a change is made
+     * 
+     * @param evt the event when a change is made
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final UserLookupState state = (UserLookupState) evt.getNewValue();
@@ -159,6 +169,7 @@ public class UserView extends JPanel implements PropertyChangeListener {
 
     }
 
+    
     public String getViewName() {
         return viewName;
     }
