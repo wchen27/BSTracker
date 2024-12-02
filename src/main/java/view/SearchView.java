@@ -89,6 +89,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         final JLabel instructions = new JLabel("Search for top brawlers in leaderboard: Top");
         final Integer[] sizeChoices = new Integer[] { 5, 10, 15, 20 };
         final JComboBox<Integer> leaderboardSize = new JComboBox<Integer>(sizeChoices);
+        viewModel.getState().setLeaderboardSize(sizeChoices[0]);
         leaderboardSize.setPreferredSize(new Dimension(100, 25));
         searchLeaderboardButton = new JButton("Search Leaderboard");
         leaderboardSearchPanel.add(instructions);

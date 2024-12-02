@@ -1,18 +1,15 @@
 package view;
 
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import entity.Match;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.user_lookup.UserLookupState;
 import interface_adapter.user_lookup.UserLookupViewModel;
@@ -37,6 +34,7 @@ public class UserView extends JPanel implements PropertyChangeListener {
     private final JScrollPane brawlerScrollPane;
     private final JScrollPane matchScrollPane;
     private final JButton backButton;
+    JPanel matchScrollPanePanel = new JPanel();
 
     public UserView(UserLookupViewModel viewModel, ViewManagerModel viewManagerModel) {
         super();
@@ -64,8 +62,10 @@ public class UserView extends JPanel implements PropertyChangeListener {
         
         brawlerPanel = new JPanel();
         brawlerPanel.setLayout(new BoxLayout(brawlerPanel, BoxLayout.X_AXIS));
+        brawlerPanel.setBackground(Color.WHITE);
         matchPanel = new JPanel();
-        matchPanel.setLayout(new BoxLayout(matchPanel, BoxLayout.X_AXIS));
+        matchPanel.setLayout(new BoxLayout(matchPanel, BoxLayout.Y_AXIS));
+        matchPanel.setBackground(Color.WHITE);
 
         //TODO Make this a bit better and editiable
         brawlerScrollPane = new JScrollPane();
@@ -98,12 +98,11 @@ public class UserView extends JPanel implements PropertyChangeListener {
         userPanel.add(userAccountPanel);
         userPanel.add(victoriesPanel);
 
-        JPanel matchScrollPanePanel = new JPanel();
         matchScrollPanePanel.setBorder(new EmptyBorder(0, 0, 0, 10));
         matchScrollPanePanel.setLayout(new BoxLayout(matchScrollPanePanel, BoxLayout.Y_AXIS));
         matchScrollPanePanel.setAlignmentX(CENTER_ALIGNMENT);
         matchScrollPanePanel.add(new JLabel("Matches: "));
-        matchScrollPanePanel.add(matchScrollPane);
+        matchScrollPanePanel.add(matchPanel);
 
         JPanel brawlerScrollPanePanel = new JPanel();
         brawlerScrollPanePanel.setBorder(new EmptyBorder(0,10,0,0));
@@ -153,8 +152,35 @@ public class UserView extends JPanel implements PropertyChangeListener {
         }
 
         matchPanel.removeAll();
-        for(int i = 0; i < state.getMatches().length; i++) {
-            matchPanel.add(new JLabel(state.getMatches()[i].getMap()));
+        for (Match match : state.getMatches().subList(0, 10)) {
+            JPanel currMatchPanel = new JPanel();
+            currMatchPanel.setLayout(new BoxLayout(currMatchPanel, BoxLayout.X_AXIS));
+            JScrollPane currMatchScrollPane = new JScrollPane(currMatchPanel);
+            JLabel result = new JLabel (match.isVictory() ? "Victory" : "Defeat ");
+            result.setForeground(match.isVictory() ? Color.BLUE : Color.RED);
+
+            JLabel mode = new JLabel(match.getMode());
+
+            JLabel map = new JLabel(match.getMap());
+
+            int trophyChange = match.getTrophyChange();
+            String trophyChangeString = trophyChange >= 0 ? "+" + trophyChange : "" + trophyChange;
+            trophyChangeString = trophyChangeString.length() < 3 ? " " + trophyChangeString : trophyChangeString;
+            JLabel trophyChangeLabel = new JLabel(trophyChangeString);
+
+            currMatchPanel.add(Box.createHorizontalStrut(50));
+            currMatchPanel.add(result);
+            currMatchPanel.add(Box.createHorizontalStrut(10));
+            currMatchPanel.add(trophyChangeLabel);
+            currMatchPanel.add(Box.createHorizontalStrut(10));
+            currMatchPanel.add(mode);
+            currMatchPanel.add(Box.createHorizontalStrut(10));
+            currMatchPanel.add(map);
+            currMatchPanel.add(Box.createHorizontalStrut(10));
+            currMatchScrollPane.add(currMatchPanel);
+            currMatchPanel.setPreferredSize(new Dimension(350, 25));
+            currMatchPanel.setBackground(Color.WHITE);
+            matchPanel.add(currMatchPanel);
         }
 
     }

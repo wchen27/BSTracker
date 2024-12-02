@@ -4,6 +4,8 @@ import entity.Brawler;
 import entity.Match;
 import entity.User;
 
+import java.util.List;
+
 public class UserLookupState {
     private User user;
 
@@ -43,7 +45,7 @@ public class UserLookupState {
         return user.getBrawlers();
     }
 
-    public Match[] getMatches() {
+    public List<Match> getMatches() {
         return user.getMatches();
     }
 

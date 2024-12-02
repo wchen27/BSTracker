@@ -122,8 +122,16 @@ public class APIDataAccessObject
 			victoriesSolo = 0;
 		}
 
+		List<Match> matches;
+		try {
+			matches = getMatches(playerTag);
+		} catch (JSONException e) {
+			matches = new ArrayList<>();
+		}
+
+
 		return userFactory.create(playerTag, playerName, playerTrophies, highestTrophies, victories3v3, victoriesDuo,
-				victoriesSolo, new Brawler[]{}, new Match[]{});
+				victoriesSolo, new Brawler[]{}, matches);
 	}
 
 	@Override

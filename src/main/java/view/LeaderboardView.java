@@ -4,6 +4,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupState;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupViewModel;
 
+import java.awt.*;
 import java.util.Collections;
 import java.util.Map;
 import java.util.ArrayList;
@@ -33,9 +34,11 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
 		title = new JLabel("Top Brawlers on Global Leaderboard");
 		title.setAlignmentX(CENTER_ALIGNMENT);
+		title.setBackground(Color.WHITE);
 
 		backButton = new JButton("Back");
 		backButton.setAlignmentX(CENTER_ALIGNMENT);
+		backButton.setBackground(Color.WHITE);
 
 		backButton.addActionListener(new ActionListener() {
 			@Override
@@ -64,6 +67,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 			subtitle = "Brawler frequency from the top " + state.getNumUsers() + " users globally:";
 		}
 		tableHeader.add(new JLabel(subtitle));
+		tableHeader.setBackground(Color.WHITE);
 		this.add(tableHeader);
 
 		List<Map.Entry<String, Integer>> sortedBrawlerFrequency = new ArrayList<>(brawlerFrequency.entrySet());
@@ -75,6 +79,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 			JLabel frequency = new JLabel(String.valueOf(entry.getValue()));
 			row.add(brawlerName);
 			row.add(frequency);
+			row.setBackground(Color.WHITE);
 			this.add(row);
 		}
 	}
