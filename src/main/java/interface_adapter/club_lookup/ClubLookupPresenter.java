@@ -5,6 +5,8 @@ import interface_adapter.ViewManagerModel;
 import use_case.club_lookup.ClubLookupOutputBoundary;
 import use_case.club_lookup.ClubLookupOutputData;
 
+import javax.swing.*;
+
 public class ClubLookupPresenter implements ClubLookupOutputBoundary {
 
     private final ClubLookupViewModel ClubLookupViewModel;
@@ -26,6 +28,6 @@ public class ClubLookupPresenter implements ClubLookupOutputBoundary {
     }
 
     public void prepareFailView(String errorMessage) {
-        throw new UnsupportedOperationException(errorMessage);
+        JOptionPane.showMessageDialog(null, "The club tag you entered does not exist. Please try again! \n" + errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
     }
 }

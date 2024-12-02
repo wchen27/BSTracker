@@ -16,6 +16,9 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 
+/*
+ * View configuration for the leaderboard use case. 
+ */
 public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
 	private final String viewName = "leaderboard lookup";
@@ -26,16 +29,19 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 	private final JButton backButton;
 
 	public LeaderboardView(LeaderboardLookupViewModel viewModel, ViewManagerModel viewManagerModel) {
+		// Link the view models and manager. 
 		super();
 		this.viewModel = viewModel;
 		this.viewManagerModel = viewManagerModel;
 		viewModel.addPropertyChangeListener(this);
 
+		// View title setup
 		title = new JLabel("Top Brawlers on Global Leaderboard");
 		title.setAlignmentX(CENTER_ALIGNMENT);
 
 		backButton = new JButton("Back");
 
+		// Add the listener to send the view back to the home screen.
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -44,19 +50,25 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 			}
 		});
 
+		// Visibility configuration
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
 		this.add(title);
 		this.add(backButton);
 
 	}
 
+	/*
+	 * On property change, update the view to contain the search results
+	 * (frequency of brawlers played in recent matches for the top leader)
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		final LeaderboardLookupState state = (LeaderboardLookupState) evt.getNewValue();
 		final String subtitle;
 		JPanel tableHeader = new JPanel();
 		Map<String, Integer> brawlerFrequency = state.getBrawlerFrequency();
+		
+		// Check if there are brawlers to display.
 		if (brawlerFrequency.isEmpty()) {
 			subtitle = "No data found";
 		} else {
@@ -65,9 +77,11 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 		tableHeader.add(new JLabel(subtitle));
 		this.add(tableHeader);
 
+		// Sort the frequency map so we can display from most played brawlers to least played
 		List<Map.Entry<String, Integer>> sortedBrawlerFrequency = new ArrayList<>(brawlerFrequency.entrySet());
 		Collections.sort(sortedBrawlerFrequency, (e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
+		// Set up the labels and names for each brawler entry
 		for (Map.Entry<String, Integer> entry : sortedBrawlerFrequency) {
 			JPanel row = new JPanel();
 			JLabel brawlerName = new JLabel(entry.getKey());
@@ -78,6 +92,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 		}
 	}
 
+	// Returns the name of the view. 
 	public String getViewName() {
 		return viewName;
 	}

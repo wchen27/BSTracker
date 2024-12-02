@@ -317,7 +317,7 @@ public class APIDataAccessObject
 			}
 
 			try {
-				playerTrophies = user.getInt("trophyChange");
+				playerTrophies = user.getInt("trophies");
 			} catch (JSONException e) {
 				playerTrophies = 0;
 			}

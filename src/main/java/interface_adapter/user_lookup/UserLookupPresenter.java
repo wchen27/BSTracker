@@ -1,5 +1,7 @@
 package interface_adapter.user_lookup;
 
+import javax.swing.JOptionPane;
+
 import interface_adapter.ViewManagerModel;
 import use_case.user_lookup.UserLookupOutputBoundary;
 import use_case.user_lookup.UserLookupOutputData;
@@ -26,7 +28,8 @@ public class UserLookupPresenter implements UserLookupOutputBoundary {
 
     @Override
     public void prepareFailView(String errorMessage) {
-        throw new UnsupportedOperationException(errorMessage);
+        JOptionPane.showMessageDialog(null, "The user tag could not be fetched. Please try again! \n" + errorMessage,
+                "Error", JOptionPane.ERROR_MESSAGE);
     }
 
 }
