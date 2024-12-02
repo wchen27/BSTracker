@@ -14,6 +14,8 @@ import interface_adapter.user_lookup.UserLookupController;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -26,11 +28,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class SearchView extends JPanel implements PropertyChangeListener {
-
+public class SearchView extends JPanel implements PropertyChangeListener, MouseListener {
     private final String viewName = "search";
     private final SearchViewModel searchViewModel;
     private final PreviousSearchViewModel previousSearchViewModel;
+    private final ClubLookupController clubLookupController;
+    private final MatchLookupController matchLookupController;
+    private final UserLookupController userLookupController;
 
     private final JTextField searchField = new JTextField();
     private final JLabel searchErrorField = new JLabel();
@@ -54,6 +58,9 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         this.searchViewModel.addPropertyChangeListener(this);
         this.previousSearchViewModel = previousSearchViewModel;
         this.previousSearchViewModel.addPropertyChangeListener(this);
+        this.clubLookupController = clubLookupController;
+        this.matchLookupController = matchLookupController;
+        this.userLookupController = userLookupController;
 
         final BufferedImage logo;
         try {
@@ -123,6 +130,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(searchPlayerButton)) {
+                            previousSearchController.execute("User: " + searchViewModel.getState().getQuery());
                             final SearchState currentUserLookupState = searchViewModel.getState();
 
                             userLookupController.execute(currentUserLookupState.getQuery());
@@ -134,6 +142,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(searchMatchButton)) {
+                            previousSearchController.execute("Matches: " + searchViewModel.getState().getQuery());
                             final SearchState currentMatchLookupState = searchViewModel.getState();
 
                             matchLookupController.execute(currentMatchLookupState.getQuery());
@@ -145,6 +154,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(searchClubButton)) {
+                            previousSearchController.execute("Club: " + searchViewModel.getState().getQuery());
                             final SearchState currentClubLookupState = searchViewModel.getState();
 
                             clubLookupController.execute(currentClubLookupState.getQuery());
@@ -249,6 +259,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
             previousSearchLabels = new JLabel[state.getPreviousSearches().length];
             for (int i = 0; i < state.getPreviousSearches().length; i++) {
                 previousSearchLabels[i] = new JLabel(state.getPreviousSearches()[i]);
+                previousSearchLabels[i].addMouseListener(this);
                 previousSearchPanel.add(previousSearchLabels[i]);
             }
             previousSearchScrollPane.repaint();
@@ -262,5 +273,42 @@ public class SearchView extends JPanel implements PropertyChangeListener {
 
     public String getViewName() {
         return viewName;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        JLabel label = (JLabel) e.getComponent();
+        String text = label.getText();
+        String[] split = text.split(" ");
+        switch (split[0]) {
+            case "Club:":
+                this.clubLookupController.execute(split[1]);
+                break;
+            case "User:":
+                this.userLookupController.execute(split[1]);
+
+                break;
+            case "Matches:":
+                this.matchLookupController.execute(split[1]);
+                break; 
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }

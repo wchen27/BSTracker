@@ -49,4 +49,8 @@ public class UserLookupState {
         return user.getMatches();
     }
 
+    public int getPerformance() {
+        return user.getPerformance();
+    }
+
 }

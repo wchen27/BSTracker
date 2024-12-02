@@ -29,6 +29,7 @@ public class UserView extends JPanel implements PropertyChangeListener {
     private final JLabel trioVictoriesLabel;
     private final JLabel duoVictoriesLabel;
     private final JLabel soloVictoriesLabel;
+    private final JLabel performanceLabel;
     private final JPanel brawlerPanel;
     private final JPanel matchPanel;
     private final JScrollPane brawlerScrollPane;
@@ -60,6 +61,7 @@ public class UserView extends JPanel implements PropertyChangeListener {
         duoVictoriesLabel = new JLabel("");
 
         soloVictoriesLabel = new JLabel("");
+        performanceLabel = new JLabel("");
         
         brawlerPanel = new JPanel();
         brawlerPanel.setLayout(new BoxLayout(brawlerPanel, BoxLayout.X_AXIS));
@@ -95,6 +97,7 @@ public class UserView extends JPanel implements PropertyChangeListener {
         victoriesPanel.add(trioVictoriesLabel);
         victoriesPanel.add(duoVictoriesLabel);
         victoriesPanel.add(soloVictoriesLabel);
+        victoriesPanel.add(performanceLabel);
         victoriesPanel.setBackground(Color.WHITE);
 
         JPanel userPanel = new JPanel();
@@ -110,6 +113,7 @@ public class UserView extends JPanel implements PropertyChangeListener {
         matchScrollPanePanel.add(matchPanel);
         matchScrollPanePanel.setBackground(Color.WHITE);
 
+        brawlerScrollPane.add(brawlerPanel);
         JPanel brawlerScrollPanePanel = new JPanel();
         brawlerScrollPanePanel.setBorder(new EmptyBorder(0,10,0,0));
         brawlerScrollPanePanel.setLayout(new BoxLayout(brawlerScrollPanePanel, BoxLayout.Y_AXIS));
@@ -153,6 +157,8 @@ public class UserView extends JPanel implements PropertyChangeListener {
         trioVictoriesLabel.setText("Trio Victories: " + String.valueOf(state.getTrioVictories()));
         duoVictoriesLabel.setText("Duo Victories: " + String.valueOf(state.getDuoVictories()));
         soloVictoriesLabel.setText("Solo Victories: " + String.valueOf(state.getSoloVictories()));
+        performanceLabel.setText("Performance: " + String.valueOf(state.getPerformance()));
+
 
         //TODO finish implementation of brawlers and matches
         brawlerPanel.removeAll();
