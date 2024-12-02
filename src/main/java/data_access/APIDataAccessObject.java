@@ -139,7 +139,12 @@ public class APIDataAccessObject
 
 		fileDataAccessObject.addSearch(tag);
 
-		String prettyTag = tag.replace("#", "%23");
+		String prettyTag = "";
+		if (tag.startsWith("#")) {
+			prettyTag = tag.replace("#", "%23");
+		} else {
+			prettyTag = "%23" + tag;
+		}
 		final String key = dotenv.get("API_KEY");
 		final String url = "https://api.brawlstars.com/v1/players/" + prettyTag + "/battlelog";
 		final OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -275,9 +280,13 @@ public class APIDataAccessObject
 
 		fileDataAccessObject.addSearch(tag);
 
-		tag = tag.replace("#", "%23");
-
-		final String url = "https://api.brawlstars.com/v1/clubs/" + tag + "/members";
+		String prettyTag = "";
+		if (tag.startsWith("#")) {
+			prettyTag = tag.replace("#", "%23");
+		} else {
+			prettyTag = "%23" + tag;
+		}
+		final String url = "https://api.brawlstars.com/v1/clubs/" + prettyTag + "/members";
 		final String key = dotenv.get("API_KEY");
 
 		final OkHttpClient client = new OkHttpClient().newBuilder().build();
