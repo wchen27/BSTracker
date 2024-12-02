@@ -29,8 +29,8 @@ public class ClubView extends JPanel implements PropertyChangeListener {
     private final ClubLookupViewModel viewModel;
     private final ViewManagerModel viewManagerModel;
 
-    private final JLabel title;
-    private final JButton backButton;
+    private final JLabel title = new JLabel("Club Members");;
+    private final JButton backButton = new JButton("Back");;
 
     public ClubView(ClubLookupViewModel viewModel, ViewManagerModel viewManagerModel) {
         super();
@@ -38,41 +38,39 @@ public class ClubView extends JPanel implements PropertyChangeListener {
         this.viewManagerModel = viewManagerModel;
         viewModel.addPropertyChangeListener(this);
 
-        title = new JLabel("Club Members");
-        title.setAlignmentX(CENTER_ALIGNMENT);
-
-        backButton = new JButton("Back");
-
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                viewManagerModel.setState("search");
-                viewManagerModel.firePropertyChanged();
-            }
-        });
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        this.add(title);
-        this.add(backButton);
-
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final ClubLookupState state = (ClubLookupState) evt.getNewValue();
         final String subtitle;
-        JPanel tableHeader = new JPanel();
         List<User> members = state.getMembers();
         if (members.isEmpty()) {
             subtitle = "No members found";
         } else {
+            // clear view
+            this.removeAll();
+
+            title.setAlignmentX(CENTER_ALIGNMENT);
+            backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    viewManagerModel.setState("search");
+                    viewManagerModel.firePropertyChanged();
+                }
+            });
+
+            this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+            this.add(title);
+            this.add(backButton);
         }
 
         for (User member : members) {
             JPanel row = new JPanel();
             JLabel memberTrophies = new JLabel(String.valueOf(member.getTrophies()));
             JButton memberButton = new JButton(member.getUsername());
+            System.out.println(member.getTrophies());
             row.add(memberTrophies);
             row.add(memberButton);
             this.add(row);
