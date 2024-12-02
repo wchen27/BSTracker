@@ -18,6 +18,7 @@ import interface_adapter.club_lookup.ClubLookupViewModel;
 import view.*;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.user_lookup.UserLookupViewModel;
+import io.github.cdimascio.dotenv.Dotenv;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupViewModel;
 import interface_adapter.match_lookup.MatchLookupViewModel;
 import interface_adapter.previous_search.PreviousSearchViewModel;
@@ -45,9 +46,11 @@ public class Main {
 		final LeaderboardLookupViewModel leaderboardLookupViewModel = new LeaderboardLookupViewModel();
 		final PreviousSearchViewModel previousSearchViewModel = new PreviousSearchViewModel();
 
+		final Dotenv env = Dotenv.load();
+
 		final FileDataAccessObject fileDataAccessObject = new FileDataAccessObject("previousSearches.txt");
 		final APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(),
-				new ClubFactory(), fileDataAccessObject);
+				new ClubFactory(), fileDataAccessObject, env);
 
 		final SearchView searchView = SearchUseCaseFactory.create(searchViewModel, userLookupViewModel,
 				matchLookupViewModel, leaderboardLookupViewModel, clubLookupViewModel, previousSearchViewModel,

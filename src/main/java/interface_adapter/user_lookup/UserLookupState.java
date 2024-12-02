@@ -4,6 +4,11 @@ import entity.Brawler;
 import entity.Match;
 import entity.User;
 
+/*
+ * The state for the user lookup for the view model
+ * Stores the user that was found
+ * Allows to get all the different attributes of the user
+ */
 public class UserLookupState {
     private User user;
 
