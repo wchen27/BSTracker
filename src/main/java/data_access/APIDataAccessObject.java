@@ -142,7 +142,8 @@ public class APIDataAccessObject
 			final JSONArray matches = responseBody.getJSONArray("items");
 			List<Match> matchList = new ArrayList<>();
 			for (int i = 0; i < matches.length(); i++) {
-				matchList.add(extractMatchData(matches, i));
+				Match matchData = extractMatchData(matches, i);
+				matchList.add(matchData);
 			}
 
 			return matchList;
