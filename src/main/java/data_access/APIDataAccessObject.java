@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import entity.*;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,7 +19,6 @@ import use_case.user_lookup.UserLookupDataAccessInterface;
 import use_case.brawler_lookup.BrawlerLookupDataAccessInterface;
 import use_case.leaderboard_lookup.LeaderboardLookupDataAccessInterface;
 
-
 public class APIDataAccessObject
 		implements UserLookupDataAccessInterface, BrawlerLookupDataAccessInterface, MatchLookupDataAccessInterface,
 		LeaderboardLookupDataAccessInterface, ClubLookupDataAccessInterface {
@@ -30,7 +28,8 @@ public class APIDataAccessObject
 	private ClubFactory clubFactory;
 	private FileDataAccessObject fileDataAccessObject;
 
-	public APIDataAccessObject(UserFactory userFactory, MatchFactory matchFactory, ClubFactory clubFactory, FileDataAccessObject fileDataAccessObject) {
+	public APIDataAccessObject(UserFactory userFactory, MatchFactory matchFactory, ClubFactory clubFactory,
+			FileDataAccessObject fileDataAccessObject) {
 		this.userFactory = userFactory;
 		this.matchFactory = matchFactory;
 		this.clubFactory = clubFactory;
@@ -44,7 +43,7 @@ public class APIDataAccessObject
 
 		Dotenv dotenv = Dotenv.load();
 		String prettyTag = "";
-		if(tag.startsWith("#")) {
+		if (tag.startsWith("#")) {
 			prettyTag = tag.replace("#", "%23");
 		} else {
 			prettyTag = "%23" + tag;
@@ -59,7 +58,7 @@ public class APIDataAccessObject
 				.addHeader("Authorization", key)
 				.get()
 				.build();
-		
+
 		final Response response;
 		final JSONObject responseBody;
 		try {
@@ -138,7 +137,6 @@ public class APIDataAccessObject
 	public List<Match> getMatches(String tag) {
 		Dotenv dotenv = Dotenv.load();
 
-		
 		fileDataAccessObject.addSearch(tag);
 
 		String prettyTag = tag.replace("#", "%23");
@@ -195,7 +193,7 @@ public class APIDataAccessObject
 		} catch (JSONException e) {
 			starPlayer = new JSONObject();
 		}
-		
+
 		try {
 			trophyChange = battle.optInt("trophyChange");
 		} catch (JSONException e) {
@@ -233,7 +231,7 @@ public class APIDataAccessObject
 		}
 		return matchFactory.create(battleTime, mode, map, result, trophyChange, starPlayerName, starPlayerBrawler, 0);
 	}
-	
+
 	public List<User> getLeaderboard(int amount) {
 		Dotenv dotenv = Dotenv.load();
 
@@ -247,7 +245,7 @@ public class APIDataAccessObject
 				.addHeader("Authorization", key)
 				.get()
 				.build();
-		
+
 		final Response response;
 		final JSONObject responseBody;
 		try {
@@ -274,7 +272,7 @@ public class APIDataAccessObject
 	@Override
 	public List<User> getMembers(String tag) {
 		Dotenv dotenv = Dotenv.load();
-	
+
 		fileDataAccessObject.addSearch(tag);
 
 		tag = tag.replace("#", "%23");
@@ -305,7 +303,6 @@ public class APIDataAccessObject
 			throw new RuntimeException("Bad response, check API Key", e);
 		}
 
-
 		final List<User> members = new ArrayList<User>(items.length());
 		for (int i = 0; i < items.length(); i++) {
 			JSONObject user = items.getJSONObject(i);
@@ -331,8 +328,7 @@ public class APIDataAccessObject
 			}
 
 			members.add(
-					userFactory.create(playerTag, playerName, playerTrophies)
-			);
+					userFactory.create(playerTag, playerName, playerTrophies));
 		}
 		return members;
 	}
