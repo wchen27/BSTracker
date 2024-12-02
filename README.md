@@ -2,6 +2,8 @@
 
 ## CSC207 Project Group 186 - GriesGaming
 
+![Alt text](src/resources/logo.png "Logo")
+
 ## Members:
 Wilson Chen - wchen27
 
