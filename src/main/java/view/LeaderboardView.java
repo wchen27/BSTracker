@@ -52,6 +52,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
 		this.add(title);
 		this.add(backButton);
+		this.setBackground(Color.WHITE);
 
 	}
 

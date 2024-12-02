@@ -253,7 +253,6 @@ public class APIDataAccessObject
 		try {
 			response = client.newCall(request).execute();
 			responseBody = new JSONObject(response.body().string());
-			System.out.println(responseBody);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

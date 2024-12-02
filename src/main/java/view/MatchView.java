@@ -36,6 +36,7 @@ public class MatchView extends JPanel implements PropertyChangeListener{
 
         title = new JLabel("Match Lookup\n");
         title.setAlignmentX(CENTER_ALIGNMENT);
+        title.setFont(title.getFont().deriveFont(20f));
 
         backButton = new JButton("Back");
         backButton.setAlignmentX(CENTER_ALIGNMENT);
@@ -65,7 +66,7 @@ public class MatchView extends JPanel implements PropertyChangeListener{
         this.add(backButton);
         this.add(winrateLabel);
         this.add(trophyChange);
-
+        this.setBackground(Color.WHITE);
     }
 
 

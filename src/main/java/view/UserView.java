@@ -45,6 +45,7 @@ public class UserView extends JPanel implements PropertyChangeListener {
         title = new JLabel("User Lookup");
         title.setAlignmentX(CENTER_ALIGNMENT);
         title.setFont(title.getFont().deriveFont(20f));
+        title.setBackground(Color.WHITE);
 
         tagLabel = new JLabel("");
 
@@ -81,6 +82,7 @@ public class UserView extends JPanel implements PropertyChangeListener {
         userAccountPanel.setBorder(new EmptyBorder(20,20,20,10));
         userAccountPanel.add(userNameLabel);
         userAccountPanel.add(tagLabel);
+        userAccountPanel.setBackground(Color.WHITE);
         // TODO club should be added here
         // userAccountPanel.add(clubPanel);
 
@@ -92,17 +94,20 @@ public class UserView extends JPanel implements PropertyChangeListener {
         victoriesPanel.add(trioVictoriesLabel);
         victoriesPanel.add(duoVictoriesLabel);
         victoriesPanel.add(soloVictoriesLabel);
+        victoriesPanel.setBackground(Color.WHITE);
 
         JPanel userPanel = new JPanel();
         userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.X_AXIS));
         userPanel.add(userAccountPanel);
         userPanel.add(victoriesPanel);
+        userPanel.setBackground(Color.WHITE);
 
         matchScrollPanePanel.setBorder(new EmptyBorder(0, 0, 0, 10));
         matchScrollPanePanel.setLayout(new BoxLayout(matchScrollPanePanel, BoxLayout.Y_AXIS));
         matchScrollPanePanel.setAlignmentX(CENTER_ALIGNMENT);
         matchScrollPanePanel.add(new JLabel("Matches: "));
         matchScrollPanePanel.add(matchPanel);
+        matchScrollPanePanel.setBackground(Color.WHITE);
 
         JPanel brawlerScrollPanePanel = new JPanel();
         brawlerScrollPanePanel.setBorder(new EmptyBorder(0,10,0,0));
@@ -110,12 +115,14 @@ public class UserView extends JPanel implements PropertyChangeListener {
         brawlerScrollPanePanel.setAlignmentX(CENTER_ALIGNMENT);
         brawlerScrollPanePanel.add(new JLabel("Brawlers: "));
         brawlerScrollPanePanel.add(brawlerScrollPane);
+        brawlerScrollPanePanel.setBackground(Color.WHITE);
 
         JPanel matchBrawlerPanel = new JPanel();
         matchBrawlerPanel.setLayout(new BoxLayout(matchBrawlerPanel, BoxLayout.X_AXIS));
         matchBrawlerPanel.setBorder(new EmptyBorder(20,20,20,20));
         matchBrawlerPanel.add(brawlerScrollPanePanel);
         matchBrawlerPanel.add(matchScrollPanePanel);
+        matchBrawlerPanel.setBackground(Color.WHITE);
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -131,6 +138,7 @@ public class UserView extends JPanel implements PropertyChangeListener {
         this.add(userPanel);
         this.add(matchBrawlerPanel);
         this.add(backButton);
+        this.setBackground(Color.WHITE);
     }
 
     @Override
