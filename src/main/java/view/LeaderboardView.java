@@ -15,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
+import javax.swing.table.TableColumnModel;
 
 public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
@@ -68,14 +69,32 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 		List<Map.Entry<String, Integer>> sortedBrawlerFrequency = new ArrayList<>(brawlerFrequency.entrySet());
 		Collections.sort(sortedBrawlerFrequency, (e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
+		// Create header names for the result table.
+		String[] columnNames = { "Brawler Name", "Frequency Played" };
+
+		// Construct a data object to be loaded into the result table.
+		String[][] tabledata = new String[11][2];
+		tabledata[0] = new String[] { "Brawler Name", "Frequency Played" };
+		int count = 1;
 		for (Map.Entry<String, Integer> entry : sortedBrawlerFrequency) {
-			JPanel row = new JPanel();
-			JLabel brawlerName = new JLabel(entry.getKey());
-			JLabel frequency = new JLabel(String.valueOf(entry.getValue()));
-			row.add(brawlerName);
-			row.add(frequency);
-			this.add(row);
+			if (count >= 11) {
+				break;
+			}
+			String brawlerName = entry.getKey();
+			String frequency = String.valueOf(entry.getValue());
+			tabledata[count] = new String[] { brawlerName, frequency };
+			count++;
 		}
+		// Create a table with the column names and data and add it to the frame.
+		// Also make edits to make the column width nicer.
+		JTable table = new JTable(tabledata, columnNames);
+		JPanel tablePanel = new JPanel();
+
+		TableColumnModel columnModel = table.getColumnModel();
+		columnModel.getColumn(0).setPreferredWidth(120);
+		columnModel.getColumn(1).setPreferredWidth(120);
+		tablePanel.add(table);
+		this.add(tablePanel);
 	}
 
 	public String getViewName() {
