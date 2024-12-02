@@ -59,6 +59,7 @@ public class MatchView extends JPanel implements PropertyChangeListener{
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         matchesScrollPane = new JScrollPane(matchesPanel);
+        matchesScrollPane.setBackground(Color.WHITE);
 
         this.add(title);
         this.add(backButton);
@@ -102,7 +103,6 @@ public class MatchView extends JPanel implements PropertyChangeListener{
 
             JLabel starPlayer = new JLabel("Star Player: " + match.getStarPlayer());
 
-
             matchPanel.add(Box.createHorizontalStrut(50));
             matchPanel.add(result);
             matchPanel.add(Box.createHorizontalStrut(10));
@@ -116,9 +116,11 @@ public class MatchView extends JPanel implements PropertyChangeListener{
             matchPanel.add(Box.createHorizontalStrut(10));
             matchPanel.add(starPlayer);
             matchPanel.add(Box.createVerticalStrut(10));
+            matchPanel.setBackground(Color.WHITE);
             matchesPanel.add(matchScrollPane);
         }
 
+        matchesScrollPane.setBackground(Color.WHITE);
         this.add(matchesScrollPane);
 
         this.repaint();

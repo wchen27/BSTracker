@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.List;
+
 public class User {
 
 	private final String tag;
@@ -10,11 +12,11 @@ public class User {
 	private final int duoVictories;
 	private final int soloVictories;
 	private final Brawler[] brawlers;
-	private final Match[] matches;
+	private final List<Match> matches;
 	//TODO implement the club
 	// private final Club club;
 
-	public User(String tag, String username, int trophies, int highestTrophies, int trioVictories, int duoVictories, int soloVictories, Brawler[] brawlers, Match[] matches) {
+	public User(String tag, String username, int trophies, int highestTrophies, int trioVictories, int duoVictories, int soloVictories, Brawler[] brawlers, List<Match> matches) {
 		this.tag = tag;
 		this.username = username;
 		this.trophies = trophies;
@@ -58,7 +60,7 @@ public class User {
 		return brawlers;
 	}
 
-	public Match[] getMatches() {
+	public List<Match> getMatches() {
 		return matches;
 	}
 
