@@ -58,6 +58,7 @@ public class MatchView extends JPanel implements PropertyChangeListener{
         });
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        matchesScrollPane = new JScrollPane(matchesPanel);
 
         this.add(title);
         this.add(backButton);
@@ -73,7 +74,6 @@ public class MatchView extends JPanel implements PropertyChangeListener{
 
         matchesPanel.removeAll();
         matchesPanel.setLayout(new BoxLayout(matchesPanel, BoxLayout.Y_AXIS));
-        matchesScrollPane = new JScrollPane(matchesPanel);
 
         List<Match> matches = state.getMatches();
         double winrate = state.getWinrate();

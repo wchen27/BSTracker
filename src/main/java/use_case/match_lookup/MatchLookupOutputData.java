@@ -12,12 +12,17 @@ public class MatchLookupOutputData {
     public MatchLookupOutputData(List<Match> matches) {
         this.matches = matches;
         int numWins = 0;
-        for (Match match : matches) {
-            if (match.isVictory()) {
-                numWins++;
-            }
+        if (matches.isEmpty()) {
+            this.winrate = 0;
         }
-        this.winrate = numWins / (double) matches.size();
+        else {
+            for (Match match : matches) {
+                if (match.isVictory()) {
+                    numWins++;
+                }
+            }
+            this.winrate = numWins / (double) matches.size();
+        }
     }
 
     public List<Match> getMatches() {

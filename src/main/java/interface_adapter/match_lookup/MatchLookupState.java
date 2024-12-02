@@ -18,6 +18,9 @@ public class MatchLookupState {
 
     public double getWinrate() {
         int wins = 0;
+        if (matches.isEmpty()) {
+            return 0;
+        }
         for (Match match : matches) {
             if (match.isVictory()) {
                 wins++;
