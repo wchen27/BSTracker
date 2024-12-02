@@ -45,9 +45,9 @@ public class Main {
 		final LeaderboardLookupViewModel leaderboardLookupViewModel = new LeaderboardLookupViewModel();
 		final PreviousSearchViewModel previousSearchViewModel = new PreviousSearchViewModel();
 
-		final APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(),
-				new ClubFactory());
 		final FileDataAccessObject fileDataAccessObject = new FileDataAccessObject("previousSearches.txt");
+		final APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(),
+				new ClubFactory(), fileDataAccessObject);
 
 		final SearchView searchView = SearchUseCaseFactory.create(searchViewModel, userLookupViewModel,
 				matchLookupViewModel, leaderboardLookupViewModel, clubLookupViewModel, previousSearchViewModel,

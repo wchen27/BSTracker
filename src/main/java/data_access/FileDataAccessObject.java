@@ -46,6 +46,7 @@ public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
     public void addSearch(String search) {
         try {
             FileWriter fw = new FileWriter(fileName, true);
+            fw.write("\n");
             fw.write(search);
             fw.close();
         } catch(IOException e) {

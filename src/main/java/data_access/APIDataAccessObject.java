@@ -28,15 +28,19 @@ public class APIDataAccessObject
 	private UserFactory userFactory;
 	private MatchFactory matchFactory;
 	private ClubFactory clubFactory;
+	private FileDataAccessObject fileDataAccessObject;
 
-	public APIDataAccessObject(UserFactory userFactory, MatchFactory matchFactory, ClubFactory clubFactory) {
+	public APIDataAccessObject(UserFactory userFactory, MatchFactory matchFactory, ClubFactory clubFactory, FileDataAccessObject fileDataAccessObject) {
 		this.userFactory = userFactory;
 		this.matchFactory = matchFactory;
 		this.clubFactory = clubFactory;
+		this.fileDataAccessObject = fileDataAccessObject;
 	}
 
 	@Override
 	public User getUser(String tag) {
+
+		fileDataAccessObject.addSearch(tag);
 
 		Dotenv dotenv = Dotenv.load();
 		String prettyTag = "";
@@ -125,6 +129,9 @@ public class APIDataAccessObject
 	@Override
 	public List<Match> getMatches(String tag) {
 		Dotenv dotenv = Dotenv.load();
+
+		
+		fileDataAccessObject.addSearch(tag);
 
 		String prettyTag = tag.replace("#", "%23");
 		final String key = dotenv.get("API_KEY");
@@ -259,6 +266,8 @@ public class APIDataAccessObject
 	@Override
 	public List<User> getMembers(String tag) {
 		Dotenv dotenv = Dotenv.load();
+	
+		fileDataAccessObject.addSearch(tag);
 
 		tag = tag.replace("#", "%23");
 
