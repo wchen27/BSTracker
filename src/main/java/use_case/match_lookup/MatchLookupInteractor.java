@@ -14,6 +14,10 @@ public class MatchLookupInteractor implements MatchLookupInputBoundary{
         this.matchLookupOutputBoundary = matchLookupOutputBoundary;
     }
 
+    /**
+     * Creates a success view or a fail view based on a match history input data.
+     * @param matchLookupInputData the list of matches from a certain player.
+     */
     public void execute(MatchLookupInputData matchLookupInputData) {
         try {
             List<Match> matches = matchLookupDataAccessInterface.getMatches(matchLookupInputData.getTag());

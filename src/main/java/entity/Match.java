@@ -11,6 +11,17 @@ public class Match {
     private final String starPlayerBrawler;
     private final int trophyCount;
 
+    /**
+     * Creates a new Match object with the specified parameters.
+     * @param time the time the match was played
+     * @param mode the gamemode of the match
+     * @param map the map the match was played on
+     * @param result whether the player won or lost
+     * @param trophyChange how many trophies were gained or lost
+     * @param starPlayer the player the game deemed the most valuable
+     * @param starPlayerBrawler the brawler that the star player was playing
+     * @param trophyCount a trophy count of the player.
+     */
     public Match(String time, String mode, String map, boolean result, int trophyChange, String starPlayer,
             String starPlayerBrawler, int trophyCount) {
         this.time = time;
