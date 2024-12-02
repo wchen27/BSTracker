@@ -9,6 +9,9 @@ import interface_adapter.leaderboard_lookup.LeaderboardLookupViewModel;
 import interface_adapter.match_lookup.MatchLookupController;
 import interface_adapter.match_lookup.MatchLookupPresenter;
 import interface_adapter.match_lookup.MatchLookupViewModel;
+import interface_adapter.previous_search.PreviousSearchController;
+import interface_adapter.previous_search.PreviousSearchPresenter;
+import interface_adapter.previous_search.PreviousSearchViewModel;
 import interface_adapter.user_lookup.UserLookupController;
 import interface_adapter.user_lookup.UserLookupPresenter;
 import interface_adapter.user_lookup.UserLookupViewModel;
@@ -23,6 +26,11 @@ import use_case.match_lookup.MatchLookupDataAccessInterface;
 import use_case.match_lookup.MatchLookupInputBoundary;
 import use_case.match_lookup.MatchLookupInteractor;
 import use_case.match_lookup.MatchLookupOutputBoundary;
+import use_case.previous_search.PreviousSearchDataAccessInterface;
+import use_case.previous_search.PreviousSearchInputBoundary;
+import use_case.previous_search.PreviousSearchInteractor;
+import use_case.previous_search.PreviousSearchOutputBoundary;
+import use_case.user_lookup.UserLookupDataAccessInterface;
 import use_case.leaderboard_lookup.LeaderboardLookupDataAccessInterface;
 import use_case.leaderboard_lookup.LeaderboardLookupInputBoundary;
 import use_case.leaderboard_lookup.LeaderboardLookupOutputBoundary;
@@ -33,7 +41,6 @@ import interface_adapter.brawler_lookup.BrawlerLookupController;
 import interface_adapter.brawler_lookup.BrawlerLookupPresenter;
 import interface_adapter.search.SearchViewModel;
 import use_case.brawler_lookup.BrawlerLookupInteractor;
-import use_case.user_lookup.UserLookupDataAccessInterface;
 import interface_adapter.ViewManagerModel;
 import use_case.user_lookup.UserLookupInteractor;
 import use_case.user_lookup.UserLookupInputBoundary;
@@ -48,12 +55,14 @@ public final class SearchUseCaseFactory {
                         MatchLookupViewModel matchViewModel,
                         LeaderboardLookupViewModel leaderboardViewModel,
                         ClubLookupViewModel clubViewModel,
+                        PreviousSearchViewModel previousSearchViewModel,
                         ViewManagerModel viewManagerModel,
                         BrawlerLookupDataAccessInterface brawlerDataAccessObject,
                         UserLookupDataAccessInterface userLookupDataAccessObject,
                         MatchLookupDataAccessInterface matchLookupDataAccessObject,
                         LeaderboardLookupDataAccessInterface leaderboardLookupDataAccessObject,
-                        ClubLookupDataAccessInterface clubLookupDataAccessObject
+                        ClubLookupDataAccessInterface clubLookupDataAccessObject,
+                        PreviousSearchDataAccessInterface previousSearchDataAccessObject
                         ) {
                 final BrawlerLookupController brawlerLookupController = createBrawlerLookupUseCase(searchViewModel,
                                 brawlerDataAccessObject);
@@ -66,9 +75,18 @@ public final class SearchUseCaseFactory {
                                 leaderboardViewModel, viewManagerModel, leaderboardLookupDataAccessObject);
                 final ClubLookupController clubLookupController = createClubLookupUseCase(clubViewModel,
                                 viewManagerModel, clubLookupDataAccessObject);
-                return new SearchView(searchViewModel, brawlerLookupController, userLookupController,
-                                matchLookupController, leaderboardLookupController, clubLookupController);
+                final PreviousSearchController previousSearchController = createPreviousSearchUseCase(
+                        previousSearchViewModel, viewManagerModel, previousSearchDataAccessObject);
+                return new SearchView(searchViewModel, previousSearchViewModel, brawlerLookupController, userLookupController,
+                                matchLookupController, leaderboardLookupController, clubLookupController, previousSearchController);
 
+        }
+
+        private static PreviousSearchController createPreviousSearchUseCase(PreviousSearchViewModel viewModel,
+                        ViewManagerModel viewManagerModel, PreviousSearchDataAccessInterface dataAccessObject) {
+                final PreviousSearchOutputBoundary outputBoundary = new PreviousSearchPresenter(viewModel, viewManagerModel);
+                final PreviousSearchInputBoundary inputBoundary = new PreviousSearchInteractor(dataAccessObject, outputBoundary);
+                return new PreviousSearchController(inputBoundary);
         }
 
         private static BrawlerLookupController createBrawlerLookupUseCase(SearchViewModel searchViewModel,
