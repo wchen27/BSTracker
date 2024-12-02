@@ -1,5 +1,7 @@
 package interface_adapter.match_lookup;
 
+import javax.swing.JOptionPane;
+
 import interface_adapter.ViewManagerModel;
 import use_case.match_lookup.MatchLookupOutputBoundary;
 import use_case.match_lookup.MatchLookupOutputData;
@@ -25,7 +27,7 @@ public class MatchLookupPresenter implements MatchLookupOutputBoundary {
     }
 
     public void prepareFailView(String errorMessage) {
-        throw new UnsupportedOperationException(errorMessage);
+        JOptionPane.showMessageDialog(null, "Error when fetching recent matches for a player! Please try again later. \n" + errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
     }
     
 }

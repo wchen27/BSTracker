@@ -2,6 +2,9 @@ package interface_adapter.leaderboard_lookup;
 
 import use_case.leaderboard_lookup.LeaderboardLookupOutputBoundary;
 import use_case.leaderboard_lookup.LeaderboardLookupOutputData;
+
+import javax.swing.JOptionPane;
+
 import interface_adapter.ViewManagerModel;
 
 public class LeaderboardLookupPresenter implements LeaderboardLookupOutputBoundary {
@@ -26,6 +29,6 @@ public class LeaderboardLookupPresenter implements LeaderboardLookupOutputBounda
 	}
 
 	public void prepareFailView(String errorMessage) {
-		throw new UnsupportedOperationException(errorMessage);
+		JOptionPane.showMessageDialog(null, "Error when fetching global leaderboards! Please try again later. \n" + errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 }
