@@ -64,6 +64,8 @@ public class User {
 		return matches;
 	}
 
-
+	public int getPerformance() {
+		return (trophies + trioVictories + duoVictories + soloVictories )/ 10 * 3;
+	}
 	
 }

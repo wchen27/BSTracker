@@ -21,8 +21,6 @@ public class PreviousSearchPresenter implements PreviousSearchOutputBoundary {
         state.setPreviousSearches(data.getPreviousSearches());
 
         viewModel.firePropertyChanged();
-        viewManagerModel.setState("search");
-        viewManagerModel.firePropertyChanged();
     }
 
     @Override

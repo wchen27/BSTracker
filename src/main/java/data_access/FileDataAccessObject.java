@@ -28,26 +28,27 @@ public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
                 }
                 scanner.close();
             } catch(FileNotFoundException e) {
-                System.out.println("Coulnd't find file: " + fileName);
-                e.printStackTrace();
+                try{
+                    file.createNewFile();
+                } catch(IOException ex) {
+                    System.out.println("Couldn't create file: " + fileName);
+                    ex.printStackTrace();
+                }
             }
             return out.toArray(new String[out.size()]);
-        } else {
-            try {
-                file.createNewFile();
-            } catch(IOException ex) {
-                System.out.println("Couldn't create file: " + fileName);
-                ex.printStackTrace();
-            }
-            return new String[]{};
         }
+        return new String[]{};
     }
 
     public void addSearch(String search) {
+        String[] prev = getPreviousSearches();
         try {
-            FileWriter fw = new FileWriter(fileName, true);
-            fw.write("\n");
+            FileWriter fw = new FileWriter(fileName);
             fw.write(search);
+            for(int i = 0; i < prev.length; i++) {
+                fw.write("\n");
+                fw.write(prev[i]);
+            }
             fw.close();
         } catch(IOException e) {
             System.out.println("Couldn't find file: " + fileName);

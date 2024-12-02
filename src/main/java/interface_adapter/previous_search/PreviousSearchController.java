@@ -15,4 +15,8 @@ public class PreviousSearchController {
         interactor.execute();
     }
 
+    public void execute(String search) {
+        interactor.execute(search);
+    }
+
 }
