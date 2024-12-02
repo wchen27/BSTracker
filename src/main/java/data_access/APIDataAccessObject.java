@@ -40,7 +40,7 @@ public class APIDataAccessObject
 	@Override
 	public User getUser(String tag) {
 
-		fileDataAccessObject.addSearch(tag);
+		fileDataAccessObject.addSearch("User: " + tag);
 
 		Dotenv dotenv = Dotenv.load();
 		String prettyTag = "";
@@ -131,7 +131,7 @@ public class APIDataAccessObject
 		Dotenv dotenv = Dotenv.load();
 
 		
-		fileDataAccessObject.addSearch(tag);
+		fileDataAccessObject.addSearch("Matches: " + tag);
 
 		String prettyTag = tag.replace("#", "%23");
 		final String key = dotenv.get("API_KEY");
@@ -267,7 +267,7 @@ public class APIDataAccessObject
 	public List<User> getMembers(String tag) {
 		Dotenv dotenv = Dotenv.load();
 	
-		fileDataAccessObject.addSearch(tag);
+		fileDataAccessObject.addSearch("Club: " + tag);
 
 		tag = tag.replace("#", "%23");
 

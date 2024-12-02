@@ -14,6 +14,8 @@ import interface_adapter.user_lookup.UserLookupController;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -22,7 +24,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class SearchView extends JPanel implements PropertyChangeListener {
+public class SearchView extends JPanel implements PropertyChangeListener, MouseListener {
 
     private final String viewName = "search";
     private final SearchViewModel searchViewModel;
@@ -41,6 +43,10 @@ public class SearchView extends JPanel implements PropertyChangeListener {
     private final JPanel previousSearchPanel;
     private JLabel[] previousSearchLabels;
 
+    private final UserLookupController userLookupController;
+    private final MatchLookupController matchLookupController;
+    private final ClubLookupController clubLookupController; 
+
     public SearchView(SearchViewModel viewModel, PreviousSearchViewModel previousSearchViewModel,
      BrawlerLookupController brawlerLookupController,
             UserLookupController userLookupController, MatchLookupController matchLookupController,
@@ -50,6 +56,10 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         this.searchViewModel.addPropertyChangeListener(this);
         this.previousSearchViewModel = previousSearchViewModel;
         this.previousSearchViewModel.addPropertyChangeListener(this);
+
+        this.clubLookupController = clubLookupController;
+        this.matchLookupController = matchLookupController;
+        this.userLookupController = userLookupController;
 
         final JLabel title = new JLabel("Search:");
         title.setBorder(new EmptyBorder(0,20,0,10));
@@ -221,6 +231,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
             previousSearchLabels = new JLabel[state.getPreviousSearches().length];
             for(int i = 0; i < state.getPreviousSearches().length; i++) {
                 previousSearchLabels[i] = new JLabel(state.getPreviousSearches()[i]);
+                previousSearchLabels[i].addMouseListener(this);
                 previousSearchPanel.add(previousSearchLabels[i]);
             }
             previousSearchScrollPane.repaint();
@@ -234,5 +245,35 @@ public class SearchView extends JPanel implements PropertyChangeListener {
 
     public String getViewName() {
         return viewName;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        JLabel label = (JLabel) e.getComponent();
+        String text = label.getText();
+        String[] split = text.split(" ");
+        if(split[0].equals("Club:")) {
+            clubLookupController.execute(split[1]);
+        } else if (split[0].equals("Matches:")) {
+            matchLookupController.execute(split[1]);
+        } else if (split[0].equals("User:")) {
+            userLookupController.execute(split[1]);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }

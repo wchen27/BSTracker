@@ -44,10 +44,15 @@ public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
     }
 
     public void addSearch(String search) {
+        String[] searches = this.getPreviousSearches();
         try {
-            FileWriter fw = new FileWriter(fileName, true);
-            fw.write("\n");
+            FileWriter fw = new FileWriter(fileName);
             fw.write(search);
+            fw.write("\n");
+            for(int i = 0; i < searches.length; i++) {
+                fw.write(searches[i]);
+                fw.write("\n");
+            }
             fw.close();
         } catch(IOException e) {
             System.out.println("Couldn't find file: " + fileName);
