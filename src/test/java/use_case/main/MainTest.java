@@ -13,7 +13,7 @@ public class MainTest {
 	}
 
 	@Test
-	// Covers the main file creation.
+	// Covers the Main object creation.
 	public void DummyMainTest() {
 		Main main = new Main();
 	}

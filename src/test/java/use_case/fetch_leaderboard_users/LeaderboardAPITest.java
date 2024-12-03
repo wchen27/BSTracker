@@ -11,7 +11,7 @@ import entity.MatchFactory;
 
 import java.util.List;
 
-public class GetLeaderboardTest {
+public class LeaderboardAPITest {
 
 	@Test
 	public void getLeaderboardSuccessTest() {
