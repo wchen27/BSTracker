@@ -22,7 +22,7 @@ Thomas Lascaud - thigamore
 
 Justin Du - dujstn
 
-Harry Peng - harrypenguin
+Zehao Peng - harrypenguin
 
 Lawrence Bae - mgbae-uoft
 
@@ -49,7 +49,7 @@ retrieve a list of the most popular brawlers played in recent games to be able t
 As a player who wants to effectively gain trophies, I want to view relevant statistics (average damage, knockouts, etc. per game) and compare it with my performance to see if I am performing up to par with other players on the same brawler.
 
 ### Zehao: 
-As a new Brawl Stars player, I want to rank my friends’ performance to understand how they play and who is a good player.
+As a new Brawl Stars player, I want to rank my friends’ (who are in the same club) performance to understand how they play and who is a good player.
 
 ### Lawrence:
 As a competitive Brawl Stars player, I want to analyze my gameplay and compare it with top players, so I can understand my strengths and weaknesses across different brawlers, maps, and game modes. I also want insights into the performance of my friends and teammates to evaluate if our playstyles align or if adjustments are needed to improve our synergy. Lastly, I want to track my own skill progression over time to see my improvement in various game metrics, such as damage dealt, knockouts, and win rates, which will help me make strategic decisions on which brawlers and strategies to focus on.
@@ -78,7 +78,7 @@ By entering a **player tag** and pressing the Search Match button, Brawl Stars T
 In addition, various statistics such as the player's winrate in recent matches and the aggregate number of trophies gained or lost in recent matches. This information allows a user to dive deeper into their own or another player's match history in order to check recent performance.
 
 ### Club Search
-By entering a **club tag** and pressing the Search Club button, Brawl Stars Tracker will fetch the members of that club as well as their trophy count. In addition, each player has a clickable button that takes the user to the User Search screen for that particular player. 
+By entering a **club tag** and pressing the Search Club button, Brawl Stars Tracker will fetch the members of that club, ranked by trophy count (high to low). In addition, each player has a clickable button that takes the user to the User Search screen for that particular player. 
 
 ## Usage
 In order to run the program, the user must have Java installed and a Brawl Stars API key connected to their current IP address. An API key can be obtained here: [Brawl Stars API](https://developer.brawlstars.com/#/)
