@@ -39,8 +39,6 @@ public class APIDataAccessObject
 	@Override
 	public User getUser(String tag) {
 
-		fileDataAccessObject.addSearch("User: " + tag);
-
 		Dotenv dotenv = Dotenv.load();
 		String prettyTag = "";
 		if (tag.startsWith("#")) {
@@ -277,8 +275,6 @@ public class APIDataAccessObject
 	@Override
 	public List<User> getMembers(String tag) {
 		Dotenv dotenv = Dotenv.load();
-	
-		fileDataAccessObject.addSearch("Club: " + tag);
 
 		String prettyTag = "";
 		if (tag.startsWith("#")) {
