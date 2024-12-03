@@ -149,21 +149,20 @@ public class APIDataAccessObject
 				.get()
 				.build();
 
+		List<Match> matchList = new ArrayList<>();
 		try {
 			final Response response = client.newCall(request).execute();
 			final JSONObject responseBody = new JSONObject(response.body().string());
 			final JSONArray matches = responseBody.getJSONArray("items");
-			List<Match> matchList = new ArrayList<>();
 			for (int i = 0; i < matches.length(); i++) {
 				Match matchData = extractMatchData(matches, i);
 				matchList.add(matchData);
 			}
 
-			return matchList;
 
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		} catch (IOException ignored) {}
+
+		return matchList;
 	}
 
 	private Match extractMatchData(JSONArray matches, int i) {
