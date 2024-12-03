@@ -81,7 +81,9 @@ In addition, various statistics such as the player's winrate in recent matches a
 By entering a **club tag** and pressing the Search Club button, Brawl Stars Tracker will fetch the members of that club, ranked by trophy count (high to low). In addition, each player has a clickable button that takes the user to the User Search screen for that particular player. 
 
 ## Usage
-In order to run the program, the user must have Java installed and a Brawl Stars API key connected to their current IP address. An API key can be obtained here: [Brawl Stars API](https://developer.brawlstars.com/#/)
+In order to run the program, the user must have Java installed and a Brawl Stars API key connected to their current IP address. An API key can be obtained here: [Brawl Stars API](https://developer.brawlstars.com/#/) On the website, you can obtain a new API key by clicking your username on the top right of the page, and then the "Create New Key" button on the bottom right. You can check your IP address through [this online tool](https://whatsmyip.com/). Copy the key, and then insert it into the .env file as a string, followed by "Bearer ". Note that since the key is IP-dependent, a key will need to be generated every time your IP address changes. The format of the .env file with respect to the API key is as such:
+![envfile_format](https://github.com/user-attachments/assets/ef23bbe2-5b21-4817-ab99-7c9a9fb1604b)
+
 
 Then, by running ```Main.java``` the user is then able to use all the features of Brawl Stars Tracker.
 <img width="912" alt="image" src="https://github.com/user-attachments/assets/21a399fe-7f6c-4842-9c0e-5dd6471f488f">
