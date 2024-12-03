@@ -26,25 +26,20 @@ public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
      */
     public String[] getPreviousSearches() {
         File file = new File(fileName);
-        if(file.exists()) {
-            ArrayList<String> out = new ArrayList<>();
-            try {
-                Scanner scanner = new Scanner(file);
-                while(scanner.hasNextLine()) {
-                    out.add(scanner.nextLine());
-                }
-                scanner.close();
-            } catch(FileNotFoundException e) {
-                try{
-                    file.createNewFile();
-                } catch(IOException ex) {
-                    System.out.println("Couldn't create file: " + fileName);
-                    ex.printStackTrace();
-                }
+        ArrayList<String> out = new ArrayList<>();
+        try {
+            Scanner scanner = new Scanner(file);
+            while(scanner.hasNextLine()) {
+                out.add(scanner.nextLine());
             }
-            return out.toArray(new String[out.size()]);
+            scanner.close();
+        } catch(FileNotFoundException e) {
+            try{
+                file.createNewFile();
+            } catch(IOException ex) {
+            }
         }
-        return new String[]{};
+        return out.toArray(new String[out.size()]);
     }
 
     public void addSearch(String search) {
@@ -58,8 +53,6 @@ public class FileDataAccessObject implements PreviousSearchDataAccessInterface{
             }
             fw.close();
         } catch(IOException e) {
-            System.out.println("Couldn't find file: " + fileName);
-            e.printStackTrace();
         }
     }
 }
