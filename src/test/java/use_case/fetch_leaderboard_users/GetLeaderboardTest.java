@@ -22,7 +22,8 @@ public class GetLeaderboardTest {
 
 	@Test
 	public void getLeaderboardFailTest() {
-		APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(), new ClubFactory());
+		APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(), new ClubFactory(),
+				new FileDataAccessObject("testfile.txt"));
 		try {
 			List<User> users = api.getLeaderboard(-1);
 		} catch (RuntimeException e) {

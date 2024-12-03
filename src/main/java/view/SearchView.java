@@ -53,10 +53,6 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
     private final JPanel previousSearchPanel;
     private JLabel[] previousSearchLabels;
 
-        // Prepares the Clean Architecture requirements
-    private final JScrollPane previousSearchScrollPane;
-    private final JPanel previousSearchPanel;
-    private JLabel[] previousSearchLabels;
 
     public SearchView(SearchViewModel viewModel, PreviousSearchViewModel previousSearchViewModel,
             BrawlerLookupController brawlerLookupController,
