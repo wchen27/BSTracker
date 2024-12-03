@@ -6,6 +6,7 @@ import use_case.club_lookup.ClubLookupOutputBoundary;
 import use_case.club_lookup.ClubLookupOutputData;
 
 import javax.swing.*;
+import java.sql.SQLOutput;
 
 public class ClubLookupPresenter implements ClubLookupOutputBoundary {
 
@@ -25,9 +26,11 @@ public class ClubLookupPresenter implements ClubLookupOutputBoundary {
         ClubLookupViewModel.firePropertyChanged();
         this.viewManagerModel.setState(ClubLookupViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
+        System.out.println("Club tag exists!");
     }
 
     public void prepareFailView(String errorMessage) {
         JOptionPane.showMessageDialog(null, "The club tag you entered does not exist. Please try again! \n" + errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+        System.out.println("Club tag does not exist!");
     }
 }
