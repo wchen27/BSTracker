@@ -49,9 +49,9 @@ public class ViewModel<T> {
      * 
      * @param propertyName the label for the property that was changed
      */
-    public void firePropertyChanged(String propertyName) {
-        this.support.firePropertyChange(propertyName, null, this.state);
-    }
+    // public void firePropertyChanged(String propertyName) {
+    //     this.support.firePropertyChange(propertyName, null, this.state);
+    // }
 
     /**
      * Adds a PropertyChangeListener to this ViewModel.

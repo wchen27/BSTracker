@@ -24,8 +24,6 @@ public class PreviousSearchInteractor implements PreviousSearchInputBoundary{
             final PreviousSearchOutputData outputData = new PreviousSearchOutputData(previousSearches);
             outputBoundary.prepareSuccessView(outputData);
         } catch(Exception ex) {
-            outputBoundary.prepareFailView(ex.getMessage());
-            ex.printStackTrace();
         }
     }
     
@@ -37,8 +35,6 @@ public class PreviousSearchInteractor implements PreviousSearchInputBoundary{
             final PreviousSearchOutputData outputData = new PreviousSearchOutputData(prev);
             outputBoundary.prepareSuccessView(outputData);
         } catch(Exception ex) {
-            outputBoundary.prepareFailView(ex.getMessage());
-            ex.printStackTrace();
         }
     }
 }

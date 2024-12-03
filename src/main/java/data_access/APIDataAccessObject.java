@@ -57,12 +57,11 @@ public class APIDataAccessObject
 				.build();
 
 		final Response response;
-		final JSONObject responseBody;
+		JSONObject responseBody = new JSONObject();
 		try {
 			response = client.newCall(request).execute();
 			responseBody = new JSONObject(response.body().string());
 		} catch (IOException e) {
-			throw new RuntimeException(e);
 		}
 
 		return getUserInfo(responseBody);

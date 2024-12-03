@@ -1,4 +1,4 @@
-package use_case.previous_search;
+package data_access;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThrows;
