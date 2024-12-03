@@ -27,19 +27,18 @@ public class APIDataAccessObject
 	private MatchFactory matchFactory;
 	private ClubFactory clubFactory;
 	private FileDataAccessObject fileDataAccessObject;
+	private Dotenv env;
 
-	public APIDataAccessObject(UserFactory userFactory, MatchFactory matchFactory, ClubFactory clubFactory,
-			FileDataAccessObject fileDataAccessObject) {
+	public APIDataAccessObject(UserFactory userFactory, MatchFactory matchFactory, ClubFactory clubFactory, Dotenv env) {
 		this.userFactory = userFactory;
 		this.matchFactory = matchFactory;
 		this.clubFactory = clubFactory;
 		this.fileDataAccessObject = fileDataAccessObject;
+		this.env = env;
 	}
 
 	@Override
 	public User getUser(String tag) {
-
-		Dotenv dotenv = Dotenv.load();
 		String prettyTag = "";
 		if (tag.startsWith("#")) {
 			prettyTag = tag.replace("#", "%23");
@@ -48,7 +47,7 @@ public class APIDataAccessObject
 		}
 
 		final String url = "https://api.brawlstars.com/v1/players/" + prettyTag;
-		final String key = dotenv.get("API_KEY");
+		final String key = env.get("API_KEY");
 
 		final OkHttpClient client = new OkHttpClient().newBuilder().build();
 		final Request request = new Request.Builder()
@@ -133,7 +132,6 @@ public class APIDataAccessObject
 
 	@Override
 	public List<Match> getMatches(String tag) {
-		Dotenv dotenv = Dotenv.load();
 
 
 		String prettyTag = "";
@@ -143,7 +141,7 @@ public class APIDataAccessObject
 			prettyTag = "%23" + tag;
 		}
 
-		final String key = dotenv.get("API_KEY");
+		final String key = env.get("API_KEY");
 		final String url = "https://api.brawlstars.com/v1/players/" + prettyTag + "/battlelog";
 		final OkHttpClient client = new OkHttpClient().newBuilder().build();
 		final Request request = new Request.Builder()
@@ -236,10 +234,9 @@ public class APIDataAccessObject
 	}
 
 	public List<User> getLeaderboard(int amount) {
-		Dotenv dotenv = Dotenv.load();
 
 		final String url = "https://api.brawlstars.com/v1/rankings/global/players?limit=" + amount;
-		final String key = dotenv.get("API_KEY");
+		final String key = env.get("API_KEY");
 		final List<User> topUsers = new ArrayList<User>(amount);
 
 		final OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -274,7 +271,6 @@ public class APIDataAccessObject
 
 	@Override
 	public List<User> getMembers(String tag) {
-		Dotenv dotenv = Dotenv.load();
 
 		String prettyTag = "";
 		if (tag.startsWith("#")) {
@@ -283,7 +279,7 @@ public class APIDataAccessObject
 			prettyTag = "%23" + tag;
 		}
 		final String url = "https://api.brawlstars.com/v1/clubs/" + prettyTag + "/members";
-		final String key = dotenv.get("API_KEY");
+		final String key = env.get("API_KEY");
 
 		final OkHttpClient client = new OkHttpClient().newBuilder().build();
 		final Request request = new Request.Builder()

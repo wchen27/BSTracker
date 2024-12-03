@@ -20,6 +20,7 @@ import use_case.user_lookup.UserLookupInteractor;
 import view.*;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.user_lookup.UserLookupViewModel;
+import io.github.cdimascio.dotenv.Dotenv;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupViewModel;
 import interface_adapter.match_lookup.MatchLookupViewModel;
 import interface_adapter.previous_search.PreviousSearchViewModel;
@@ -53,9 +54,10 @@ public class Main {
 		final PreviousSearchViewModel previousSearchViewModel = new PreviousSearchViewModel();
 
 		// Set up the DAO for calls to the Brawl Stars API.
+		Dotenv env = Dotenv.load();
 		final FileDataAccessObject fileDataAccessObject = new FileDataAccessObject("previousSearches.txt");
 		final APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(),
-				new ClubFactory(), fileDataAccessObject);
+				new ClubFactory(), env);
 
 		// Create the actual views.
 		final SearchView searchView = SearchUseCaseFactory.create(searchViewModel, userLookupViewModel,

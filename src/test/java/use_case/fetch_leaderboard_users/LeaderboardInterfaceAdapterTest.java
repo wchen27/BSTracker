@@ -15,6 +15,7 @@ import interface_adapter.leaderboard_lookup.LeaderboardLookupController;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupPresenter;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupState;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupViewModel;
+import io.github.cdimascio.dotenv.Dotenv;
 import use_case.leaderboard_lookup.LeaderboardLookupInteractor;
 
 public class LeaderboardInterfaceAdapterTest {
@@ -36,9 +37,10 @@ public class LeaderboardInterfaceAdapterTest {
 	@Test
 	// Test the functionality of LeaderboardLookupController.
 	public void LeaderboardControllerTest() {
+		Dotenv env = Dotenv.load();
 		LeaderboardLookupInteractor interactor = new LeaderboardLookupInteractor(
 				new APIDataAccessObject(new UserFactory(), new MatchFactory(),
-						new ClubFactory(), new FileDataAccessObject("testfile.txt")),
+						new ClubFactory(), env),
 				new LeaderboardLookupPresenter(new LeaderboardLookupViewModel(), new ViewManagerModel()));
 		LeaderboardLookupController controller = new LeaderboardLookupController(interactor);
 
