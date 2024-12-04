@@ -11,12 +11,11 @@ public class User {
 	private final int trioVictories;
 	private final int duoVictories;
 	private final int soloVictories;
-	private final Brawler[] brawlers;
 	private final List<Match> matches;
 	//TODO implement the club
 	// private final Club club;
 
-	public User(String tag, String username, int trophies, int highestTrophies, int trioVictories, int duoVictories, int soloVictories, Brawler[] brawlers, List<Match> matches) {
+	public User(String tag, String username, int trophies, int highestTrophies, int trioVictories, int duoVictories, int soloVictories, List<Match> matches) {
 		this.tag = tag;
 		this.username = username;
 		this.trophies = trophies;
@@ -24,7 +23,6 @@ public class User {
 		this.trioVictories = trioVictories;
 		this.duoVictories = duoVictories;
 		this.soloVictories = soloVictories;
-		this.brawlers = brawlers;
 		this.matches = matches;
 	}
 
@@ -54,10 +52,6 @@ public class User {
 
 	public int getSoloVictories() {
 		return soloVictories;
-	}
-
-	public Brawler[] getBrawlers() {
-		return brawlers;
 	}
 
 	public List<Match> getMatches() {

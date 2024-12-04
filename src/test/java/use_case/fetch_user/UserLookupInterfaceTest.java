@@ -52,7 +52,6 @@ public class UserLookupInterfaceTest {
         controller.execute("G2VCCRRUP");
 
         UserLookupState state = viewModel.getState();
-        state.getBrawlers();
         state.getDuoVictories();
         state.getHighestTrophies();
         state.getMatches();

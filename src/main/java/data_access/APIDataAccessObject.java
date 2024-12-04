@@ -125,7 +125,7 @@ public class APIDataAccessObject
 
 
 		return userFactory.create(playerTag, playerName, playerTrophies, highestTrophies, victories3v3, victoriesDuo,
-				victoriesSolo, new Brawler[]{}, matches);
+				victoriesSolo, matches);
 	}
 
 	@Override

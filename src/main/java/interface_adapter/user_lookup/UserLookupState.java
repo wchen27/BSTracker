@@ -1,6 +1,5 @@
 package interface_adapter.user_lookup;
 
-import entity.Brawler;
 import entity.Match;
 import entity.User;
 
@@ -39,10 +38,6 @@ public class UserLookupState {
 
     public int getSoloVictories() {
         return user.getSoloVictories();
-    }
-
-    public Brawler[] getBrawlers() {
-        return user.getBrawlers();
     }
 
     public List<Match> getMatches() {
