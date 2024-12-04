@@ -1,6 +1,5 @@
 package view;
 
-import interface_adapter.brawler_lookup.BrawlerLookupController;
 import interface_adapter.club_lookup.ClubLookupController;
 import interface_adapter.leaderboard_lookup.LeaderboardLookupController;
 import interface_adapter.match_lookup.MatchLookupController;
@@ -43,7 +42,6 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
     private final JTextField searchField = new JTextField();
     private final JLabel searchErrorField = new JLabel();
 
-    private final JButton searchBrawlerButton;
     private final JButton searchPlayerButton;
     private final JButton searchMatchButton;
     private final JButton searchClubButton;
@@ -55,7 +53,6 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
 
 
     public SearchView(SearchViewModel viewModel, PreviousSearchViewModel previousSearchViewModel,
-            BrawlerLookupController brawlerLookupController,
             UserLookupController userLookupController, MatchLookupController matchLookupController,
             LeaderboardLookupController leaderboardLookupController, ClubLookupController clubLookupController,
             PreviousSearchController previousSearchController) {
@@ -87,12 +84,10 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
         final LabelTextPanel searchQuery = new LabelTextPanel(new JLabel("Search"), searchField);
 
         final JPanel searchByTagPanel = new JPanel();
-        searchBrawlerButton = new JButton("Search Brawler");
         searchPlayerButton = new JButton("Search Player");
         searchMatchButton = new JButton("Search Match");
         searchClubButton = new JButton("Search Club");
 
-        searchByTagPanel.add(searchBrawlerButton);
         searchByTagPanel.add(searchPlayerButton);
         searchByTagPanel.add(searchMatchButton);
         searchByTagPanel.add(searchClubButton);
@@ -124,16 +119,6 @@ public class SearchView extends JPanel implements PropertyChangeListener, MouseL
 
 
         // Creates the action listeners for the buttons
-        searchBrawlerButton.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (e.getSource().equals(searchBrawlerButton)) {
-                            final SearchState currentState = searchViewModel.getState();
-
-                            brawlerLookupController.execute(currentState.getQuery());
-                        }
-                    }
-                });
 
         searchPlayerButton.addActionListener(
                 new ActionListener() {
