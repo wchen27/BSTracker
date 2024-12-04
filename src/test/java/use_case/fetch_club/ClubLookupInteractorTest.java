@@ -47,6 +47,7 @@ public class ClubLookupInteractorTest {
         controller.execute("#2VOQL2LUG");
         // check club tag printed to console
         assertTrue(outContent.toString().contains("Club tag exists!"));
+        // club exists
     }
 
     @Test
@@ -60,5 +61,6 @@ public class ClubLookupInteractorTest {
         controller.execute("#2VOQL2LU");
         // check club tag does not exist
         assertTrue(outContent.toString().contains("Club tag does not exist!"));
+        // club does not exist
     }
 }
