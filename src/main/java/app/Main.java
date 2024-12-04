@@ -15,8 +15,6 @@ import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
 
 import interface_adapter.club_lookup.ClubLookupViewModel;
-import interface_adapter.user_lookup.UserLookupController;
-import use_case.user_lookup.UserLookupInteractor;
 import view.*;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.user_lookup.UserLookupViewModel;
@@ -62,7 +60,7 @@ public class Main {
 		// Create the actual views.
 		final SearchView searchView = SearchUseCaseFactory.create(searchViewModel, userLookupViewModel,
 				matchLookupViewModel, leaderboardLookupViewModel, clubLookupViewModel, previousSearchViewModel,
-				viewManagerModel, api, api, api, api, api, fileDataAccessObject);
+				viewManagerModel, api, api, api, api, fileDataAccessObject);
 		views.add(searchView, searchView.getViewName());
 
 		final UserView userView = UserLookupUseCaseFactory.create(viewManagerModel, userLookupViewModel, api);

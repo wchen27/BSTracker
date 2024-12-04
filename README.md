@@ -22,7 +22,7 @@ Thomas Lascaud - thigamore
 
 Justin Du - dujstn
 
-Harry Peng - harrypenguin
+Zehao Peng - harrypenguin
 
 Lawrence Bae - mgbae-uoft
 
@@ -46,10 +46,10 @@ As a player who would like to gain trophies as efficiently as possible, I want t
 retrieve a list of the most popular brawlers played in recent games to be able to know which of the brawlers are strong.
 
 ### Thomas:
-As a player who wants to effectively gain trophies, I want to view relevant statistics (average damage, knockouts, etc. per game) and compare it with my performance to see if I am performing up to par with other players on the same brawler.
+As a Brawl Stars user looking up statistics, I would not want to have to retype the same search query over and over again and would rather have some way to quickly redo previous queries.
 
 ### Zehao: 
-As a new Brawl Stars player, I want to rank my friends’ performance to understand how they play and who is a good player.
+As a new Brawl Stars player, I want to rank my friends’ (who are in the same club) performance to understand how they play and who is a good player.
 
 ### Lawrence:
 As a competitive Brawl Stars player, I want to analyze my gameplay and compare it with top players, so I can understand my strengths and weaknesses across different brawlers, maps, and game modes. I also want insights into the performance of my friends and teammates to evaluate if our playstyles align or if adjustments are needed to improve our synergy. Lastly, I want to track my own skill progression over time to see my improvement in various game metrics, such as damage dealt, knockouts, and win rates, which will help me make strategic decisions on which brawlers and strategies to focus on.
@@ -78,10 +78,15 @@ By entering a **player tag** and pressing the Search Match button, Brawl Stars T
 In addition, various statistics such as the player's winrate in recent matches and the aggregate number of trophies gained or lost in recent matches. This information allows a user to dive deeper into their own or another player's match history in order to check recent performance.
 
 ### Club Search
-By entering a **club tag** and pressing the Search Club button, Brawl Stars Tracker will fetch the members of that club as well as their trophy count. In addition, each player has a clickable button that takes the user to the User Search screen for that particular player. 
+By entering a **club tag** and pressing the Search Club button, Brawl Stars Tracker will fetch the members of that club, ranked by trophy count (high to low). In addition, each player has a clickable button that takes the user to the User Search screen for that particular player. 
+
+### Previous Search
+At the bottom of the search window, there is a list of all the previous searches with the type of searches and the tag that was searched. Then, if you click one of the previous searches, it will redo the previous search that the player wanted to.
 
 ## Usage
-In order to run the program, the user must have Java installed and a Brawl Stars API key connected to their current IP address. An API key can be obtained here: [Brawl Stars API](https://developer.brawlstars.com/#/)
+In order to run the program, the user must have Java installed and a Brawl Stars API key connected to their current IP address. An API key can be obtained here: [Brawl Stars API](https://developer.brawlstars.com/#/) On the website, you can obtain a new API key by clicking your username on the top right of the page, and then the "Create New Key" button on the bottom right. You can check your IP address through [this online tool](https://whatsmyip.com/). Copy the key, and then insert it into the .env file as a string, followed by "Bearer ". Note that since the key is IP-dependent, a key will need to be generated every time your IP address changes. The format of the .env file with respect to the API key is as such:
+![envfile_format](https://github.com/user-attachments/assets/ef23bbe2-5b21-4817-ab99-7c9a9fb1604b)
+
 
 Then, by running ```Main.java``` the user is then able to use all the features of Brawl Stars Tracker.
 <img width="912" alt="image" src="https://github.com/user-attachments/assets/21a399fe-7f6c-4842-9c0e-5dd6471f488f">
@@ -91,6 +96,9 @@ The search field can be populated by various different parameters.
 * A **Club Tag** is a unique identifier for a club, or a group of users. These tags can be found through the *Clubs* screen in the Brawl Stars mobile app.
 
 After finding what tag they want to search, the user can then press the corresponding button in order to find which information they want to find. 
+
+When you go back to the main menu, then the previous search that was just done should be on the top of the previous search box.
+Then, if the user wants to repeat a previous search, they can just click on the search and it will repeat the previous search and show their information.
 
 **NOTE:** User tags and Club tags are distinct! Do not try to search for a club using a user tag, as doing so is likely to lead to an error. 
 

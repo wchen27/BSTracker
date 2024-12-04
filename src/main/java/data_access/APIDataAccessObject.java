@@ -16,11 +16,10 @@ import okhttp3.Response;
 import use_case.club_lookup.ClubLookupDataAccessInterface;
 import use_case.match_lookup.MatchLookupDataAccessInterface;
 import use_case.user_lookup.UserLookupDataAccessInterface;
-import use_case.brawler_lookup.BrawlerLookupDataAccessInterface;
 import use_case.leaderboard_lookup.LeaderboardLookupDataAccessInterface;
 
 public class APIDataAccessObject
-		implements UserLookupDataAccessInterface, BrawlerLookupDataAccessInterface, MatchLookupDataAccessInterface,
+		implements UserLookupDataAccessInterface, MatchLookupDataAccessInterface,
 		LeaderboardLookupDataAccessInterface, ClubLookupDataAccessInterface {
 
 	private UserFactory userFactory;
@@ -126,7 +125,7 @@ public class APIDataAccessObject
 
 
 		return userFactory.create(playerTag, playerName, playerTrophies, highestTrophies, victories3v3, victoriesDuo,
-				victoriesSolo, new Brawler[]{}, matches);
+				victoriesSolo, matches);
 	}
 
 	@Override

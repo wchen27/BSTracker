@@ -172,9 +172,6 @@ public class UserView extends JPanel implements PropertyChangeListener {
 
         //TODO finish implementation of brawlers and matches
         brawlerPanel.removeAll();
-        for(int i = 0; i < state.getBrawlers().length; i++) {
-            brawlerPanel.add(new JLabel("TEMP_BRAWLER"));
-        }
 
         matchPanel.removeAll();
         for (Match match : state.getMatches().subList(0, 10)) {

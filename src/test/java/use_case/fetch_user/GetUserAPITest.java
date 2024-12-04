@@ -4,7 +4,6 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import entity.Brawler;
 import entity.ClubFactory;
 import entity.Match;
 
@@ -43,7 +42,6 @@ public class GetUserAPITest {
 		Dotenv env = Dotenv.configure().filename("test.env").load();
 		APIDataAccessObject api = new APIDataAccessObject(new UserFactory(), new MatchFactory(), new ClubFactory(), env);
 		User user = api.getUser("#G2VCCRRUP");
-		assertArrayEquals(user.getBrawlers(), new Brawler[]{});
 		assertEquals(user.getDuoVictories(), 0);
 		assertEquals(user.getHighestTrophies(), 0);
 		assertEquals(user.getPerformance(), 0);
