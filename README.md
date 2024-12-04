@@ -46,7 +46,7 @@ As a player who would like to gain trophies as efficiently as possible, I want t
 retrieve a list of the most popular brawlers played in recent games to be able to know which of the brawlers are strong.
 
 ### Thomas:
-As a player who wants to effectively gain trophies, I want to view relevant statistics (average damage, knockouts, etc. per game) and compare it with my performance to see if I am performing up to par with other players on the same brawler.
+As a Brawl Stars user looking up statistics, I would not want to have to retype the same search query over and over again and would rather have some way to quickly redo previous queries.
 
 ### Zehao: 
 As a new Brawl Stars player, I want to rank my friends’ (who are in the same club) performance to understand how they play and who is a good player.
