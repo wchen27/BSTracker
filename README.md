@@ -97,6 +97,9 @@ The search field can be populated by various different parameters.
 
 After finding what tag they want to search, the user can then press the corresponding button in order to find which information they want to find. 
 
+When you go back to the main menu, then the previous search that was just done should be on the top of the previous search box.
+Then, if the user wants to repeat a previous search, they can just click on the search and it will repeat the previous search and show their information.
+
 **NOTE:** User tags and Club tags are distinct! Do not try to search for a club using a user tag, as doing so is likely to lead to an error. 
 
 <a name="license"></a>
